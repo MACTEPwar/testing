@@ -1,0 +1,14 @@
+:host {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    margin: auto;
+}
+
+.not-found {
+    display: flex;
+    margin: auto;
+    font-size: 125pt;
+    color: #686868;
+}
