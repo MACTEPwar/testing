@@ -1,4 +1,16 @@
-<table>
-  <thead></thead>
-  <tbody></tbody>
-</table>
+<p-table [columns]="headers" [value]="data">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let header of columns">
+        {{ header.title }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        {{ rowData[col.property] }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
