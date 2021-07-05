@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-    {path: '', component: DashboardComponent},
-    {path: 'catalogs', loadChildren: () => import('./catalogs/catalogs.module').then((m) => m.CatalogsModule)}
+    {path: '', component: DashboardComponent, children: [
+        {path: 'catalogs', loadChildren: () => import('./catalogs/catalogs.module').then((m) => m.CatalogsModule)}
+    ]},
 ];
 
 @NgModule({

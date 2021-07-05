@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { CatalogComponent } from './catalog/catalog.component';
 
 const routes: Routes = [
-  {path: '', component: CatalogComponent},
-  {path: 'bank', loadChildren: () => import('./bank/bank.module').then((m) => m.BankModule)}
+  {path: '', component: CatalogComponent, children: [
+    {path: 'bank', loadChildren: () => import('./bank/bank.module').then((m) => m.BankModule)}
+  ]},
 ];
 
 @NgModule({
