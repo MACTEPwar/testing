@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Tab } from 'src/app/types/tab';
 import {TabService} from '../../../core/tab/tab.service';
 
 @Component({
@@ -11,11 +12,21 @@ export class DashboardComponent implements OnInit {
   roActive = false;
   tabs;
 
-  constructor(tabService: TabService) { 
+  constructor(private tabService: TabService) { 
     this.tabs = tabService.tabs;
   }
 
   ngOnInit(): void {
+  }
+
+  addTab(url: string): void {
+    const tab: Tab = {
+      active: true,
+      name: 'asd',
+      url,
+      canClose: false
+    }
+    this.tabService.add(tab);
   }
 
 }
