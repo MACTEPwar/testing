@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CatalogComponent implements OnInit {
 
+  roActive = false;
+
   constructor() { }
 
   ngOnInit(): void {

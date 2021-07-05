@@ -1,2 +1,12 @@
 Каталоги:
-<router-outlet></router-outlet>
+<ul *ngIf="!roActive">
+  <li>
+    <a routerLink="/">Dashboard</a>
+    <ul>
+      <li>
+        <a routerLink="/catalogs/bank">Банки</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+<router-outlet (activate)="roActive = true" (deactivate)="roActive = false"></router-outlet>

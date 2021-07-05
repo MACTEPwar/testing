@@ -1,6 +1,13 @@
-<section id="header">header</section>
-<section id="content">
+<section id="header">
   <ul>
+    <li *ngFor="let tab of (tabs | async)">
+       
+       <a routerLink="{{tab.url}}">{{tab.name}}</a>
+    </li>
+  </ul>
+</section>
+<section id="content">
+  <ul *ngIf="!roActive">
     <li>
       <a routerLink="/catalogs">Каталоги</a>
       <ul>
@@ -11,6 +18,6 @@
     </li>
   </ul>
 
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="roActive = true" (deactivate)="roActive = false"></router-outlet>
 </section>
 <section id="footer">footer</section>

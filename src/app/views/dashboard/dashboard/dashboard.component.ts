@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TabService} from '../../../core/tab/tab.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  roActive = false;
+  tabs;
+
+  constructor(tabService: TabService) { 
+    this.tabs = tabService.tabs;
+  }
 
   ngOnInit(): void {
   }
