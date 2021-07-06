@@ -1,5 +1,6 @@
-<ul>
-  <li *ngFor="let tab of tabs | async">
-    <app-navigate-tab-item [tab]="tab"></app-navigate-tab-item>
-  </li>
-</ul>
+<div id="nav-tab-list">
+  <app-navigate-tab-item
+    *ngFor="let tab of tabs | async"
+    [tab]="tab"
+  ></app-navigate-tab-item>
+</div>

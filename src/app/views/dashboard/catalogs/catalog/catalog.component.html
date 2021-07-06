@@ -1,12 +1,17 @@
-Каталоги:
+<span *ngIf="!roActive">Каталоги:</span>
 <ul *ngIf="!roActive">
   <li>
-    <a routerLink="/">Dashboard</a>
-    <ul>
-      <li>
-        <a routerLink="/catalogs/bank">Банки</a>
-      </li>
-    </ul>
+    <app-tab-route-link
+      [tab]="{ url: '/', name: 'Dashboard', canClose: false }"
+    ></app-tab-route-link>
+  </li>
+  <li>
+    <app-tab-route-link
+      [tab]="{ url: '/catalogs/bank', name: 'Банки', canClose: true }"
+    ></app-tab-route-link>
   </li>
 </ul>
-<router-outlet (activate)="roActive = true" (deactivate)="roActive = false"></router-outlet>
+<router-outlet
+  (activate)="roActive = true"
+  (deactivate)="roActive = false"
+></router-outlet>

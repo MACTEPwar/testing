@@ -1,2 +1,2 @@
-<a routerLink="{{ tab.url }}">{{ tab.name }}</a>
-<span *ngIf="tab.canClose" (click)="closeTab()">&#10060;</span>
+<span routerLink="{{ tab.url }}">{{ tab.name }}</span>
+<span class="close" *ngIf="tab.canClose" (click)="closeTab()">&#10060;</span>

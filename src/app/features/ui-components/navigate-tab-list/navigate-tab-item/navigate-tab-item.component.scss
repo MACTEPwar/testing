@@ -1,0 +1,17 @@
+:host {
+  padding: 0 2px 0 2px;
+  padding: 0 2px 0 2px;
+}
+
+:host:hover {
+  background: blue;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close:hover {
+  cursor: pointer;
+  background: red;
+  border-radius: 10px;
+}
