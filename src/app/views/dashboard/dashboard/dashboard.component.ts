@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   addTab(url: string): void {
     const tab: Tab = {
       active: true,
-      name: 'asd',
+      name: 'bank',
       url,
       canClose: false
     }
