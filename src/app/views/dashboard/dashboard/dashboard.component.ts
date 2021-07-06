@@ -10,23 +10,23 @@ import {TabService} from '../../../core/tab/tab.service';
 export class DashboardComponent implements OnInit {
 
   roActive = false;
-  tabs;
+  // tabs;
 
   constructor(private tabService: TabService) { 
-    this.tabs = tabService.tabs;
+    // this.tabs = tabService.tabs;
   }
 
   ngOnInit(): void {
   }
 
-  addTab(url: string): void {
-    const tab: Tab = {
-      active: true,
-      name: 'bank',
-      url,
-      canClose: false
-    }
-    this.tabService.add(tab);
-  }
+  // addTab(url: string): void {
+  //   const tab: Tab = {
+  //     active: true,
+  //     name: 'bank',
+  //     url,
+  //     canClose: false
+  //   }
+  //   this.tabService.add(tab);
+  // }
 
 }

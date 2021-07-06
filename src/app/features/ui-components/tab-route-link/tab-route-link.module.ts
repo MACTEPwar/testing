@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabRouteLinkComponent } from './tab-route-link.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -9,7 +10,8 @@ import { TabRouteLinkComponent } from './tab-route-link.component';
     TabRouteLinkComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports : [TabRouteLinkComponent]
 })

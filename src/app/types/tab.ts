@@ -1,14 +1,14 @@
 export class Tab {
        /** Отображаемое название */
-       name: string;
+       name?: string;
        /** Картика (FontAwesome) */
        image?: string;
        /** Ссылка, по которой будет переходить при нажатии на таб */
        url: string;
        /** Можно ли закрыть таб? */
-       canClose: boolean;
+       canClose?: boolean;
        /** Активный? */
-       active: boolean;
+       active?: boolean;
        /** Родительская ссылка для хлебных крошек */
        parentUrl?: string;
 }

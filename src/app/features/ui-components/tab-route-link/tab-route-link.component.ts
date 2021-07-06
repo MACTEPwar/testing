@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TabService } from 'src/app/core/tab/tab.service';
 import { Tab } from '../../../types/tab'
 
 @Component({
@@ -8,14 +9,18 @@ import { Tab } from '../../../types/tab'
 })
 export class TabRouteLinkComponent implements OnInit {
 
-  @Output() activate: EventEmitter<any> = new EventEmitter<any>();
-  @Output() disactivate: EventEmitter<any> = new EventEmitter<any>();
+  // @Output() activate: EventEmitter<any> = new EventEmitter<any>();
+  // @Output() disactivate: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() tab: Tab;
 
-  constructor() { }
+  constructor(private tabService: TabService) { }
 
   ngOnInit(): void {
+  }
+
+  openTab(): void {
+    this.tabService.add(this.tab);
   }
 
 }
