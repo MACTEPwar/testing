@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -10,6 +10,13 @@ import 'jspdf-autotable';
 export class DataGridComponent implements OnInit {
   @Input() headers;
   @Input() data;
+  @Input() lazy: boolean;
+  @Input() paginator: boolean;
+  @Input() rows: number;
+  @Input() totalRecords: number;
+  @Input() loading: boolean;
+  @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
+  
 
   constructor() {}
 
