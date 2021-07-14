@@ -8,20 +8,36 @@ import 'jspdf-autotable';
   styleUrls: ['./data-grid.component.scss'],
 })
 export class DataGridComponent implements OnInit {
-  @Input() headers;
-  @Input() data;
-  @Input() lazy: boolean;
-  @Input() paginator: boolean;
-  @Input() rows: number;
-  @Input() totalRecords: number;
+  @Input() headers = [];
+  @Input() data = [];
+  @Input() lazy: boolean = true;
+  @Input() paginator: boolean = true;
+  @Input() rows: number = 2;
+  @Input() totalRecords: number = 5;
   @Input() loading: boolean;
+  @Input() rowsPerPageOptions: any;
+  @Input() selectionMode: 'multiple' | 'single' = 'multiple';
+  @Input() scrollable: boolean = true;
+  @Input() style: any = { width: '100%' };
+  @Input() lazyLoadOnInit: boolean = false;
+  @Input() showCurrentPageReport: boolean = true;
+  @Input() resizableColumns: boolean = true;
+  @Input() reorderableColumns: boolean = true;
+  @Input() rowHover: boolean = true;
+  @Input()
+  currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
+  @Input() selection: any;
+  @Input() filters: any;
+
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
-  
+  @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onColResize: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   exportPdf() {
     const doc: any = new jsPDF();
