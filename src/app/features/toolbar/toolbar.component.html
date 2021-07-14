@@ -1,0 +1,28 @@
+<div class="table_toolbar">
+    <div *ngFor="let item of items">
+        <div *ngIf="item.isVisible">
+            <div [ngSwitch]="item.type">
+                <!-- Если button -->
+                <ng-template ngSwitchCase="button">
+                    <div class="toolbarItem"><al-toolbar-button [item]="item"></al-toolbar-button></div>
+                </ng-template>
+                <!-- Если separator -->
+                <ng-template ngSwitchCase="separator">
+                    <div class="toolbarItem"><al-toolbar-separator [item]="item"></al-toolbar-separator></div>
+                </ng-template>
+                <!-- Если calendar -->
+                <ng-template ngSwitchCase="calendar">
+                    <div class="toolbarItem"><al-toolbar-calendar [item]="item"></al-toolbar-calendar></div>
+                </ng-template>
+                <!-- Если calendar -->
+                <ng-template ngSwitchCase="openLinkedData">
+                    <div class="toolbarItem">
+                        <al-toolbar-open-linked-date
+                            [item]="item"
+                        ></al-toolbar-open-linked-date>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
