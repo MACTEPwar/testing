@@ -1,52 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { BankService } from './bank.service';
+import { TablePartialBase } from '../../table-base/table-partial-base.component';
+import { BankHttpService } from './bank-http.service';
 
 @Component({
   selector: 'app-bank-partial',
-  templateUrl: './bank-partial.component.html',
+  templateUrl: '../../table-base/table-partial-base.component.html',
   styleUrls: ['./bank-partial.component.scss'],
+  providers: [
+    BankHttpService,
+    {
+      provide: BankService,
+      deps: [BankHttpService],
+    },
+  ],
 })
-export class BankPartialComponent implements OnInit {
-  headers = [
-    { property: 'id', title: 'ID' },
-    { property: 'code', title: 'Код' },
-    { property: 'name', title: 'Название' },
-    { property: 'isDeleted', title: 'Удален' },
-  ];
-
-  data = [
-    {
-      id: '1',
-      code: '1',
-      name: 'Банк 1',
-      isDeleted: false,
-    },
-    {
-      id: '2',
-      code: '2',
-      name: 'Банк 2',
-      isDeleted: false,
-    },
-    {
-      id: '3',
-      code: '3',
-      name: 'Банк 3',
-      isDeleted: false,
-    },
-    {
-      id: '4',
-      code: '4',
-      name: 'Банк 4',
-      isDeleted: false,
-    },
-    {
-      id: '5',
-      code: '5',
-      name: 'Банк 5',
-      isDeleted: false,
-    },
-  ];
-
-  constructor() {}
+export class BankPartialComponent extends TablePartialBase implements OnInit {
+  constructor(protected bankService: BankService) {
+    super(bankService);
+  }
 
   ngOnInit(): void {}
 }
