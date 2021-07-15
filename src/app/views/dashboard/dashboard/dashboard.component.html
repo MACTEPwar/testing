@@ -9,15 +9,24 @@
 <section id="content">
   <ul *ngIf="!roActive">
     <li>
-      <app-tab-route-link [tab]="{url: '/catalogs', name: 'Каталоги', canClose: true}"></app-tab-route-link>
+      <app-tab-route-link
+        [tab]="{ url: '/catalogs', name: 'Каталоги', canClose: true }"
+      ></app-tab-route-link>
       <ul>
         <li>
-          <app-tab-route-link [tab]="{url: '/catalogs/bank', name: 'Банки', canClose: true}"></app-tab-route-link>
+          <app-tab-route-link
+            [tab]="{ url: '/catalogs/bank', name: 'Банки', canClose: true }"
+          ></app-tab-route-link>
         </li>
       </ul>
     </li>
   </ul>
 
-  <router-outlet (activate)="roActive = true" (deactivate)="roActive = false"></router-outlet>
+  <router-outlet
+    (activate)="roActive = true"
+    (deactivate)="roActive = false"
+  ></router-outlet>
 </section>
-<section id="footer">footer</section>
+<section id="footer">
+  <app-lang-check></app-lang-check>
+</section>

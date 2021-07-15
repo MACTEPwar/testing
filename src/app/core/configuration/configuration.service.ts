@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mapTo, tap } from 'rxjs/operators';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class ConfigurationService {
     private configuration = {};
 

@@ -1,4 +1,6 @@
 {
-    "apiUrl": "http://192.168.16.18",
-    "apiNeededUrl": "http://192.168.16.18"
+  "apiUrl": "http://192.168.16.18",
+  "apiNeededUrl": "http://192.168.16.18",
+  "defaultLanguage": "uk",
+  "languages": ["ru", "uk"]
 }

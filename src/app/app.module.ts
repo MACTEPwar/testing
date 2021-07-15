@@ -1,3 +1,6 @@
+import { JwtInterceptor } from './core/interceptors/jwt.iterceptor';
+import { TranslateService } from '@ngx-translate/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -14,13 +17,14 @@ import { ConfigurationService } from './core/configuration/configuration.service
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, ViewsModule, CoreModule],
   providers: [
+    ConfigurationService,
     ModelLoaderService,
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       multi: true,
-      deps: [ConfigurationService, ModelLoaderService],
-    },
+      deps: [ConfigurationService, ModelLoaderService, TranslateService],
+    }
   ],
   bootstrap: [AppComponent],
 })
