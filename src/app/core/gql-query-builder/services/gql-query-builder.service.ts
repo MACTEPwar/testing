@@ -67,57 +67,7 @@ export class GqlQueryBuilderService {
         return getCountQuery(modelName, SIGNATURE_CONDITIONS);
     }
 
-    public test2(
-        model: Model,
-        toLevel: number = 2,
-        currentLevel: number = 0
-    ): Model {
-        // if (currentLevel > 0) {
-        //     model.fields = model.fields.filter(f => f.kind !== 'ARRAY');
-        // }
-        let newObj = CloneObject<Model>(model);
-        newObj.fields.forEach((field) => {
-            if (
-                (field.kind === 'OBJECT' || field.kind === 'ARRAY') &&
-                currentLevel < toLevel
-            ) {
-                // if (field.kind === 'ARRAY' && currentLevel < 2){return null;}
-                // if ((field.kind === 'OBJECT' && currentLevel < toLevel) || (field.kind === 'ARRAY' && currentLevel < 1)) {
-                console.log('FIELD --> ', field);
-                let md = CloneObject<Model>(
-                    this.modelLoaderService.getModel(
-                        field.kind === 'OBJECT' ? field.typeName : field.ofModel
-                    )
-                );
-                console.log('MODEL --> ', md);
-                // if (currentLevel > 0) {
-                //     field.fields = [...md.fields.filter(f => f.kind !== 'ARRAY')];
-                // } else {
-                //     field.fields = [...md.fields];
-                // }
-
-                // field.fields = [...md.fields];
-
-                //    if (md.fields) {
-                //     field.fields = [...md.fields];
-
-                //    } else {
-                //         field = null;
-                //    }
-                // const asd = CloneObject<Model>(this.test2(md, toLevel, currentLevel + 1));
-                if (currentLevel > 0) {
-                    md.fields = md.fields.filter((f) => f.kind !== 'ARRAY');
-                }
-                // md = CloneObject<Model>(this.test2(md, toLevel, currentLevel + 1));
-                console.log('FIELD 2 --> ', md);
-            } else {
-            }
-        });
-
-        return CloneObject<Model>(newObj);
-    }
-
-    public test3(
+    public buildFieldSchema(
         field: Field,
         server: string = 'default',
         toLevel: number = 2,
@@ -135,7 +85,7 @@ export class GqlQueryBuilderService {
                 );
                 if (fieldModel) {
                     const fff = fieldModel.fields.map((fieldCur) =>
-                        this.test3(fieldCur, server, toLevel, currentLevel + 1)
+                        this.buildFieldSchema(fieldCur, server, toLevel, currentLevel + 1)
                     );
                     if (fff.every((e) => e === undefined)) {
                         return null;
@@ -153,10 +103,6 @@ export class GqlQueryBuilderService {
                 return undefined;
             }
         } else {
-            // if (field.isHidden){
-            //     alert(field.property)
-            // }
-            // console.log('TEST H --> ', `${field.isHidden}: ${field.property}`)
             return field;
         }
     }
@@ -175,19 +121,13 @@ export class GqlQueryBuilderService {
     ): Model {
         let MODEL4: Model = this.modelLoaderService.getModel(modelName, server);
         MODEL4.fields.map((field) =>
-            this.test3(field, server, toLevel, currentLevel)
+            this.buildFieldSchema(field, server, toLevel, currentLevel)
         );
 
         // TODO: вынести логику в таблицу
         MODEL4.fields = MODEL4.fields.filter((f) => !f.isHidden);
 
         return MODEL4;
-
-        const MODEL3: Model = this.modelLoaderService.getModel(modelName);
-        return this.test2(CloneObject<Model>(MODEL3), toLevel, currentLevel);
-
-        // this.test2(Object.assign({}, MODEL3), toLevel, currentLevel);
-        // return MODEL3;
     }
 
     public parseMutationToGqlSignature(
@@ -206,8 +146,7 @@ export class GqlQueryBuilderService {
         const MODELS_PARAMS = modelNameForParameters.map((m) =>
             this.buildModelSchema(m, 1, 0, server)
         );
-
-        // const MD = CloneObject<Model>(MODEL);
+        
         if (selectedFields && selectedFields !== '*') {
             const ARR_FIELDS = selectedFields
                 .split(/[\s]*,[\s]*/)

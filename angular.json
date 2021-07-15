@@ -39,6 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
             "outputPath": "dist/testing",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -67,7 +68,11 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": {
+                "scripts": false,
+                "styles": false,
+                "vendor": false
+              },
               "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
@@ -85,17 +90,28 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "dev": {
+
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "testing:build"
+            "browserTarget": "testing:build",
+            "sourceMap": {
+              "scripts": false,
+              "styles": false,
+              "vendor": false
+            }
           },
           "configurations": {
             "production": {
               "browserTarget": "testing:build:production"
+            },
+            "dev": {
+              "browserTarget": "testing:build"
             }
           }
         },

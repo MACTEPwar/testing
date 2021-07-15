@@ -1,23 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 import { map } from 'rxjs/operators';
 import {
-    ESortType,
-    ESplitterType,
-    Filter,
-    FilterAnd,
-    FilterItem,
-    FilterOr,
-    IFilterSplitter,
-    ISortItem,
-    Paging,
-    SortItem
+  ESortType,
+  ESplitterType,
+  Filter,
+  FilterAnd,
+  FilterItem,
+  FilterOr,
+  IFilterSplitter,
+  ISortItem,
+  Paging,
+  SortItem,
 } from '../../../types/filter';
 import { ConfigurationService } from '../../configuration/configuration.service';
 import { GqlQueryBuilderService } from './gql-query-builder.service';
-
 
 @Injectable()
 export class GqlQueryService {
@@ -448,6 +447,13 @@ export class ExecuteOperations implements IExecuteOperations {
 
   private executeQuery(server: string = 'default'): Observable<any> {
     let iphost = `${this.configurationservice.getValue('apiUrl')}/graphql`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
     if (server === 'needed') {
       iphost = `${this.configurationservice.getValue(
         'apiNeededUrl'
@@ -458,7 +464,8 @@ export class ExecuteOperations implements IExecuteOperations {
       iphost,
       JSON.stringify({
         query: this.query,
-      })
+      }),
+      httpOptions
     );
   }
 }

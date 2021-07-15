@@ -1,42 +1,42 @@
+import { ConfigurationService } from './../../core/configuration/configuration.service';
+import { HttpClient } from '@angular/common/http';
+import { GqlQueryBuilderService } from './../../core/gql-query-builder/services/gql-query-builder.service';
+import {
+  Injector,
+  ɵsetCurrentInjector as setCurrentInjector,
+} from '@angular/core';
+import { GqlQueryService } from './../../core/gql-query-builder/services/gql-query.service';
+import { Filter } from './../../types/filter';
 import { Observable, of } from 'rxjs';
 
 export abstract class TableHttpService {
-  getData(): Observable<any> {
-    return of([
-      {
-        id: '1',
-        code: '1',
-        name: 'Bank 1',
-        isDeleted: false,
-      },
-      {
-        id: '2',
-        code: '2',
-        name: 'Банк 2',
-        isDeleted: false,
-      },
-      {
-        id: '3',
-        code: '3',
-        name: 'Банк 3',
-        isDeleted: false,
-      },
-      {
-        id: '4',
-        code: '4',
-        name: 'Банк 4',
-        isDeleted: false,
-      },
-      {
-        id: '5',
-        code: '5',
-        name: 'Банк 5',
-        isDeleted: false,
-      },
-    ]);
+  protected gqlQueryBuilderService: GqlQueryBuilderService;
+  protected httpClient: HttpClient;
+  protected configurationService: ConfigurationService;
+
+  constructor(protected modelName: string, injector: Injector) {
+    const former = setCurrentInjector(injector);
+
+    this.gqlQueryBuilderService = injector.get(GqlQueryBuilderService, null);
+    this.httpClient = injector.get(HttpClient, null);
+    this.configurationService = injector.get(ConfigurationService, null);
+
+    setCurrentInjector(former);
+  }
+
+  getData(filter: Filter = null): Observable<any> {
+    return this.query().select('*').from(this.modelName).build().execute();
   }
 
   getCount(): Observable<any> {
     return of([]);
+  }
+
+  protected query(): GqlQueryService {
+    return new GqlQueryService(
+      this.gqlQueryBuilderService,
+      this.httpClient,
+      this.configurationService
+    );
   }
 }
