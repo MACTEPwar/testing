@@ -1,0 +1,10 @@
+<div *ngIf="value === true; else notCheckIcon">
+    <div class="check-square">
+        <fa-icon [icon]="'check-square'| faIcon:'far'"></fa-icon>
+    </div>
+</div>
+<ng-template #notCheckIcon>
+    <div class="times-square">
+        <fa-icon [icon]="'times-square'| faIcon:'far'"></fa-icon>
+    </div>
+</ng-template>

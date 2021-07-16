@@ -21,10 +21,13 @@ export abstract class TableService {
   headers: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(
     new Array()
   );
+  constants: BehaviorSubject<Array<any>> = new BehaviorSubject<Array<any>>(
+    new Array()
+  );
 
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  isLoading = false;
+  isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   protected beforeGetDataHandler: Function = () => {};
   protected afterGetDataHandler: Function = () => {};
@@ -42,17 +45,18 @@ export abstract class TableService {
 
   getData(filter: Filter = null): void {
     this.beforeGetDataHandler();
+    this.isLoading.next(true);
     forkJoin([
       this.tableHttpService.getData(filter),
       this.tableHttpService.getCount(filter),
     ])
       .pipe(
         tap((_) => {
-          this.isLoading = true;
+          this.isLoading.next(false);
         })
       )
       .subscribe(([data, count]) => {
-        console.log('c', count)
+        console.log('c', count);
         this.data.next(data);
         this.count.next(count);
         this.afterGetDataHandler();
@@ -60,7 +64,12 @@ export abstract class TableService {
   }
 
   getHeaders(): void {
-    this.headers.next(this.modelLoaderService.getModel(this.modelName, 'default').fields);
+    const model = this.modelLoaderService.getModel(
+      this.modelName,
+      'default'
+    ).fields;
+    this.headers.next(model);
+    this.constants.next(model.filter((f) => f.kind === 'ENUM'));
   }
 
   private setServicesFromDI(injector: Injector): void {

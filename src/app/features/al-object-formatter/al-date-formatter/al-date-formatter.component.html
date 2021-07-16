@@ -1,0 +1,7 @@
+<!-- {{value|json}} -->
+<div *ngIf="value; else ifNoData">
+    {{value | date:'dd.MM.yyyy HH:mm'}}
+</div>
+<ng-template #ifNoData>
+    ---
+</ng-template>

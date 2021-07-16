@@ -6,14 +6,18 @@ export abstract class TablePartialBase {
   headers;
   data;
   count;
+  isLoading;
   filters: { codeM: FilterMetadata } = {
     codeM: { matchMode: 'contains', value: '1' },
   };
+  constants;
 
   constructor(private tableService: TableService) {
     this.headers = this.tableService.headers;
     this.data = this.tableService.data;
     this.count = this.tableService.count;
+    this.constants = this.tableService.constants;
+    this.isLoading = this.tableService.isLoading;
 
     // this.tableService.getData();
     this.tableService.getHeaders();

@@ -35,14 +35,26 @@
     </tr>
     <tr *ngIf="filterIsShowed">
       <th *ngFor="let header of columns">
-        <input type="text">
+        <input type="text" />
       </th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns"  let-index="rowIndex">
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-index="rowIndex"
+  >
     <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
       <td *ngFor="let col of columns">
-        {{ rowData[col.property] }}
+        <!-- {{ rowData[col.property] }} -->
+        <!-- {{col | json}}
+        {{constants | json}} -->
+        <al-object-formatter
+          [col]="col"
+          [value]="rowData[col.property]"
+          [constants]="constants"
+        ></al-object-formatter>
       </td>
     </tr>
   </ng-template>

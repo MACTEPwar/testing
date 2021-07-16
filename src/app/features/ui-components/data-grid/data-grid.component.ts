@@ -12,7 +12,7 @@ export class DataGridComponent implements OnInit {
   @Input() data = [];
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
-  @Input() rows: number = 2;
+  @Input() rows: number = 50;
   @Input() totalRecords: number = 5;
   @Input() loading: boolean;
   @Input() rowsPerPageOptions: any;
@@ -29,6 +29,7 @@ export class DataGridComponent implements OnInit {
   @Input() selection: any;
   @Input() filters: any;
   @Input() filterIsShowed = false;
+  @Input() constants;
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();

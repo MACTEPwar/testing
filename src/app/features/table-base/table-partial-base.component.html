@@ -3,5 +3,7 @@
   [data]="data | async"
   [filters]="filters"
   [totalRecords]="count | async"
+  [loading]="isLoading | async"
+  [constants]="constants | async"
   (onLazyLoad)="getData($event)"
 ></app-data-grid>
