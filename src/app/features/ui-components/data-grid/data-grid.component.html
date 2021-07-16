@@ -18,6 +18,7 @@
   [rowHover]="rowHover"
   [currentPageReportTemplate]="currentPageReportTemplate"
   [(selection)]="selection"
+  [scrollHeight]="'flex'"
   [(filters)]="filters"
   (onLazyLoad)="onLazyLoad.emit($event)"
   (onRowSelect)="onRowSelect.emit($event)"
@@ -27,9 +28,14 @@
   #dt
 >
   <ng-template pTemplate="header" let-columns>
-    <tr>
+    <tr (click)="filterIsShowed = !filterIsShowed">
       <th *ngFor="let header of columns">
         {{ header.title }}
+      </th>
+    </tr>
+    <tr *ngIf="filterIsShowed">
+      <th *ngFor="let header of columns">
+        <input type="text">
       </th>
     </tr>
   </ng-template>

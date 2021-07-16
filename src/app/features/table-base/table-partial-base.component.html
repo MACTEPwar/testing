@@ -1,4 +1,7 @@
 <app-data-grid
   [headers]="headers | async"
   [data]="data | async"
+  [filters]="filters"
+  [totalRecords]="count | async"
+  (onLazyLoad)="getData($event)"
 ></app-data-grid>

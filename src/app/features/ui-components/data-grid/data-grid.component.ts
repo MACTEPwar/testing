@@ -28,6 +28,7 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
+  @Input() filterIsShowed = false;
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
@@ -37,7 +38,9 @@ export class DataGridComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.refreshTable();
+  }
 
   exportPdf() {
     const doc: any = new jsPDF();
@@ -83,5 +86,12 @@ export class DataGridComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
     a.remove();
+  }
+
+  refreshTable(): void {
+    this.onLazyLoad.emit({
+      first: 0,
+      rows: this.rows
+    });
   }
 }

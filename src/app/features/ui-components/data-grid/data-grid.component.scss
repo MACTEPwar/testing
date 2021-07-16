@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  height: 100%;
+}
+
+:host ::ng-deep .p-datatable-scrollable-wrapper {
+    height: calc(100% - 59.2833px) !important;
+}
+
+:host ::ng-deep .p-datatable-scrollable-view {
+    height: calc(100% - 59.2833px) !important;
+}
+
+:host ::ng-deep .p-datatable-scrollable-body {
+    height: calc(100% - 59.2833px) !important;
+}

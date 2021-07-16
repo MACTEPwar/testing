@@ -1,3 +1,4 @@
+import { Filter } from './../../types/filter';
 import { Model } from './../../core/models-loader/types/model';
 import { ModelLoaderService } from './../../core/models-loader/services/model-loader.service';
 import {
@@ -8,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { tap } from 'rxjs/internal/operators/tap';
 import { TableHttpService } from './table-http.service';
+import { FilterItem } from 'src/app/types/filter';
 
 export abstract class TableService {
   modelLoaderService: ModelLoaderService;
@@ -38,11 +40,11 @@ export abstract class TableService {
     // console.log('tst2', this.modelLoaderService);
   }
 
-  getData(): void {
+  getData(filter: Filter = null): void {
     this.beforeGetDataHandler();
     forkJoin([
-      this.tableHttpService.getData(),
-      this.tableHttpService.getCount(),
+      this.tableHttpService.getData(filter),
+      this.tableHttpService.getCount(filter),
     ])
       .pipe(
         tap((_) => {
@@ -50,6 +52,7 @@ export abstract class TableService {
         })
       )
       .subscribe(([data, count]) => {
+        console.log('c', count)
         this.data.next(data);
         this.count.next(count);
         this.afterGetDataHandler();
