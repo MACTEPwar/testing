@@ -16,6 +16,7 @@
   [resizableColumns]="resizableColumns"
   [reorderableColumns]="reorderableColumns"
   [rowHover]="rowHover"
+  [columnResizeMode]="columnResizeMode"
   [currentPageReportTemplate]="currentPageReportTemplate"
   [(selection)]="selection"
   [scrollHeight]="'flex'"
@@ -28,8 +29,6 @@
   #dt
   frozenWidth="50px"
 >
-  <!-- [virtualScroll]="true"
-  [virtualRowHeight]="34" -->
   <ng-template pTemplate="frozenheader">
     <tr>
       <th>ЖОПА</th>
@@ -44,23 +43,16 @@
   </ng-template>
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <!-- <col style="width: 50px"/> -->
       <ng-container *ngFor="let col of headers">
         <col
-          [style]="{
-            width: '200px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'pre'
-          }"
+          [style]="{ width: '200px' }"
         />
       </ng-container>
     </colgroup>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr (click)="filterIsShowed = !filterIsShowed">
-      <!-- <th style="width: 3rem"><span>ЖОПА</span></th> -->
-      <th *ngFor="let header of columns">
+      <th *ngFor="let header of columns" pResizableColumn>
         <span class="text-wrapping">{{ header.title }}</span>
       </th>
     </tr>
@@ -77,9 +69,6 @@
     let-index="rowIndex"
   >
     <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
-      <!-- <td style="width: 3rem">
-        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-      </td> -->
       <td
         *ngFor="let col of columns"
         [title]="rowData[col.property] | stringFormatter"

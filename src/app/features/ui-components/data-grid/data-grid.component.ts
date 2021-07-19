@@ -46,6 +46,7 @@ export class DataGridComponent implements OnInit {
   @Input() filters: any;
   @Input() filterIsShowed = false;
   @Input() constants;
+  @Input() columnResizeMode = 'expand'
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
