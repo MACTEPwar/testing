@@ -45,3 +45,8 @@ p-table {
   height: 49px;
   max-height: 49px;
 }
+
+.text-wrapping {
+  white-space: break-spaces;
+  word-wrap: break-word;
+}

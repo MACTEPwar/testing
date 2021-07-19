@@ -46,7 +46,14 @@
     <colgroup>
       <!-- <col style="width: 50px"/> -->
       <ng-container *ngFor="let col of headers">
-        <col [style]="{ width: '200px', overflow:'hidden', textOverflow: 'ellipsis', whiteSpace: 'pre' }" />
+        <col
+          [style]="{
+            width: '200px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'pre'
+          }"
+        />
       </ng-container>
     </colgroup>
   </ng-template>
@@ -54,7 +61,7 @@
     <tr (click)="filterIsShowed = !filterIsShowed">
       <!-- <th style="width: 3rem"><span>ЖОПА</span></th> -->
       <th *ngFor="let header of columns">
-        {{ header.title }}
+        <span class="text-wrapping">{{ header.title }}</span>
       </th>
     </tr>
     <tr *ngIf="filterIsShowed">
@@ -73,7 +80,10 @@
       <!-- <td style="width: 3rem">
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td> -->
-      <td *ngFor="let col of columns" [title]="rowData[col.property] | stringFormatter">
+      <td
+        *ngFor="let col of columns"
+        [title]="rowData[col.property] | stringFormatter"
+      >
         <al-object-formatter
           [col]="col"
           [value]="rowData[col.property]"

@@ -1,14 +1,30 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 @Component({
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
-  styleUrls: ['./data-grid.component.scss']
+  styleUrls: ['./data-grid.component.scss'],
 })
 export class DataGridComponent implements OnInit {
-  @Input() headers = [];
+  private _headers;
+
+  public get headers() : any {
+    return this._headers;
+  }
+
+  @Input() public set headers(value: any) {
+    this._headers = value;
+    this.makeRowsSameHeight();
+  }  
+
   @Input() data = [];
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
@@ -92,7 +108,39 @@ export class DataGridComponent implements OnInit {
   refreshTable(): void {
     this.onLazyLoad.emit({
       first: 0,
-      rows: this.rows
+      rows: this.rows,
+    });
+  }
+
+  makeRowsSameHeight() {
+    setTimeout(() => {
+      if (
+        document.getElementsByClassName('p-datatable-scrollable-wrapper').length
+      ) {
+        let wrapper = document.getElementsByClassName(
+          'p-datatable-scrollable-wrapper'
+        );
+        for (var i = 0; i < wrapper.length; i++) {
+          let w = wrapper.item(i) as HTMLElement;
+          let frozen_rows: any = w.querySelectorAll(
+            '.p-datatable-frozen-view tr'
+          );
+          let unfrozen_rows: any = w.querySelectorAll(
+            '.p-datatable-unfrozen-view tr'
+          );
+          for (let i = 0; i < frozen_rows.length; i++) {
+            if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
+              unfrozen_rows[i].style.height =
+                frozen_rows[i].clientHeight + 'px';
+            } else if (
+              frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight
+            ) {
+              frozen_rows[i].style.height =
+                unfrozen_rows[i].clientHeight + 'px';
+            }
+          }
+        }
+      }
     });
   }
 }
