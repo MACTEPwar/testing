@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'al-date-formatter',
   templateUrl: './al-date-formatter.component.html',
-  styleUrls: ['./al-date-formatter.component.scss']
+  styleUrls: ['./al-date-formatter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateFormatterComponent implements OnInit {
 

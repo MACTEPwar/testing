@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'al-object-formatter',
     templateUrl: './al-object-formatter.component.html',
     styleUrls: ['./al-object-formatter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ObjectFormatterComponent implements OnInit {
     @Input() col;
@@ -14,7 +15,6 @@ export class ObjectFormatterComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        console.log(this.value);
         this.value = this.value ?? '---';
     }
 }

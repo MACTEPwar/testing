@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 @Component({
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
-  styleUrls: ['./data-grid.component.scss'],
+  styleUrls: ['./data-grid.component.scss']
 })
 export class DataGridComponent implements OnInit {
   @Input() headers = [];

@@ -1,10 +1,11 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
 import { TableColDirective } from '../table-col';
 
 @Component({
   selector: 'al-boolean-formatter',
   templateUrl: './al-boolean-formatter.component.html',
-  styleUrls: ['./al-boolean-formatter.component.scss']
+  styleUrls: ['./al-boolean-formatter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooleanFormatterComponent extends TableColDirective implements OnInit {
 

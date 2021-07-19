@@ -11,7 +11,8 @@ import { fal } from '@fortawesome/pro-light-svg-icons';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'faIcon'
+    name: 'faIcon',
+    pure: false
 })
 
 export class FaIconPipe implements PipeTransform {

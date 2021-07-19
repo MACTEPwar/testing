@@ -10,12 +10,9 @@ export abstract class TableColDirective {
 
     setServices(injector: Injector): void {
         this.value = injector.get('Value', null);
-        // alert(this.value);
-        // console.log('setServices -->  ', this.value);
     }
 
     protected getValue(): any {
-        // console.log('getValue -->  ', this.value);
         return this.value;
     }
 }

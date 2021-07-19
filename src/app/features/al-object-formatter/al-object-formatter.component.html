@@ -1,4 +1,3 @@
-<!-- <span>HELLOW</span> -->
 <div [ngSwitch]="col?.typeName">
     <ng-template ngSwitchCase="ENUM">
         {{value | getConstant : constants : col.property}}
@@ -10,7 +9,8 @@
         <al-boolean-formatter [value]="value"></al-boolean-formatter>
     </ng-template>
     <ng-template ngSwitchCase="StringType">
-        <div [ngSwitch]="col?.property">
+        <al-string-formatter [value]="value"></al-string-formatter>
+        <!-- <div [ngSwitch]="col?.property">
             <ng-template ngSwitchCase="activeDays">
                 <al-form-selection-days-of-week
                     id="activeDays"
@@ -22,7 +22,7 @@
             <ng-template ngSwitchDefault>
                 <al-string-formatter [value]="value"></al-string-formatter>
             </ng-template>
-        </div>
+        </div> -->
     </ng-template>
     <ng-template ngSwitchCase="IntType">
         <al-number-formatter [value]="value"></al-number-formatter>
@@ -43,5 +43,8 @@
             >
             </al-object-formatter>
         </div>
+        <!-- <ng-template #elseBlock> -->
+            <!-- <span>{{value | json}}</span> -->
+        <!-- </ng-template> -->
     </ng-template>
 </div>

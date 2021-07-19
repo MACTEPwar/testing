@@ -1,4 +1,5 @@
 <p-table
+  styleClass="p-datatable-sm"
   columnResizeMode="expand"
   [columns]="headers"
   [value]="data"
@@ -26,7 +27,10 @@
   (onColResize)="onColResize.emit($event)"
   (onColReorder)="onColReorder.emit($event)"
   #dt
+  
 >
+<!-- [virtualScroll]="true"
+  [virtualRowHeight]="34" -->
   <ng-template pTemplate="header" let-columns>
     <tr (click)="filterIsShowed = !filterIsShowed">
       <th *ngFor="let header of columns">
@@ -48,8 +52,6 @@
     <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
       <td *ngFor="let col of columns">
         <!-- {{ rowData[col.property] }} -->
-        <!-- {{col | json}}
-        {{constants | json}} -->
         <al-object-formatter
           [col]="col"
           [value]="rowData[col.property]"

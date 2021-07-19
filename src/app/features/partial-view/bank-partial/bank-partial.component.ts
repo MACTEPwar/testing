@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
 import { TablePartialBase } from '../../table-base/table-partial-base.component';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
@@ -19,7 +19,7 @@ import { BankService } from './bank.service';
       useFactory: (bhs: BankHttpService, i: Injector): BankService =>
         new BankService(bhs, i),
     },
-  ],
+  ]
 })
 export class BankPartialComponent extends TablePartialBase implements OnInit {
   // export class BankPartialComponent implements OnInit {
