@@ -9,7 +9,6 @@
   [rowsPerPageOptions]="rowsPerPageOptions"
   [totalRecords]="totalRecords"
   [loading]="loading"
-  [selectionMode]="selectionMode"
   [scrollable]="scrollable"
   [style]="style"
   [lazyLoadOnInit]="lazyLoadOnInit"
@@ -27,12 +26,33 @@
   (onColResize)="onColResize.emit($event)"
   (onColReorder)="onColReorder.emit($event)"
   #dt
-  
+  frozenWidth="50px"
 >
-<!-- [virtualScroll]="true"
+  <!-- [virtualScroll]="true"
   [virtualRowHeight]="34" -->
+  <ng-template pTemplate="frozenheader">
+    <tr>
+      <th>ЖОПА</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="frozenbody" let-rowData>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <!-- <col style="width: 50px"/> -->
+      <ng-container *ngFor="let col of headers">
+        <col [style]="{ width: '200px' }" />
+      </ng-container>
+    </colgroup>
+  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr (click)="filterIsShowed = !filterIsShowed">
+      <!-- <th style="width: 3rem"><span>ЖОПА</span></th> -->
       <th *ngFor="let header of columns">
         {{ header.title }}
       </th>
@@ -50,8 +70,10 @@
     let-index="rowIndex"
   >
     <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
+      <!-- <td style="width: 3rem">
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td> -->
       <td *ngFor="let col of columns">
-        <!-- {{ rowData[col.property] }} -->
         <al-object-formatter
           [col]="col"
           [value]="rowData[col.property]"
