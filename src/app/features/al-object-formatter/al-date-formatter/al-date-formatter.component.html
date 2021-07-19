@@ -1,6 +1,6 @@
 <!-- {{value|json}} -->
 <div *ngIf="value; else ifNoData">
-    {{value | date:'dd.MM.yyyy HH:mm'}}
+    <span class="td-text">{{value | date:'dd.MM.yyyy HH:mm'}}</span>
 </div>
 <ng-template #ifNoData>
     ---

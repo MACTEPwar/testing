@@ -1,0 +1,12 @@
+:host {
+  width: 100%;
+  display: block;
+}
+
+:host ::ng-deep .td-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  width: 100%;
+  display: block;
+}
