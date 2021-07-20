@@ -41,12 +41,12 @@ p-table {
   width: 100%;
 }
 
-:host ::ng-deep td {
-  height: 49px;
-  max-height: 49px;
-}
+// :host ::ng-deep td {
+//   height: 49px;
+//   max-height: 49px;
+// }
 
-.text-wrapping {
-  white-space: break-spaces;
-  word-wrap: break-word;
-}
+// .text-wrapping {
+//   white-space: break-spaces;
+//   word-wrap: break-word;
+// }

@@ -5,8 +5,8 @@
 
 :host ::ng-deep .td-text {
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre;
+  // text-overflow: ellipsis;
+  white-space: break-spaces;
   width: 100%;
   display: block;
 }

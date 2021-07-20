@@ -25,10 +25,20 @@ export class DataGridComponent implements OnInit {
     this.makeRowsSameHeight();
   }  
 
-  @Input() data = [];
+  private _data = [];
+
+  public get data() : any {
+    return this._data;
+  }
+
+  @Input() public set data(value: any) {
+    this._data = value;
+    this.makeRowsSameHeight();
+  }
+
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
-  @Input() rows: number = 50;
+  @Input() rows: number = 100;
   @Input() totalRecords: number = 5;
   @Input() loading: boolean;
   @Input() rowsPerPageOptions: any;
