@@ -1,6 +1,7 @@
 <p-table
   styleClass="p-datatable-sm"
   columnResizeMode="expand"
+  [showLoader]="false"
   [columns]="headers"
   [value]="data"
   [lazy]="lazy"
@@ -18,13 +19,13 @@
   [rowHover]="rowHover"
   [columnResizeMode]="columnResizeMode"
   [currentPageReportTemplate]="currentPageReportTemplate"
-  [(selection)]="selection"
   [scrollHeight]="'flex'"
+  [(selection)]="selection"
   [(filters)]="filters"
   (onLazyLoad)="onLazyLoad.emit($event)"
   (onRowSelect)="onRowSelect.emit($event)"
   (onRowUnselect)="onRowUnselect.emit($event)"
-  (onColResize)="onColResize.emit($event)"
+  (onColResize)="onColResizeHandler($event)"
   (onColReorder)="onColReorder.emit($event)"
   #dt
   frozenWidth="50px"
@@ -44,15 +45,13 @@
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
       <ng-container *ngFor="let col of headers">
-        <col
-          [style]="{ width: '200px' }"
-        />
+        <col [style]="{ width: '200px' }" />
       </ng-container>
     </colgroup>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr (click)="filterIsShowed = !filterIsShowed">
-      <th *ngFor="let header of columns" pResizableColumn>
+      <th *ngFor="let header of columns" pResizableColumn pReorderableColumn>
         <span class="text-wrapping">{{ header.title }}</span>
       </th>
     </tr>
@@ -79,6 +78,11 @@
           [constants]="constants"
         ></al-object-formatter>
       </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="loadingbody" let-columns>
+    <tr *ngFor="let item of rows | enumerator">
+      <td *ngFor="let col of columns"><p-skeleton></p-skeleton></td>
     </tr>
   </ng-template>
 </p-table>

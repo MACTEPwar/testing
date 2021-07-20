@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [DataGridComponent],
@@ -16,6 +17,7 @@ import { SharedModule } from '../../../shared/shared.module';
     FormsModule,
     AlObjectFormatterModule,
     SharedModule,
+    SkeletonModule,
   ],
   exports: [DataGridComponent],
 })

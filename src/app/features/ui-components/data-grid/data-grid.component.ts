@@ -70,6 +70,11 @@ export class DataGridComponent implements OnInit {
     this.refreshTable();
   }
 
+  onColResizeHandler(event): void {
+    this.onColResize.emit(event);
+    this.makeRowsSameHeight();
+  }
+
   exportPdf() {
     const doc: any = new jsPDF();
     doc.autoTable(
