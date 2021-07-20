@@ -1,8 +1,22 @@
+<p-overlayPanel [appendTo]="dt" #op>
+  <ng-template pTemplate>
+    <p-listbox
+      [checkbox]="true"
+      [filter]="true"
+      [multiple]="true"
+      [options]="headers"
+      [(ngModel)]="selectedColumns"
+      optionLabel="title"
+    ></p-listbox>
+    <button (click)="op.hide()">OK</button>
+  </ng-template>
+</p-overlayPanel>
+
 <p-table
   styleClass="p-datatable-sm"
   columnResizeMode="expand"
   [showLoader]="false"
-  [columns]="headers"
+  [columns]="selectedColumns"
   [value]="data"
   [lazy]="lazy"
   [paginator]="paginator"
@@ -30,9 +44,13 @@
   #dt
   frozenWidth="50px"
 >
+  <!-- <ng-template pTemplate="caption">
+  </ng-template> -->
   <ng-template pTemplate="frozenheader">
     <tr>
-      <th>ЖОПА</th>
+      <th class="selected-column" (click)="op.toggle($event)">
+        <span>&#9776;</span>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="frozenbody" let-rowData>
@@ -44,7 +62,7 @@
   </ng-template>
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
-      <ng-container *ngFor="let col of headers">
+      <ng-container *ngFor="let col of selectedColumns">
         <col [style]="{ width: '200px' }" />
       </ng-container>
     </colgroup>

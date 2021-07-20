@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptor } from './core/interceptors/jwt.iterceptor';
 import { TranslateService } from '@ngx-translate/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -15,7 +16,13 @@ import { ConfigurationService } from './core/configuration/configuration.service
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ViewsModule, CoreModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ViewsModule,
+    CoreModule,
+  ],
   providers: [
     ConfigurationService,
     ModelLoaderService,
@@ -24,7 +31,7 @@ import { ConfigurationService } from './core/configuration/configuration.service
       useFactory: initApp,
       multi: true,
       deps: [ConfigurationService, ModelLoaderService, TranslateService],
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })

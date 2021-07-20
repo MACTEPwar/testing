@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -16,24 +10,35 @@ import 'jspdf-autotable';
 export class DataGridComponent implements OnInit {
   private _headers;
 
-  public get headers() : any {
+  public get headers(): any {
     return this._headers;
   }
 
   @Input() public set headers(value: any) {
     this._headers = value;
-    this.makeRowsSameHeight();
-  }  
+    this.selectedColumns = value;
+  }
 
   private _data = [];
 
-  public get data() : any {
+  public get data(): any {
     return this._data;
   }
 
   @Input() public set data(value: any) {
     this._data = value;
     this.makeRowsSameHeight();
+  }
+
+  private _selectedColumns: any[];
+
+  public set selectedColumns(value: any[]) {
+    this._selectedColumns = this.headers.filter((col) => value.includes(col));
+    this.makeRowsSameHeight();
+  }
+
+  public get selectedColumns(): any[] {
+    return this._selectedColumns;
   }
 
   @Input() lazy: boolean = true;
@@ -56,7 +61,7 @@ export class DataGridComponent implements OnInit {
   @Input() filters: any;
   @Input() filterIsShowed = false;
   @Input() constants;
-  @Input() columnResizeMode = 'expand'
+  @Input() columnResizeMode = 'expand';
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();

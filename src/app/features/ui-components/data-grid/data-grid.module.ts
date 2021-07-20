@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { DataGridComponent } from './data-grid.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { SkeletonModule } from 'primeng/skeleton';
-
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ListboxModule } from 'primeng/listbox';
+import {OverlayPanelModule} from 'primeng/overlaypanel'
 @NgModule({
   declarations: [DataGridComponent],
   imports: [
@@ -15,9 +17,13 @@ import { SkeletonModule } from 'primeng/skeleton';
     TableModule,
     ButtonModule,
     FormsModule,
+    ReactiveFormsModule,
     AlObjectFormatterModule,
     SharedModule,
     SkeletonModule,
+    MultiSelectModule,
+    ListboxModule,
+    OverlayPanelModule,
   ],
   exports: [DataGridComponent],
 })

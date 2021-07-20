@@ -50,3 +50,9 @@ p-table {
   white-space: break-spaces;
   word-wrap: break-word;
 }
+
+.selected-column:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
