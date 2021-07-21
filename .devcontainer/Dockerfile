@@ -16,7 +16,3 @@ RUN su node -c "npm config set '//npm.fontawesome.com/:_authToken' BF62415F-D20A
 
 # [Optional] Uncomment if you want to install more global node packages
 RUN su node -c "npm install -g @angular/cli@12.1.1"
-
-WORKDIR /workspaces/testing
-
-RUN su node -c "npm install"
