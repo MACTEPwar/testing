@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { BooleanFormatterComponent } from './al-boolean-formatter.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     CommonModule,
     SharedModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AngularSvgIconModule
   ],
   exports: [BooleanFormatterComponent]
 })

@@ -13,6 +13,7 @@ import { CoreModule } from './core/core.module';
 import { ModelLoaderService } from './core/models-loader/services/model-loader.service';
 import { initApp } from './init-app';
 import { ConfigurationService } from './core/configuration/configuration.service';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { ConfigurationService } from './core/configuration/configuration.service
     AppRoutingModule,
     ViewsModule,
     CoreModule,
+    AngularSvgIconModule.forRoot(),
   ],
   providers: [
     ConfigurationService,

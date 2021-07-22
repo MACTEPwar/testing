@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Launch Firefox against localhost",
+            "url": "http://127.0.0.1:4200",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",

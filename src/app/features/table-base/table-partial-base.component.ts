@@ -11,6 +11,7 @@ export abstract class TablePartialBase {
     codeM: { matchMode: 'contains', value: '1' },
   };
   constants;
+  clientSettings;
 
   constructor(private tableService: TableService) {
     this.headers = this.tableService.headers;
@@ -18,6 +19,7 @@ export abstract class TablePartialBase {
     this.count = this.tableService.count;
     this.constants = this.tableService.constants;
     this.isLoading = this.tableService.isLoading;
+    this.clientSettings = this.tableService.clientSettings;
 
     // this.tableService.getData();
     this.tableService.getHeaders();
@@ -25,8 +27,49 @@ export abstract class TablePartialBase {
 
   getData(event) {
     this.tableService.getData(this.primeFilter2LogicFilter(event));
-    console.log(event);
   }
+
+  onColResizeHandler(event): void {
+    console.log('onColResize', event);
+    this.tableService.saveClientSettings(
+      this.generateObjectForSaveClientSettings()
+    );
+  }
+
+  onColReorderHandler(event): void {
+    let allHeaders: any[] = this.tableService.headers.getValue();
+    let visibleAndOrder: any[] = event.columns;
+
+    // let arr = allHeaders
+    //   .map((m, i) => ({ index: i, header: m }))
+    //   .filter((f) => visibleAndOrder.includes(f.header));
+
+    // let arr2 = visibleAndOrder.map(m => {
+    //   let index = arr.find(f => f.header.property === m.property).index;
+    //   return {
+    //     index,
+    //     header: m
+    //   }
+    // })
+
+    // let arr3 = arr2.map(m => m.header);
+
+    let arr4 = visibleAndOrder.map(m => {
+      m.isShow = true;
+      return m;
+    }).concat(allHeaders.filter(f => !visibleAndOrder.includes(f)).map(m => {
+      m.isShow = false;
+      return m;
+    }));
+
+    // console.log('onColReorder', event);
+    console.log('onColReorder', arr4);
+    // this.tableService.saveClientSettings(
+    //   this.generateObjectForSaveClientSettings()
+    // );
+  }
+
+  private generateObjectForSaveClientSettings() {}
 
   private primeFilter2LogicFilter(event: any): Filter {
     const filterAnd = new FilterAnd();

@@ -11,6 +11,7 @@ import {
 } from './../../core/gql-query-builder/services/gql-query.service';
 import { Filter, FilterItem, IFilterItem } from './../../types/filter';
 import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 export abstract class TableHttpService {
   protected gqlQueryBuilderService: GqlQueryBuilderService;
@@ -37,6 +38,27 @@ export abstract class TableHttpService {
     return this.addFilter2QuerySelection(selection, filter).count().execute();
   }
 
+  getClientSettings(): Observable<any> {
+    return this.query()
+      .select('data')
+      .from('ClientSettings')
+      .where(new FilterItem('clientObject', `newtable.${this.modelName}`, 'eq'))
+      .build()
+      .execute();
+  }
+
+  setClientSettings(data: any): Observable<any> {
+    return this.getClientSettings().pipe(
+      mergeMap(clientSettings => {
+        if (clientSettings) {
+          return this.query().mutation('update', {model: data}, this.modelName).execute();
+        } else {
+          return this.query().mutation('add', {model: data}, this.modelName).execute();
+        }
+      })
+    )
+  }
+
   protected query(): GqlQueryService {
     return new GqlQueryService(
       this.gqlQueryBuilderService,
@@ -52,14 +74,24 @@ export abstract class TableHttpService {
     if (filter !== null) {
       if (filter.splitter?.filters?.length > 0) {
         filter.splitter.filters.forEach((f: IFilterItem) => {
-          selection.where(new FilterItem(f.property, f.value, f.matchMode, f.type, f.parentObjectName))
-        })
+          selection.where(
+            new FilterItem(
+              f.property,
+              f.value,
+              f.matchMode,
+              f.type,
+              f.parentObjectName
+            )
+          );
+        });
       }
-      if (filter.sort && filter.sort[0]){
-        selection.orderBy(filter.sort[0]?.field, (filter.sort[0].sortType as unknown) as number)
+      if (filter.sort && filter.sort[0]) {
+        selection.orderBy(
+          filter.sort[0]?.field,
+          filter.sort[0].sortType as unknown as number
+        );
       }
       if (filter.paging) {
-        console.log('fp', filter.paging)
         selection.top(filter.paging.skip ?? 0, filter.paging.take ?? 50);
       }
     }

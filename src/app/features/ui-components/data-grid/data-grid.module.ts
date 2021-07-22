@@ -10,6 +10,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ListboxModule } from 'primeng/listbox';
 import {OverlayPanelModule} from 'primeng/overlaypanel'
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
 @NgModule({
   declarations: [DataGridComponent],
   imports: [
@@ -24,6 +26,7 @@ import {OverlayPanelModule} from 'primeng/overlaypanel'
     MultiSelectModule,
     ListboxModule,
     OverlayPanelModule,
+    AngularSvgIconModule
   ],
   exports: [DataGridComponent],
 })

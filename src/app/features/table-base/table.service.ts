@@ -25,6 +25,8 @@ export abstract class TableService {
     new Array()
   );
 
+  clientSettings: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -49,16 +51,17 @@ export abstract class TableService {
     forkJoin([
       this.tableHttpService.getData(filter),
       this.tableHttpService.getCount(filter),
+      this.tableHttpService.getClientSettings(),
     ])
       .pipe(
         tap((_) => {
           this.isLoading.next(false);
         })
       )
-      .subscribe(([data, count]) => {
-        console.log('c', count);
+      .subscribe(([data, count, clientSettings]) => {
         this.data.next(data);
         this.count.next(count);
+        this.clientSettings.next(clientSettings);
         this.afterGetDataHandler();
       });
   }
@@ -70,6 +73,14 @@ export abstract class TableService {
     ).fields;
     this.headers.next(model);
     this.constants.next(model.filter((f) => f.kind === 'ENUM'));
+  }
+
+  saveClientSettings(data: any): void {
+    this.tableHttpService
+      .setClientSettings(data)
+      .subscribe((clientSettings) => {
+        this.clientSettings.next(data);
+      });
   }
 
   private setServicesFromDI(injector: Injector): void {

@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { SvgIconRegistryService } from 'angular-svg-icon';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -62,6 +71,7 @@ export class DataGridComponent implements OnInit {
   @Input() filterIsShowed = false;
   @Input() constants;
   @Input() columnResizeMode = 'expand';
+  @Input() clientSettings;
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
@@ -78,6 +88,17 @@ export class DataGridComponent implements OnInit {
   onColResizeHandler(event): void {
     this.onColResize.emit(event);
     this.makeRowsSameHeight();
+  }
+
+  setOrderForHeaders(visibleAndOrder: any[]): void{
+    this._headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)));;
+    
+  }
+
+  onColReorderHandler(event): void {
+    this._selectedColumns = event.columns;
+    this.setOrderForHeaders(event.columns);
+    this.onColReorder.emit(event);
   }
 
   exportPdf() {

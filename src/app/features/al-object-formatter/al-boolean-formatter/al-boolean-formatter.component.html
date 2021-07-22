@@ -1,10 +1,12 @@
 <div *ngIf="value === true; else notCheckIcon">
   <div class="check-square">
-    <span class="checked"></span>
+    <!-- <span class="checked"></span> -->
+    <svg-icon src="assets/images/icons/1c.svg" class="red"></svg-icon>
   </div>
 </div>
 <ng-template #notCheckIcon>
   <div class="times-square">
-    <span class="not-checked"></span>
+    <!-- <span class="not-checked"></span> -->
+    <svg-icon src="assets/images/icons/1c.svg" class="red"></svg-icon>
   </div>
 </ng-template>

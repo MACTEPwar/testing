@@ -5,5 +5,8 @@
   [totalRecords]="count | async"
   [loading]="isLoading | async"
   [constants]="constants | async"
+  [clientSettings]="clientSettings | async"
   (onLazyLoad)="getData($event)"
+  (onColResize)="onColResizeHandler($event)"
+  (onColReorder)="onColReorderHandler($event)"
 ></app-data-grid>

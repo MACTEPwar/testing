@@ -13,7 +13,6 @@ export class JwtInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('ts', this.translateService.currentLang);
     request = request.clone({
         setHeaders: {
           'Accept-Language': this.translateService?.currentLang ?? 'uk',
