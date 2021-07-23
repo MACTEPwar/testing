@@ -12,22 +12,18 @@ export class GqlBuilderMutation {
 
   public static parseFunctionToGqlSignature(
     functionName: string,
-    modelName: string,
     params: any,
     modelWithSelectedFileds: string,
     models: Model[]
   ): string {
-    return `
-            ${modelName} {
-                ${functionName} ${GqlBuilderMutation.parseFunctionParamsStrategy(
+    return `${functionName} ${GqlBuilderMutation.parseFunctionParamsStrategy(
       params,
       models
     )}
-                ${
-                  modelWithSelectedFileds === '{ }'
-                    ? ''
-                    : modelWithSelectedFileds
-                }
+            ${
+              modelWithSelectedFileds === '{ }'
+                ? ''
+                : modelWithSelectedFileds
             }
         `;
   }

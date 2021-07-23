@@ -51,31 +51,40 @@ export abstract class TableService {
     forkJoin([
       this.tableHttpService.getData(filter),
       this.tableHttpService.getCount(filter),
-      this.tableHttpService.getClientSettings(),
     ])
       .pipe(
         tap((_) => {
           this.isLoading.next(false);
         })
       )
-      .subscribe(([data, count, clientSettings]) => {
+      .subscribe(([data, count]) => {
         this.data.next(data);
         this.count.next(count);
-        this.clientSettings.next(clientSettings);
         this.afterGetDataHandler();
       });
   }
 
   getHeaders(): void {
-    const model = this.modelLoaderService.getModel(
-      this.modelName,
-      'default'
-    ).fields;
-    this.headers.next(model);
-    this.constants.next(model.filter((f) => f.kind === 'ENUM'));
+    this.tableHttpService.getClientSettings().subscribe((clientSettings) => {
+      // clientSettings = JSON.parse(clientSettings.data);
+      let headers: any = this.modelLoaderService.getModel(
+        this.modelName,
+        'default'
+      ).fields;
+
+      let changedHeaders = this.applayClientSettingsToHeaders(
+        headers,
+        clientSettings
+      );
+      // console.log(this.headers.getValue());
+      // console.log(clientSettings);
+      // console.log(model);
+      this.headers.next(changedHeaders);
+      this.constants.next(changedHeaders.filter((f) => f.kind === 'ENUM'));
+    });
   }
 
-  saveClientSettings(data: any): void {
+  public saveClientSettings(data: any): void {
     this.tableHttpService
       .setClientSettings(data)
       .subscribe((clientSettings) => {
@@ -83,6 +92,63 @@ export abstract class TableService {
       });
   }
 
+  /**
+   * Устанавливает клиентские настрйоки дял хедеров
+   * @param headers Хедеры
+   * @param clientSettings Настройки с сервера
+   * @returns Модифицированные хедеры
+   */
+  private applayClientSettingsToHeaders(
+    headers: any[],
+    clientSettings: any
+  ): any[] {
+    return clientSettings
+      ? this.applayIncomingSettings(headers, clientSettings)
+      : this.defaultClientSettings(headers);
+  }
+
+  /**
+   * Устанавливает дефолтные настройки таблицы
+   * @param headers Хедеры
+   */
+  private defaultClientSettings(headers: any[]): any[] {
+    headers.map((m) => {
+      m.isShow = true;
+      m.offsetWidth = 200;
+      return m;
+    });
+    this.clientSettings.next({
+      data: headers.map((m) => ({
+        property: m.property,
+        isShow: m.isShow,
+        offsetWidth: m.offsetWidth,
+      })),
+    });
+    return headers;
+  }
+
+  /**
+   * Применяет настройки с сервера к хедерам
+   * @param headers Хедеры
+   * @param clientSettings Настройки с БД
+   */
+  private applayIncomingSettings(headers: any[], clientSettings: any): any[] {
+    this.clientSettings.next(clientSettings);
+    let newModel = [];
+    console.log('CS', clientSettings);
+    clientSettings.data.forEach((column) => {
+      let col: any = headers.find((f) => f.property === column.property);
+      col.isShow = column.isShow;
+      col.offsetWidth = column.offsetWidth;
+      newModel.push(col);
+    });
+    return newModel;
+  }
+
+  /**
+   * Сетит сервисы с инжектора
+   * @param injector Инжектор компонента
+   */
   private setServicesFromDI(injector: Injector): void {
     const former = setCurrentInjector(injector);
 

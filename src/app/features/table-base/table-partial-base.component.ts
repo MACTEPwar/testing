@@ -23,6 +23,13 @@ export abstract class TablePartialBase {
 
     // this.tableService.getData();
     this.tableService.getHeaders();
+
+    // setInterval(() => {
+    //   let a = this.headers
+    //     .getValue()
+    //     .map((m) => ({ property: m.property, offsetWidth: m.offsetWidth }));
+    //   console.log(a);
+    // }, 1000);
   }
 
   getData(event) {
@@ -31,42 +38,22 @@ export abstract class TablePartialBase {
 
   onColResizeHandler(event): void {
     console.log('onColResize', event);
-    this.tableService.saveClientSettings(
-      this.generateObjectForSaveClientSettings()
-    );
+    let oldSettings = this.clientSettings.getValue();
+    oldSettings.find((f) => f.property === event.property).offsetWidth =
+      event.offsetWidth;
+    this.tableService.saveClientSettings(oldSettings);
   }
 
   onColReorderHandler(event): void {
-    let allHeaders: any[] = this.tableService.headers.getValue();
-    let visibleAndOrder: any[] = event.columns;
-
-    // let arr = allHeaders
-    //   .map((m, i) => ({ index: i, header: m }))
-    //   .filter((f) => visibleAndOrder.includes(f.header));
-
-    // let arr2 = visibleAndOrder.map(m => {
-    //   let index = arr.find(f => f.header.property === m.property).index;
-    //   return {
-    //     index,
-    //     header: m
-    //   }
-    // })
-
-    // let arr3 = arr2.map(m => m.header);
-
-    let arr4 = visibleAndOrder.map(m => {
-      m.isShow = true;
-      return m;
-    }).concat(allHeaders.filter(f => !visibleAndOrder.includes(f)).map(m => {
-      m.isShow = false;
-      return m;
-    }));
-
-    // console.log('onColReorder', event);
-    console.log('onColReorder', arr4);
-    // this.tableService.saveClientSettings(
-    //   this.generateObjectForSaveClientSettings()
-    // );
+    let oldSettings = this.clientSettings.getValue().data;
+    let newSettings = [];
+    event.columns.forEach((column) => {
+      newSettings.push(oldSettings.find((f) => f.property === column.property));
+    });
+    this.tableService.saveClientSettings({
+      id: oldSettings.id,
+      data: newSettings,
+    });
   }
 
   private generateObjectForSaveClientSettings() {}

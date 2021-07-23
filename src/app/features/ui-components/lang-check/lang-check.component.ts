@@ -17,7 +17,6 @@ export class LangCheckComponent implements OnInit {
   ) {
     this.languages = this.configurationService.getValue('languages');
     this.currentLanguage = this.translateService.currentLang;
-    console.log(this.translateService)
   }
 
   ngOnInit(): void {}

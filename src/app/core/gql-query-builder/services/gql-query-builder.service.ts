@@ -159,8 +159,6 @@ export class GqlQueryBuilderService {
         const SIGNATURE_FUNCTION =
             GqlBuilderMutation.parseFunctionToGqlSignature(
                 functionsName,
-                // ! TODO: убрать toLowerCase
-                modelName[0].toLocaleLowerCase() + modelName.slice(1),
                 data,
                 SIGNATURE_MODEL,
                 MODELS_PARAMS
@@ -198,7 +196,8 @@ export class GqlQueryBuilderService {
             functionsName === 'getByKeys' ||
             functionsName === 'firmByType' ||
             functionsName === 'exportNeeded' ||
-            functionsName === 'exportToExcel'
+            functionsName === 'item' ||
+            functionsName === 'exportToExcel' 
                 ? this.parseModelToGqlSignature(MODEL.fields)
                 : `{ items  ${this.parseModelToGqlSignature(MODEL.fields)} }`;
         const SIGNATURE_FUNCTION =

@@ -24,6 +24,9 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input() public set headers(value: any) {
+    value = value.map(m => {
+      return m;
+    })
     this._headers = value;
     this.selectedColumns = value;
   }
@@ -71,7 +74,7 @@ export class DataGridComponent implements OnInit {
   @Input() filterIsShowed = false;
   @Input() constants;
   @Input() columnResizeMode = 'expand';
-  @Input() clientSettings;
+  // @Input() clientSettings;
 
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
@@ -86,12 +89,19 @@ export class DataGridComponent implements OnInit {
   }
 
   onColResizeHandler(event): void {
+    event.offsetWidth = event.element.offsetWidth;
+    event.property = event.element.getAttribute('data-property');
+    this.headers.find(f => f.property === event.property).offsetWidth = event.offsetWidth;
+    let selectedFinder = this.selectedColumns.find(f => f.property === event.property);
+    if (selectedFinder) {
+      selectedFinder.offsetWidth = event.offsetWidth;
+    }
     this.onColResize.emit(event);
     this.makeRowsSameHeight();
   }
 
   setOrderForHeaders(visibleAndOrder: any[]): void{
-    this._headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)));;
+    this.headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)));;
     
   }
 

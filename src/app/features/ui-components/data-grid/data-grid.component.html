@@ -63,14 +63,16 @@
   <ng-template pTemplate="colgroup" let-columns>
     <colgroup>
       <ng-container *ngFor="let col of selectedColumns">
-        <col [style]="{ width: '200px' }" />
+        <col [style]="{ width: col.offsetWidth + 'px' }" />
+        <!-- <col [style]="{ width: '200px' }" /> -->
       </ng-container>
     </colgroup>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr (click)="filterIsShowed = !filterIsShowed">
-      <th *ngFor="let header of columns" pResizableColumn pReorderableColumn>
-        <span class="text-wrapping">{{ header.title }}</span>
+      <th *ngFor="let header of columns" [attr.data-property]="header.property" pResizableColumn pReorderableColumn>
+      <!-- <th *ngFor="let header of columns" pResizableColumn pReorderableColumn> -->
+        <span class="text-wrapping">{{ header?.title }}</span>
       </th>
     </tr>
     <tr *ngIf="filterIsShowed">

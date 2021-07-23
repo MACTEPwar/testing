@@ -11,7 +11,7 @@ import {
 } from './../../core/gql-query-builder/services/gql-query.service';
 import { Filter, FilterItem, IFilterItem } from './../../types/filter';
 import { Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 export abstract class TableHttpService {
   protected gqlQueryBuilderService: GqlQueryBuilderService;
@@ -40,23 +40,51 @@ export abstract class TableHttpService {
 
   getClientSettings(): Observable<any> {
     return this.query()
-      .select('data')
-      .from('ClientSettings')
-      .where(new FilterItem('clientObject', `newtable.${this.modelName}`, 'eq'))
-      .build()
-      .execute();
+      .function(
+        'item',
+        {
+          clientObject: `newtable.${this.modelName}`,
+        },
+        'ClientSettings',
+        '*',
+        ['clientSetting']
+      )
+      .execute().pipe((m: any) => {
+        if (m) {
+          m.data = JSON.parse(m.data);
+          return m;
+        } else {
+          return null;
+        }
+      });
   }
 
   setClientSettings(data: any): Observable<any> {
-    return this.getClientSettings().pipe(
-      mergeMap(clientSettings => {
-        if (clientSettings) {
-          return this.query().mutation('update', {model: data}, this.modelName).execute();
-        } else {
-          return this.query().mutation('add', {model: data}, this.modelName).execute();
-        }
-      })
-    )
+    const model: {} = {
+      id: data.id,
+      data: JSON.stringify(data.data),
+      clientObject: `newtable.${this.modelName}`,
+    };
+
+    return this.query()
+      .mutation('saveItem', { item: model }, 'ClientSettings', null, '*', [
+        'clientSetting',
+      ])
+      .execute();
+
+    // return this.getClientSettings().pipe(
+    //   mergeMap((clientSettings) => {
+    //     if (clientSettings?.length > 0) {
+    //       return this.query()
+    //         .mutation('update', { model: model }, 'ClientSettings')
+    //         .execute();
+    //     } else {
+    //       return this.query()
+    //         .mutation('add', { model: model }, 'ClientSettings')
+    //         .execute();
+    //     }
+    //   })
+    // );
   }
 
   protected query(): GqlQueryService {
