@@ -45,11 +45,12 @@ export abstract class TablePartialBase {
   }
 
   onColReorderHandler(event): void {
-    let oldSettings = this.clientSettings.getValue().data;
+    let oldSettings = this.clientSettings.getValue();
     let newSettings = [];
     event.columns.forEach((column) => {
-      newSettings.push(oldSettings.find((f) => f.property === column.property));
+      newSettings.push(oldSettings.data.find((f) => f.property === column.property));
     });
+    console.log('CS', oldSettings)
     this.tableService.saveClientSettings({
       id: oldSettings.id,
       data: newSettings,

@@ -49,14 +49,21 @@ export abstract class TableHttpService {
         '*',
         ['clientSetting']
       )
-      .execute().pipe((m: any) => {
-        if (m) {
-          m.data = JSON.parse(m.data);
-          return m;
-        } else {
-          return null;
-        }
-      });
+      .execute()
+      .pipe(
+        map((m: any) => {
+          if (m) {
+            console.log(m);
+            // m.data = JSON.parse(m.data);
+            return {
+              data: JSON.parse(m.data),
+              id: m.id,
+            };
+          } else {
+            return null;
+          }
+        })
+      );
   }
 
   setClientSettings(data: any): Observable<any> {

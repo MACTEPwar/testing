@@ -370,8 +370,8 @@ export class ExecuteOperations implements IExecuteOperations {
               'data',
               ...CURRENT_WRAPPERS,
               // ! TODO: убрать toLowerCase(), когда бэк доделает
-              this.queryOptions.modelName[0].toLowerCase() +
-                this.queryOptions.modelName.slice(1),
+              // this.queryOptions.modelName[0].toLowerCase() +
+              //   this.queryOptions.modelName.slice(1),
               this.queryOptions.functionsName,
             ];
             return arr.reduce((accObj, currObj) => accObj[currObj], m);

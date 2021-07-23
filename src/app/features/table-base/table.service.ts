@@ -88,6 +88,7 @@ export abstract class TableService {
     this.tableHttpService
       .setClientSettings(data)
       .subscribe((clientSettings) => {
+        data.id = clientSettings.id;
         this.clientSettings.next(data);
       });
   }
