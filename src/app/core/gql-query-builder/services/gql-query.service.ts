@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import {
   ESortType,
   ESplitterType,
