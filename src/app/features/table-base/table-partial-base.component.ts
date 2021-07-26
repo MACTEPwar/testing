@@ -37,20 +37,23 @@ export abstract class TablePartialBase {
   }
 
   onColResizeHandler(event): void {
-    console.log('onColResize', event);
     let oldSettings = this.clientSettings.getValue();
-    oldSettings.find((f) => f.property === event.property).offsetWidth =
+    oldSettings.data.find((f) => f.property === event.property).offsetWidth =
       event.offsetWidth;
-    this.tableService.saveClientSettings(oldSettings);
+      this.tableService.saveClientSettings({
+        id: oldSettings.id,
+        data: oldSettings.data,
+      });
   }
 
   onColReorderHandler(event): void {
     let oldSettings = this.clientSettings.getValue();
     let newSettings = [];
     event.columns.forEach((column) => {
-      newSettings.push(oldSettings.data.find((f) => f.property === column.property));
+      newSettings.push(
+        oldSettings.data.find((f) => f.property === column.property)
+      );
     });
-    console.log('CS', oldSettings)
     this.tableService.saveClientSettings({
       id: oldSettings.id,
       data: newSettings,
