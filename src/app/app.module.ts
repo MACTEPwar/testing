@@ -14,16 +14,17 @@ import { ModelLoaderService } from './core/models-loader/services/model-loader.s
 import { initApp } from './init-app';
 import { ConfigurationService } from './core/configuration/configuration.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { BreadcrumbService } from './core/breadcrumb/breadcrumb.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ViewsModule,
+    BrowserAnimationsModule,    
     CoreModule,
+    ViewsModule,
     AngularSvgIconModule.forRoot(),
+    AppRoutingModule,
   ],
   providers: [
     ConfigurationService,

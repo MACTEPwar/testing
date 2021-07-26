@@ -2,3 +2,15 @@
 html, body {
     margin: 0;
 }
+
+.row {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}

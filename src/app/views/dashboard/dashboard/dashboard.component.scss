@@ -5,15 +5,15 @@
 }
 
 #header {
-    height: 70px;
+    height: 25px;
 }
 
 #content {
-    height: calc(100% - (50px + 70px));
+    height: calc(100% - (30px + 25px));
     overflow-y: hidden;
     display: flex;
 }
 
 #footer {
-    height: 50px;
+    height: 30px;
 }
