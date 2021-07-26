@@ -1,4 +1,11 @@
-import { Filter, FilterAnd, FilterItem, Paging } from './../../types/filter';
+import {
+  ESortType,
+  Filter,
+  FilterAnd,
+  FilterItem,
+  ISortItem,
+  Paging,
+} from './../../types/filter';
 import { FilterMetadata } from 'primeng/api';
 import { TableService } from './table.service';
 
@@ -40,8 +47,8 @@ export abstract class TablePartialBase {
     let oldSettings = this.clientSettings.getValue();
     this.tableService.saveClientSettings({
       id: oldSettings.id,
-      data: oldSettings.data.map(m => {
-        if (event.find(f => f.property === m.property)) {
+      data: oldSettings.data.map((m) => {
+        if (event.find((f) => f.property === m.property)) {
           m.isShow = true;
         } else {
           m.isShow = false;
@@ -55,10 +62,10 @@ export abstract class TablePartialBase {
     let oldSettings = this.clientSettings.getValue();
     oldSettings.data.find((f) => f.property === event.property).offsetWidth =
       event.offsetWidth;
-      this.tableService.saveClientSettings({
-        id: oldSettings.id,
-        data: oldSettings.data,
-      });
+    this.tableService.saveClientSettings({
+      id: oldSettings.id,
+      data: oldSettings.data,
+    });
   }
 
   onColReorderHandler(event): void {
@@ -71,7 +78,9 @@ export abstract class TablePartialBase {
     });
     this.tableService.saveClientSettings({
       id: oldSettings.id,
-      data: newSettings.concat(oldSettings.data.filter(f => f.isShow === false)),
+      data: newSettings.concat(
+        oldSettings.data.filter((f) => f.isShow === false)
+      ),
       // data: newSettings,
     });
   }
@@ -87,6 +96,17 @@ export abstract class TablePartialBase {
         );
       });
     }
-    return new Filter(filterAnd, new Paging(event.first, event.rows));
+    let sort: ISortItem[] = null;
+    if (event.sortField && event.sortOrder) {
+      sort = [
+        {
+          field: event.sortField,
+          sortType: event.sortOrder === 1 ? ESortType.ASC : ESortType.DESC,
+        },
+      ];
+    }
+    console.log(event);
+    console.log(sort);
+    return new Filter(filterAnd, new Paging(event.first, event.rows), sort);
   }
 }

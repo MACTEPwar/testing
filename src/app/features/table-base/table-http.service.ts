@@ -9,7 +9,7 @@ import {
   GqlQueryService,
   ISelectOperation,
 } from './../../core/gql-query-builder/services/gql-query.service';
-import { Filter, FilterItem, IFilterItem } from './../../types/filter';
+import { ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -123,7 +123,7 @@ export abstract class TableHttpService {
       if (filter.sort && filter.sort[0]) {
         selection.orderBy(
           filter.sort[0]?.field,
-          filter.sort[0].sortType as unknown as number
+          filter.sort[0].sortType === ESortType.ASC ? 1 : -1
         );
       }
       if (filter.paging) {
