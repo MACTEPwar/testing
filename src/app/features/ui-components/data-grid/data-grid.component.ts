@@ -24,12 +24,12 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input() public set headers(value: any) {
-    console.log('headers', value)
-    value = value.map(m => {
+    console.log('headers', value);
+    value = value.map((m) => {
       return m;
-    })
+    });
     this._headers = value;
-    this.selectedColumns = value.filter(f => f.isShow);
+    this.selectedColumns = value.filter((f) => f.isShow);
   }
 
   private _data = [];
@@ -59,7 +59,7 @@ export class DataGridComponent implements OnInit {
   @Input() rows: number = 100;
   @Input() totalRecords: number = 5;
   @Input() loading: boolean;
-  @Input() rowsPerPageOptions: any;
+  @Input() rowsPerPageOptions: any = [5, 10, 25, 50, 100, 200];
   @Input() selectionMode: 'multiple' | 'single' = 'multiple';
   @Input() scrollable: boolean = true;
   @Input() style: any = { width: '100%' };
@@ -93,8 +93,11 @@ export class DataGridComponent implements OnInit {
   onColResizeHandler(event): void {
     event.offsetWidth = event.element.offsetWidth;
     event.property = event.element.getAttribute('data-property');
-    this.headers.find(f => f.property === event.property).offsetWidth = event.offsetWidth;
-    let selectedFinder = this.selectedColumns.find(f => f.property === event.property);
+    this.headers.find((f) => f.property === event.property).offsetWidth =
+      event.offsetWidth;
+    let selectedFinder = this.selectedColumns.find(
+      (f) => f.property === event.property
+    );
     if (selectedFinder) {
       selectedFinder.offsetWidth = event.offsetWidth;
     }
@@ -102,12 +105,15 @@ export class DataGridComponent implements OnInit {
     this.makeRowsSameHeight();
   }
 
-  setOrderForHeaders(visibleAndOrder: any[]): void{
-    this.headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)).map(m => {
-      m.isShow = false;
-      return m;
-    }));
-    
+  setOrderForHeaders(visibleAndOrder: any[]): void {
+    this.headers = visibleAndOrder.concat(
+      this.headers
+        .filter((f) => !visibleAndOrder.includes(f))
+        .map((m) => {
+          m.isShow = false;
+          return m;
+        })
+    );
   }
 
   onColReorderHandler(event): void {

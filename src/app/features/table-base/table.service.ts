@@ -47,6 +47,7 @@ export abstract class TableService {
 
   getData(filter: Filter = null): void {
     this.beforeGetDataHandler();
+    this.data.next([]);
     this.isLoading.next(true);
     forkJoin([
       this.tableHttpService.getData(filter),
