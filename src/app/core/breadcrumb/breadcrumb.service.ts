@@ -9,10 +9,16 @@ export class BreadcrumbService {
     this.currentUrl = this.router.url;
   }
 
+  /**
+   * Получает объект для роута home 
+   */
   getHome(): MenuItem {
     return { icon: 'pi pi-home', routerLink: '/' };
   }
 
+  /**
+   * Возвращает массив объектов для отображения breadcrumbs по роуту
+   */
   getBreadcrumb(): MenuItem[] {
       let ttt = '/';
     return this.currentUrl
