@@ -24,6 +24,7 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input() public set headers(value: any) {
+    console.log('headers', value)
     value = value.map(m => {
       return m;
     })
@@ -102,12 +103,15 @@ export class DataGridComponent implements OnInit {
   }
 
   setOrderForHeaders(visibleAndOrder: any[]): void{
-    this.headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)));;
+    this.headers = visibleAndOrder.concat(this.headers.filter(f => !visibleAndOrder.includes(f)).map(m => {
+      m.isShow = false;
+      return m;
+    }));
     
   }
 
   onColReorderHandler(event): void {
-    this._selectedColumns = event.columns;
+    // this._selectedColumns = event.columns;
     this.setOrderForHeaders(event.columns);
     this.onColReorder.emit(event);
   }

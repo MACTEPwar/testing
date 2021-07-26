@@ -71,8 +71,8 @@ export abstract class TablePartialBase {
     });
     this.tableService.saveClientSettings({
       id: oldSettings.id,
-      // data: newSettings.concat(oldSettings.data.filter(f => f.isShow === false)),
-      data: newSettings,
+      data: newSettings.concat(oldSettings.data.filter(f => f.isShow === false)),
+      // data: newSettings,
     });
   }
 
