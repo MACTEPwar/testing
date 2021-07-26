@@ -36,6 +36,21 @@ export abstract class TablePartialBase {
     this.tableService.getData(this.primeFilter2LogicFilter(event));
   }
 
+  onColToggleHandler(event): void {
+    let oldSettings = this.clientSettings.getValue();
+    this.tableService.saveClientSettings({
+      id: oldSettings.id,
+      data: oldSettings.data.map(m => {
+        if (event.find(f => f.property === m.property)) {
+          m.isShow = true;
+        } else {
+          m.isShow = false;
+        }
+        return m;
+      }),
+    });
+  }
+
   onColResizeHandler(event): void {
     let oldSettings = this.clientSettings.getValue();
     oldSettings.data.find((f) => f.property === event.property).offsetWidth =

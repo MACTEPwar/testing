@@ -6,6 +6,7 @@
       [multiple]="true"
       [options]="headers"
       [(ngModel)]="selectedColumns"
+      (onChange)="onColToggle.emit($event.value)"
       optionLabel="title"
     ></p-listbox>
     <button (click)="op.hide()">OK</button>

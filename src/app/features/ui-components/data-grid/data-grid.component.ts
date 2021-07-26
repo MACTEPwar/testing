@@ -28,7 +28,7 @@ export class DataGridComponent implements OnInit {
       return m;
     })
     this._headers = value;
-    this.selectedColumns = value;
+    this.selectedColumns = value.filter(f => f.isShow);
   }
 
   private _data = [];
@@ -81,6 +81,7 @@ export class DataGridComponent implements OnInit {
   @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColResize: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onColToggle: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
 
