@@ -70,10 +70,18 @@
     </colgroup>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
-    <tr (click)="filterIsShowed = !filterIsShowed">
-      <th *ngFor="let header of columns" [attr.data-property]="header.property" pResizableColumn pReorderableColumn>
-      <!-- <th *ngFor="let header of columns" pResizableColumn pReorderableColumn> -->
+    <!-- <tr (click)="filterIsShowed = !filterIsShowed"> -->
+    <tr>
+      <th
+        *ngFor="let header of columns"
+        [attr.data-property]="header.property"
+        pResizableColumn
+        pReorderableColumn
+        [pSortableColumn]="header.property"
+      >
+        <!-- <th *ngFor="let header of columns" pResizableColumn pReorderableColumn> -->
         <span class="text-wrapping">{{ header?.title }}</span>
+        <p-sortIcon [field]="header.property"></p-sortIcon>
       </th>
     </tr>
     <tr *ngIf="filterIsShowed">
