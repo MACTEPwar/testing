@@ -1,1 +1,5 @@
-<p>default works!</p>
+<p-columnFilter type="text" [field]="col.property" [showMenu]="false">
+  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+    <input [attr.value]="value" (input)="onInput(input.value, filter)" #input />
+  </ng-template>
+</p-columnFilter>

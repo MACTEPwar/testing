@@ -107,6 +107,7 @@ export abstract class TableHttpService {
     filter: Filter = null
   ): ISelectOperation {
     if (filter !== null) {
+      console.log('test', filter)
       if (filter.splitter?.filters?.length > 0) {
         filter.splitter.filters.forEach((f: IFilterItem) => {
           selection.where(

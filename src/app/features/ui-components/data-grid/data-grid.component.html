@@ -86,7 +86,7 @@
     </tr>
     <tr *ngIf="filterIsShowed">
       <th *ngFor="let header of columns">
-        <app-table-filter></app-table-filter>
+        <app-table-filter [col]="header"></app-table-filter>
       </th>
     </tr>
   </ng-template>
