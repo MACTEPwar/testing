@@ -9,7 +9,7 @@ import {
   GqlQueryService,
   ISelectOperation,
 } from './../../core/gql-query-builder/services/gql-query.service';
-import { ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
+import { EFilterType, ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 

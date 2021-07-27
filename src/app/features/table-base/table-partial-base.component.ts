@@ -1,4 +1,5 @@
 import {
+  EFilterType,
   ESortType,
   Filter,
   FilterAnd,
@@ -88,11 +89,16 @@ export abstract class TablePartialBase {
 
   private primeFilter2LogicFilter(event: any): Filter {
     const filterAnd = new FilterAnd();
-    if (event.filters) {
+    if (event?.filters !== null && event?.filters !== undefined) {
       Object.entries(event.filters).forEach((filter: any) => {
-        if (filter[1].value) {
+        if (filter[1].value !== null && filter[1].value !== undefined) {
           filterAnd.filters.push(
-            new FilterItem(filter[0], filter[1].value, filter[1].matchMode)
+            new FilterItem(
+              filter[0],
+              filter[1].value,
+              filter[1].matchMode,
+              filter[1].matchMode === 'eq' ? EFilterType.BOOLEAN : null
+            )
           );
         }
       });
@@ -106,8 +112,11 @@ export abstract class TablePartialBase {
         },
       ];
     }
-    let filter =  new Filter(filterAnd, new Paging(event.first, event.rows), sort);
-    console.log(event);
+    let filter = new Filter(
+      filterAnd,
+      new Paging(event.first, event.rows),
+      sort
+    );
     console.log(filter);
     return filter;
   }

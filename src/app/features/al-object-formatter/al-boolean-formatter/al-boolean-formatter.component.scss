@@ -1,13 +1,3 @@
-.checked::after {
-  content: "☑";
-  filter: brightness(1.7);
-}
-
-.not-checked::after {
-  content: "☒";
-  font-size: 18pt;
-}
-
 :host {
   width: 100%;
   display: block;

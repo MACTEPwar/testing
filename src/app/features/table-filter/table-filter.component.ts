@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TableFilterComponent implements OnInit {
   @Input() flag = false;
   @Input() col: any;
+  @Input() appendTo;
 
   constructor() {}
 
