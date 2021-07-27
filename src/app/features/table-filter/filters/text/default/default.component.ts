@@ -14,7 +14,7 @@ export class DefaultComponent implements OnInit {
 
   constructor() {
     this.inputFilterStream$
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(500))
       .subscribe(({ func, value }) => {
         func(value);
       });

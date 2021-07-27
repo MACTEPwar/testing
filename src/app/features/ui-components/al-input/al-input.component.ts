@@ -54,7 +54,7 @@ export class AlInputComponent
             } else {
                 this.value = insideValue;
             }
-            this.onInput.emit(insideValue);
+            // this.onInput.emit(insideValue);
             this.onChange(this.value);
         }
     }

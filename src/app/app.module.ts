@@ -15,10 +15,13 @@ import { initApp } from './init-app';
 import { ConfigurationService } from './core/configuration/configuration.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { BreadcrumbService } from './core/breadcrumb/breadcrumb.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    // FormsModule,
+    // ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,    
     CoreModule,

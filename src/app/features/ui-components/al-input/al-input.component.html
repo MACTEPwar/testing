@@ -30,6 +30,7 @@
         [ngStyle]="style"
         [attr.placeholder]="placeholder"
         [style]="maxWidth ? 'flex: 1' : 'width: 100%'"
+        (input)="this.onInput.emit(inp.value)"
         #inp
     />
     <div class="input-invalid" *ngIf="control?.invalid && control?.touched">
