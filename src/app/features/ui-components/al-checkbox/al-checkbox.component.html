@@ -1,0 +1,58 @@
+<!-- <div [className]="'inputBox input_row'">
+
+    <input
+        *ngIf="visible"
+        [id]="id + '_' + option[labelOption]"
+        type="radio"
+        name="{{ id }}"
+        (input)="onOptionClick(option)"
+        [checked]="checked"
+        [disabled]="disabled"
+        [style]="'margin: 0 10px'"
+    />
+
+    <label
+        *ngIf="visible && !template"
+        for="{{ id + '_' + option[labelOption] }}"
+    >
+        {{ option[labelOption] }}
+    </label>
+
+
+    <ng-container
+        *ngTemplateOutlet="template; context: { $implicit: option, asd: 123 }"
+    ></ng-container>
+</div> -->
+
+<!-- <div class="checkBoxLineEnd"> -->
+<div
+    [className]="
+        labelPosition == 'left' ? 'inputBox input_row checkbox_row' : 'inputBox input_col checkbox_col'
+    "
+>
+    <label
+        *ngIf="label || labelPosition !== 'none'"
+        [for]="id"
+        [style]="
+            labelTextPosition == 'right'
+                ? 'text-align: right'
+                : 'text-align: left' && maxWidth
+                ? 'flex: inherit'
+                : 'width: 100%'
+        "
+    >
+        {{ label }}<i class="sup2" *ngIf="fieldIsRequired">*</i></label
+    >
+
+    <div [style]="maxWidth ? 'flex: 1' : 'width: 100%'" >
+            <p-checkbox
+                [id]="id"
+                (onChange)="updateValue($event.checked)"
+                [ngModel]="value"
+                binary="true"
+            >
+            </p-checkbox>
+    </div>
+
+    <!-- <button (click)="changeValue(!value)"> change</button> <span>{{label}}</span> -->
+</div>

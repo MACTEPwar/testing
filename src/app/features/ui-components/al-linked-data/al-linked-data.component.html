@@ -1,0 +1,45 @@
+<div
+    [className]="
+        labelPosition == 'left' ? 'inputBox input_row' : 'inputBox input_col'
+    "
+>
+    <label
+        *ngIf="label || labelPosition !== 'none'"
+        for="{{ id }}"
+        [style]="
+            labelTextPosition == 'right'
+                ? 'text-align: right'
+                : 'text-align: left' && maxWidth
+                ? 'flex: inherit'
+                : 'width: 100%'
+        "
+    >
+        {{ label }}
+        <i class="sup2" *ngIf="isRequired">
+            <ng-container *ngIf="label">*</ng-container>
+            <ng-container *ngIf="!label"><span style="left: -13px; position: relative">*</span></ng-container>
+        </i>
+    </label>
+
+    <div
+        class="p-inputgroup linkedDataGroup"
+        [style]="maxWidth ? 'flex: 1' : 'width: 100%' && labelPosition == 'left' ? 'margin-left: 0px;' : ''"
+    >
+        <span [title]="displayValue">{{ displayValue }}</span>
+        <button
+            class="linked-btn"
+            (click)="displayLinkedData()"
+            [disabled]="disabled"
+        >
+            <fa-icon [icon]="'ellipsis-h' | faIcon: 'fal'"></fa-icon>
+        </button>
+    </div>
+    <div
+        class="input-invalid"
+        *ngIf="control && control.invalid && control.touched"
+    >
+        <div>
+            {{ control.errors | formErrorPipe: "linkedData" }}
+        </div>
+    </div>
+</div>

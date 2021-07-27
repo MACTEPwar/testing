@@ -1,0 +1,35 @@
+<div
+    [className]="
+        labelPosition == 'left' ? 'inputBox input_row' : 'inputBox input_col'
+    "
+>
+    <label
+        *ngIf="title || labelPosition !== 'none'"
+        for="{{ id }}"
+        [style]="labelTextPosition == 'right' ? 'text-align: right; width:100%' : 'text-align: left; width:100%'" >
+        {{ title }} <i class="sup2" *ngIf="isRequired">*</i>
+    </label>
+
+    <div [className]=" orientation == 'horizontal' ? 'horizontaRadiolButton' : 'verticalRadioButton'">
+        <div *ngFor="let option of options; let ind = index" >
+
+        <al-radio-item
+            [id]="id"
+            [option]="option"
+            [selected]="value === option.value"
+            [label]="label"
+            [labelOption]="labelOption"
+            [valueOption]="valueOption"
+            [type]="type"
+            [disabled]="disabled"
+            [template]="itemTemplate"
+            (onSelect)="updateValue($event)"
+            [checked]="ind === selectedIndex || option[valueOption] === value"
+        ></al-radio-item>
+        </div>
+    </div>
+</div>
+
+<ng-template #orVertical>
+    <span>orVertical</span>
+</ng-template>

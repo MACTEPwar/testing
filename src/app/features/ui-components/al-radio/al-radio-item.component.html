@@ -1,0 +1,25 @@
+<div [className]="'inputBox input_row'">
+
+    <input
+        *ngIf="visible"
+        [id]="id + '_' + option[labelOption]"
+        type="radio"
+        name="{{ id }}"
+        (input)="onOptionClick(option)"
+        [checked]="checked"
+        [disabled]="disabled"
+        [style]="'margin: 0 10px'"
+    />
+
+    <label
+        *ngIf="visible && !template"
+        for="{{ id + '_' + option[labelOption] }}"
+    >
+        {{ option[labelOption] }}
+    </label>
+
+
+    <ng-container
+        *ngTemplateOutlet="template; context: { $implicit: option, asd: 123 }"
+    ></ng-container>
+</div>

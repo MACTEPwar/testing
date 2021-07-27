@@ -1,0 +1,36 @@
+<div [className]="
+        labelPosition == 'left' ? 'inputBox input_row' : 'inputBox input_col'
+    ">
+    <!-- a: {{options | json}} <br>
+    b: {{val | json}} <br> -->
+    <!-- c: {{value | json}} <br> -->
+
+    <label *ngIf="label || labelPosition !== 'none'"
+           [for]="id"
+           [style]="labelTextPosition == 'right'
+                ? 'text-align: right'
+                : 'text-align: left' && maxWidth
+                ? 'flex: inherit'
+                : 'width: 100%'
+        "
+    >{{ label }}<i class="sup2" *ngIf="isRequired">*</i></label
+    >
+    <p-dropdown
+        [appendTo]="appendTo"
+        [id]="id"
+        [options]="options"
+        [placeholder]="'Forms.noselected' | translate"
+        optionLabel="label"
+        [style.flex]="maxWidth ? '1' : null"
+        [style.width]="maxWidth ? null : '100%'"
+        [style.margin]="maxWidth ? null : '0 0 0 -7px'"
+        (onChange)="changeValue($event)"
+        [ngModel]="val"
+    ></p-dropdown>
+
+    <div class="inputInvalid" *ngIf="control?.invalid && control?.touched">
+        <div>
+            {{ control.errors | formErrorPipe: "selectConstant" }}
+        </div>
+    </div>
+</div>
