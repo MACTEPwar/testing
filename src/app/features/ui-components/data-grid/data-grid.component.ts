@@ -72,7 +72,7 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
-  @Input() filterIsShowed = false;
+  @Input() filterIsShowed = true;
   @Input() constants;
   @Input() columnResizeMode = 'expand';
   // @Input() clientSettings;
