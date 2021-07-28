@@ -10,6 +10,7 @@ import {
 import { SvgIconRegistryService } from 'angular-svg-icon';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-data-grid',
@@ -54,6 +55,9 @@ export class DataGridComponent implements OnInit {
     return this._selectedColumns;
   }
 
+  selectedItem;
+  items: MenuItem[];
+
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
   @Input() rows: number = 100;
@@ -88,6 +92,18 @@ export class DataGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.setContextMenu();
+  }
+  setContextMenu() {
+    this.items = [
+      {
+        label: 'item1',
+        command: () => {
+          console.log(this.selectedItem);
+        },
+      },
+      { label: 'item2' },
+    ];
   }
 
   onColResizeHandler(event): void {
