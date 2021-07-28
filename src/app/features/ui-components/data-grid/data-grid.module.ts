@@ -9,8 +9,9 @@ import { SharedModule } from '../../../shared/shared.module';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ListboxModule } from 'primeng/listbox';
-import {OverlayPanelModule} from 'primeng/overlaypanel'
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { TableFilterModule } from '../../table-filter/table-filter.module';
 
 @NgModule({
   declarations: [DataGridComponent],
@@ -26,7 +27,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     MultiSelectModule,
     ListboxModule,
     OverlayPanelModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    TableFilterModule,
   ],
   exports: [DataGridComponent],
 })

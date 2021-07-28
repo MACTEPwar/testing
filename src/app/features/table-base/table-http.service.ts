@@ -9,7 +9,7 @@ import {
   GqlQueryService,
   ISelectOperation,
 } from './../../core/gql-query-builder/services/gql-query.service';
-import { ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
+import { EFilterType, ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -107,6 +107,7 @@ export abstract class TableHttpService {
     filter: Filter = null
   ): ISelectOperation {
     if (filter !== null) {
+      console.log('test', filter)
       if (filter.splitter?.filters?.length > 0) {
         filter.splitter.filters.forEach((f: IFilterItem) => {
           selection.where(

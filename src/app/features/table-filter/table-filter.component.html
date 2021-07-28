@@ -1,0 +1,20 @@
+<div [ngSwitch]="col.typeName">
+  <ng-template ngSwitchCase="StringType">
+    <app-text-default-filter [col]="col"></app-text-default-filter>
+  </ng-template>
+  <ng-template ngSwitchCase="BooleanType">
+    <!-- <al-filter-bool-default
+      [property]="col.property"
+      [dt]="dt"
+      [tableService]="tableService"
+      [func]="func"
+      [parentObjectname]="parentObjectname"
+    ></al-filter-bool-default> -->
+    <app-bool-default-filter [property]="col.property" [appendTo]="appendTo"></app-bool-default-filter>
+  </ng-template>
+  <ng-template ngSwitchDefault>
+    <div *ngIf="col.kind === 'OBJECT' && !flag">
+      <app-table-filter [flag]="true"></app-table-filter>
+    </div>
+  </ng-template>
+</div>

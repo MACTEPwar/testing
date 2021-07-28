@@ -1,0 +1,36 @@
+<p-columnFilter type="text" [field]="property" [showMenu]="false" [matchMode]="'eq'" #filter>
+  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+    <!-- <al-input [ngModel]="value" (onInput)="onInput($event, filter)"></al-input> -->
+    <p-dropdown
+      #dd
+      [options]="[
+        { label: 'Filter.check.all' | translate, value: null },
+        { label: 'Filter.check.checked' | translate, value: true },
+        { label: 'Filter.check.unchecked' | translate, value: false }
+      ]"
+      [showClear]="true"
+      [style]="{ width: '100%' }"
+      (onChange)="onChange($event.value, filter)"
+      [appendTo]="appendTo"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div class="inlineFilterIcons">
+          <span class="checked" *ngIf="dd.value === true"></span>
+          <span class="not-checked" *ngIf="dd.value === false"></span>
+          <div>
+            <span>{{ dd.label }}</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <div class="drop-list inlineFilterIcons">
+          <span class="checked" *ngIf="item.value === true"></span>
+          <span class="not-checked" *ngIf="item.value === false"></span>
+          <div>
+            <span>{{ item.label }}</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </ng-template>
+</p-columnFilter>

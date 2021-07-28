@@ -1,0 +1,43 @@
+<div
+    [className]="
+        labelPosition == 'left' ? 'inputBox input_row' : 'inputBox input_col'
+    "
+    *ngIf="isVisible"
+>
+    <label
+        *ngIf="label || labelPosition !== 'none'"
+        [for]="id"
+        [style]="
+            labelTextPosition == 'right'
+                ? 'text-align: right'
+                : 'text-align: left' && maxWidth
+                ? 'flex: inherit'
+                : 'width: 100%'
+        "
+        >{{ label }}<i class="sup2" *ngIf="isRequired">*</i></label
+    >
+    <input
+        [id]="id"
+        [attr.type]="type"
+        pInputText
+        (input)="updateValue(inp.value)"
+        [attr.min]="min"
+        [attr.max]="max"
+        [attr.pattern]="pattern"
+        [attr.value]="value"
+        [attr.disabled]="disabled ? '' : null"
+        [ngClass]="classes"
+        [ngStyle]="style"
+        [attr.placeholder]="placeholder"
+        [style]="maxWidth ? 'flex: 1' : 'width: 100%'"
+        (input)="this.onInput.emit(inp.value)"
+        #inp
+    />
+    <div class="input-invalid" *ngIf="control?.invalid && control?.touched">
+        <div>
+            {{ control?.errors | formErrorPipe: "inputText" }}
+        </div>
+    </div>
+</div>
+
+

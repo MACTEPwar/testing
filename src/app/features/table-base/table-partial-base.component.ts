@@ -1,4 +1,5 @@
 import {
+  EFilterType,
   ESortType,
   Filter,
   FilterAnd,
@@ -14,9 +15,10 @@ export abstract class TablePartialBase {
   data;
   count;
   isLoading;
-  filters: { codeM: FilterMetadata } = {
-    codeM: { matchMode: 'contains', value: '1' },
-  };
+  // filters: { codeM: FilterMetadata } = {
+  //   codeM: { matchMode: 'contains', value: '1' },
+  // };
+  filters = {};
   constants;
   clientSettings;
 
@@ -85,15 +87,20 @@ export abstract class TablePartialBase {
     });
   }
 
-  private generateObjectForSaveClientSettings() {}
-
   private primeFilter2LogicFilter(event: any): Filter {
     const filterAnd = new FilterAnd();
-    if (event.fitlers) {
+    if (event?.filters !== null && event?.filters !== undefined) {
       Object.entries(event.filters).forEach((filter: any) => {
-        filterAnd.filters.push(
-          new FilterItem(filter[0], filter[1].value, filter[1].matchMode)
-        );
+        if (filter[1].value !== null && filter[1].value !== undefined) {
+          filterAnd.filters.push(
+            new FilterItem(
+              filter[0],
+              filter[1].value,
+              filter[1].matchMode,
+              filter[1].matchMode === 'eq' ? EFilterType.BOOLEAN : null
+            )
+          );
+        }
       });
     }
     let sort: ISortItem[] = null;
@@ -105,8 +112,12 @@ export abstract class TablePartialBase {
         },
       ];
     }
-    console.log(event);
-    console.log(sort);
-    return new Filter(filterAnd, new Paging(event.first, event.rows), sort);
+    let filter = new Filter(
+      filterAnd,
+      new Paging(event.first, event.rows),
+      sort
+    );
+    console.log(filter);
+    return filter;
   }
 }
