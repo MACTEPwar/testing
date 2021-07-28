@@ -11,6 +11,7 @@ import { AlInputModule } from '../ui-components/al-input/al-input.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { appLocalizationModuleChild } from 'src/app/core/localization/localization.module';
+import { TableFilterService } from './table-filter.service';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { appLocalizationModuleChild } from 'src/app/core/localization/localizati
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    appLocalizationModuleChild
+    appLocalizationModuleChild,
   ],
+  providers: [TableFilterService],
   exports: [TableFilterComponent],
 })
 export class TableFilterModule {}

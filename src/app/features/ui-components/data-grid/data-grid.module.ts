@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataGridComponent } from './data-grid.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -13,6 +14,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TableFilterModule } from '../../table-filter/table-filter.module';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [DataGridComponent],
@@ -30,7 +32,9 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     OverlayPanelModule,
     AngularSvgIconModule,
     TableFilterModule,
-    ContextMenuModule
+    ContextMenuModule,
+    ToolbarModule,
+    SplitButtonModule
   ],
   exports: [DataGridComponent],
 })

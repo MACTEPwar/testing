@@ -1,16 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { SvgIconRegistryService } from 'angular-svg-icon';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, FilterMetadata } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { TableFilterService } from '../../table-filter/table-filter.service';
 
 @Component({
   selector: 'app-data-grid',
@@ -56,7 +49,7 @@ export class DataGridComponent implements OnInit {
   }
 
   selectedItem;
-  items: MenuItem[];
+  contextMenuItems: MenuItem[];
 
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
@@ -76,7 +69,7 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
-  @Input() filterIsShowed = true;
+  @Input() filterIsShowed = false;
   @Input() constants;
   @Input() columnResizeMode = 'expand';
   // @Input() clientSettings;
@@ -88,14 +81,17 @@ export class DataGridComponent implements OnInit {
   @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColToggle: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  @Input() toolbarItems: MenuItem[];
+
+  constructor(private tableFilterService: TableFilterService) {}
 
   ngOnInit(): void {
     this.refreshTable();
     this.setContextMenu();
   }
+
   setContextMenu() {
-    this.items = [
+    this.contextMenuItems = [
       {
         label: 'item1',
         command: () => {
@@ -104,6 +100,22 @@ export class DataGridComponent implements OnInit {
       },
       { label: 'item2' },
     ];
+  }
+
+  ttt(): void {
+    this.filterIsShowed = !this.filterIsShowed;
+    this.makeRowsSameHeight();
+  }
+
+  clearFilters(dt: Table): void {
+    this.tableFilterService.clearFilter$.emit();
+    Object.keys(dt.filters).forEach(dtKey => {
+      (dt.filters[dtKey] as FilterMetadata).value = null;
+    })
+    dt.filteredValue = null;
+    dt.tableService.onResetChange();
+    dt.firstChange.emit(0);
+    dt.onLazyLoad.emit(dt.createLazyLoadMetadata());
   }
 
   onColResizeHandler(event): void {
