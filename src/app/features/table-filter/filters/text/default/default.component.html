@@ -1,7 +1,5 @@
 <p-columnFilter type="text" [field]="col.property" [showMenu]="false">
   <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-    <!-- <al-input [ngModel]="value" (onInput)="onInput($event, filter)" #input></al-input> -->
-    <span>{{value}}</span>
-    <input [attr.value]="value" (input)="onInput(input.value, filter)" #input />
+    <al-input [ngModel]="value" (onInput)="onInput($event, filter)" #input></al-input>
   </ng-template>
 </p-columnFilter>

@@ -20,7 +20,7 @@ export class DefaultComponent implements OnInit {
 
   @Input() col: any;
 
-  @ViewChild('input') input: any;
+  @ViewChild('input') input: AlInputComponent;
 
   constructor(private tableFilterService: TableFilterService) {
     this.inputFilterStream$
@@ -30,15 +30,8 @@ export class DefaultComponent implements OnInit {
       });
 
     this.tableFilterService.clearFilter$.subscribe(() => {
-      console.log(this.input)
-      this.input.nativeElement.value = null;
+      this.input.value = null;
     });
-
-    // setTimeout((s) => {
-    //   console.log(this.input.value);
-    //   this.input.value = null;
-    //   console.log(this.input.value);
-    // }, 4000);
   }
 
   ngOnInit(): void {}

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { TableFilterService } from '../../../table-filter.service';
 
 @Component({
   selector: 'app-bool-default-filter',
@@ -11,7 +12,11 @@ export class DefaultComponent implements OnInit {
 
   @ViewChild('filter') filter;
 
-  constructor() {}
+  constructor(private tableFilterService: TableFilterService) {
+    this.tableFilterService.clearFilter$.subscribe(() => {
+      
+    });
+  }
 
   ngOnInit(): void {}
 
