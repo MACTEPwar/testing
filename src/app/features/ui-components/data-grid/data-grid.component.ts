@@ -107,6 +107,10 @@ export class DataGridComponent implements OnInit {
     this.makeRowsSameHeight();
   }
 
+  /**
+   * Очищает все фильтра
+   * @param dt Объект праймовской таблицы
+   */
   clearFilters(dt: Table): void {
     this.tableFilterService.clearFilter$.emit();
     Object.keys(dt.filters).forEach(dtKey => {
