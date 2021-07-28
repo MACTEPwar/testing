@@ -1,3 +1,4 @@
+import { ToolbarModule } from './../toolbar/toolbar.module';
 import { AlObjectFormatterModule } from './../../al-object-formatter/al-object-formatter.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,6 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TableFilterModule } from '../../table-filter/table-filter.module';
 import { ContextMenuModule } from 'primeng/contextmenu';
-import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [DataGridComponent],
@@ -34,7 +34,7 @@ import { ToolbarModule } from 'primeng/toolbar';
     TableFilterModule,
     ContextMenuModule,
     ToolbarModule,
-    SplitButtonModule
+    SplitButtonModule,
   ],
   exports: [DataGridComponent],
 })

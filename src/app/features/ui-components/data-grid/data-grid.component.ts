@@ -4,6 +4,8 @@ import 'jspdf-autotable';
 import { MenuItem, FilterMetadata } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableFilterService } from '../../table-filter/table-filter.service';
+import { IToolbarItem } from '../toolbar/models/interfaces/i-toolbar-item';
+import { ToolbarButtonItem } from '../toolbar/models/concrete/toolbar-button-item-options';
 
 @Component({
   selector: 'app-data-grid',
@@ -81,13 +83,22 @@ export class DataGridComponent implements OnInit {
   @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColToggle: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input() toolbarItems: MenuItem[];
+  @Input() toolbarItems: IToolbarItem[];
 
   constructor(private tableFilterService: TableFilterService) {}
 
   ngOnInit(): void {
     this.refreshTable();
     this.setContextMenu();
+    this.setToolbar();
+  }
+
+  setToolbar() {
+    this.toolbarItems = [
+      new ToolbarButtonItem('filter', 'filter', null, () => {
+        this.filterIsShowed = !this.filterIsShowed;
+      }),
+    ];
   }
 
   setContextMenu() {
@@ -113,9 +124,9 @@ export class DataGridComponent implements OnInit {
    */
   clearFilters(dt: Table): void {
     this.tableFilterService.clearFilter$.emit();
-    Object.keys(dt.filters).forEach(dtKey => {
+    Object.keys(dt.filters).forEach((dtKey) => {
       (dt.filters[dtKey] as FilterMetadata).value = null;
-    })
+    });
     dt.filteredValue = null;
     dt.tableService.onResetChange();
     dt.firstChange.emit(0);

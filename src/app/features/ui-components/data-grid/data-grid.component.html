@@ -50,11 +50,12 @@
   frozenWidth="50px"
 >
   <ng-template pTemplate="caption">
-    <p-toolbar>
+    <!-- <p-toolbar>
       <div class="p-toolbar-group-left">
         <p-button label="Filter" icon="pi pi-plus" (click)="ttt()"></p-button>
       </div>
-    </p-toolbar>
+    </p-toolbar> -->
+    <app-toolbar [items]="toolbarItems"></app-toolbar>
   </ng-template>
   <ng-template pTemplate="frozenheader">
     <tr>
@@ -63,8 +64,6 @@
       </th>
     </tr>
     <tr *ngIf="filterIsShowed">
-      <!-- <th (click)="dt.filteredValue = null;dt.tableService.onResetChange();dt.firstChange.emit(0);dt.onLazyLoad.emit(dt.createLazyLoadMetadata());"> -->
-      <!-- <th (click)="dt.filters = {} dt.filteredValue = null;dt.tableService.onResetChange();dt.firstChange.emit(0);dt.onLazyLoad.emit(dt.createLazyLoadMetadata());clearFilters()"> -->
       <th (click)="clearFilters(dt)">
         <span>⛔</span>
         {{dt.filters | json}}

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AToolbarSeparatorItem } from '@features/toolbar/models/interfaces/a-toolbar-separator-item';
+import { AToolbarSeparatorItem } from '../../models/interfaces/a-toolbar-separator-item';
 
 @Component({
     selector: 'al-toolbar-separator',
