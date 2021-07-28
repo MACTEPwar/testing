@@ -91,7 +91,7 @@ export abstract class TablePartialBase {
     const filterAnd = new FilterAnd();
     if (event?.filters !== null && event?.filters !== undefined) {
       Object.entries(event.filters).forEach((filter: any) => {
-        if (filter[1].value !== null && filter[1].value !== undefined) {
+        if (filter[1].value !== null && filter[1].value !== undefined && filter[1].value !== '') {
           filterAnd.filters.push(
             new FilterItem(
               filter[0],
