@@ -12,6 +12,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TableFilterModule } from '../../table-filter/table-filter.module';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 @NgModule({
   declarations: [DataGridComponent],
@@ -29,6 +30,7 @@ import { TableFilterModule } from '../../table-filter/table-filter.module';
     OverlayPanelModule,
     AngularSvgIconModule,
     TableFilterModule,
+    ContextMenuModule
   ],
   exports: [DataGridComponent],
 })

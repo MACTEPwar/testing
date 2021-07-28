@@ -1,3 +1,5 @@
+<p-contextMenu #cm [model]="items"></p-contextMenu>
+
 <p-overlayPanel [appendTo]="dt" #op>
   <ng-template pTemplate>
     <p-listbox
@@ -35,8 +37,10 @@
   [columnResizeMode]="columnResizeMode"
   [currentPageReportTemplate]="currentPageReportTemplate"
   [scrollHeight]="'flex'"
+  [contextMenu]="cm"
   [(selection)]="selection"
   [(filters)]="filters"
+  [(contextMenuSelection)]="selectedItem"
   (onLazyLoad)="onLazyLoad.emit($event)"
   (onRowSelect)="onRowSelect.emit($event)"
   (onRowUnselect)="onRowUnselect.emit($event)"
@@ -96,7 +100,11 @@
     let-columns="columns"
     let-index="rowIndex"
   >
-    <tr [pSelectableRow]="rowData" [pReorderableRow]="index">
+    <tr
+      [pSelectableRow]="rowData"
+      [pReorderableRow]="index"
+      [pContextMenuRow]="rowData"
+    >
       <td
         *ngFor="let col of columns"
         [title]="rowData[col.property] | stringFormatter"
