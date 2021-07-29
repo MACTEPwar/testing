@@ -119,8 +119,10 @@ export class DataGridComponent implements OnInit {
     };
 
     this.toolbarItems = [
-      new ToolbarButtonItem('filter', 'filter', null, onFilterClick),
-      new ToolbarButtonItem('test', 'test', null, onTest),
+      new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
+      new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
+      new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
+      new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
     ];
   }
 
