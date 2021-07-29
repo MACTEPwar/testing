@@ -6,7 +6,9 @@ import { ToolbarButtonItem } from '../toolbar/models/concrete/toolbar-button-ite
 import { IToolbarItem } from '../toolbar/models/interfaces/i-toolbar-item';
 import { makeRowsSameHeight } from './helper';
 import { DataGridService } from './data-grid.service';
-import { ToggleableWindowService } from '../../toggleable-window/toggleable-window.service';
+import { WindowService } from '../../window/window.service';
+import { EWindowType } from '../../window/e-window-type';
+import { AlertOptions } from '../../window/windows/alert-window/alert-options';
 
 @Component({
   selector: 'app-data-grid',
@@ -94,7 +96,7 @@ export class DataGridComponent implements OnInit {
   constructor(
     private tableFilterService: TableFilterService,
     private dataGridService: DataGridService,
-    private toggleableWindowService: ToggleableWindowService
+    private windowService: WindowService
   ) {
     this.setDefaultToolbar();
   }
@@ -107,10 +109,14 @@ export class DataGridComponent implements OnInit {
   setDefaultToolbar() {
     const onFilterClick: () => void = () => {
       this.filterIsShowed = !this.filterIsShowed;
+      makeRowsSameHeight();
     };
     const onTest: () => void = () => {
-      this.toggleableWindowService.alert({ message: 're', title: '12321321'})
-    }
+      this.windowService.openWindow(
+        EWindowType.ALERT,
+        new AlertOptions('asd', 'asd2')
+      );
+    };
 
     this.toolbarItems = [
       new ToolbarButtonItem('filter', 'filter', null, onFilterClick),
@@ -142,7 +148,7 @@ export class DataGridComponent implements OnInit {
     // dt.filteredValue = null;
     // dt.tableService.onResetChange();
     // dt.firstChange.emit(0);
-    // dt.onLazyLoad.emit(dt.createLazyLoadMetadata());
+    dt.onLazyLoad.emit(dt.createLazyLoadMetadata());
   }
 
   onColResizeHandler(event): void {

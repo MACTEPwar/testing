@@ -4,10 +4,9 @@ import {
     ViewContainerRef,
     Type,
 } from '@angular/core';
-import { ToggleableWindowContext } from '../toggleable-window-context';
 
 @Injectable()
-export class SidebarContext<T> implements ToggleableWindowContext<T>{
+export class ModalContext<T> {
     private componentRef: ComponentRef<Type<any>>;
     private containerRef: ViewContainerRef;
 

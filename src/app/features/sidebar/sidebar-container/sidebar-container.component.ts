@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding, ViewChild, ViewContainerRef, AfterViewInit, AfterContentInit } from '@angular/core';
-import { SidebarContext } from './sidebar-context';
-import { SidebarContainer } from './sidebar-container';
+import { SidebarContext } from '../sidebar-context';
+import { SidebarContainer } from '../sidebar-container';
 
 @Component({
   selector: 'sidebar-container',

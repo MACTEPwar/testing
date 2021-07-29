@@ -8,21 +8,24 @@ import { AppComponent } from './app.component';
 import { ConfigurationService } from './core/configuration/configuration.service';
 import { CoreModule } from './core/core.module';
 import { ModelLoaderService } from './core/models-loader/services/model-loader.service';
-import { ToggleableWindowModule } from './features/toggleable-window/toggleable-window.module';
 import { initApp } from './init-app';
 import { ViewsModule } from './views/views.module';
-
+import { ModalModule } from './features/modal/modal.module';
+import { SidebarModule } from './features/sidebar/sidebar.module';
+import { WindowModule } from './features/window/window.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,    
+    BrowserAnimationsModule,
     CoreModule,
     ViewsModule,
     AngularSvgIconModule.forRoot(),
     AppRoutingModule,
-    ToggleableWindowModule
+    ModalModule,
+    SidebarModule,
+    WindowModule
   ],
   providers: [
     ConfigurationService,

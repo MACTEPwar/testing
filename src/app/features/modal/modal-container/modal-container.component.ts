@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { ModalContainer } from './modal-container';
-import { ModalContext } from './modal-context';
+import { ModalContainer } from '../modal-container';
+import { ModalContext } from '../modal-context';
 
 @Component({
   selector: 'modal-container',
@@ -8,7 +8,6 @@ import { ModalContext } from './modal-context';
   styleUrls: ['./modal-container.component.css'],
 })
 export class ModalContainerComponent implements ModalContainer {
-  @ViewChild('container', { read: ViewContainerRef, static: true })
-  container: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
   context: ModalContext<any>;
 }
