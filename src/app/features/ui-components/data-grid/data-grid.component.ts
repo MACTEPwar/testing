@@ -6,6 +6,7 @@ import { ToolbarButtonItem } from '../toolbar/models/concrete/toolbar-button-ite
 import { IToolbarItem } from '../toolbar/models/interfaces/i-toolbar-item';
 import { makeRowsSameHeight } from './helper';
 import { DataGridService } from './data-grid.service';
+import { ToggleableWindowService } from '../../toggleable-window/toggleable-window.service';
 
 @Component({
   selector: 'app-data-grid',
@@ -92,7 +93,8 @@ export class DataGridComponent implements OnInit {
 
   constructor(
     private tableFilterService: TableFilterService,
-    private dataGridService: DataGridService
+    private dataGridService: DataGridService,
+    private toggleableWindowService: ToggleableWindowService
   ) {
     this.setDefaultToolbar();
   }
@@ -106,9 +108,13 @@ export class DataGridComponent implements OnInit {
     const onFilterClick: () => void = () => {
       this.filterIsShowed = !this.filterIsShowed;
     };
+    const onTest: () => void = () => {
+      this.toggleableWindowService.alert({ message: 're', title: '12321321'})
+    }
 
     this.toolbarItems = [
       new ToolbarButtonItem('filter', 'filter', null, onFilterClick),
+      new ToolbarButtonItem('test', 'test', null, onTest),
     ];
   }
 

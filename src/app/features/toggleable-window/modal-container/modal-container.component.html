@@ -1,0 +1,18 @@
+<div class="backdrop" (click)="context && context.resolve(undefined)"></div>
+<div class="box">
+  <p-dialog
+    [header]="context?.data?.options?.title"
+    [visible]="true"
+    [focusOnShow]="false"
+    [responsive]="true"
+    showEffect="fade"
+    [modal]="true"
+    [style]="{ width: context?.data?.options?.width + 'px' }"
+    (visibleChange)="context.reject()"
+    [dismissableMask]="false"
+    #dialog
+    [class]="context?.data?.options?.class"
+  >
+    <div #container></div>
+  </p-dialog>
+</div>
