@@ -75,7 +75,16 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
-  @Input() filterIsShowed = false;
+  
+  private _filterIsShowed: boolean = false;
+  @Input() public set filterIsShowed(value: boolean) {
+    this._filterIsShowed = value;
+    makeRowsSameHeight();
+  }
+  public get filterIsShowed(): boolean {
+    return this._filterIsShowed;
+  }
+
   @Input() constants;
   @Input() columnResizeMode = 'expand';
   // @Input() clientSettings;
@@ -98,7 +107,7 @@ export class DataGridComponent implements OnInit {
     private dataGridService: DataGridService,
     private windowService: WindowService
   ) {
-    this.setDefaultToolbar();
+    // this.setDefaultToolbar();
   }
 
   ngOnInit(): void {
@@ -106,25 +115,25 @@ export class DataGridComponent implements OnInit {
     this.setContextMenu();
   }
 
-  setDefaultToolbar() {
-    const onFilterClick: () => void = () => {
-      this.filterIsShowed = !this.filterIsShowed;
-      makeRowsSameHeight();
-    };
-    const onTest: () => void = () => {
-      this.windowService.openWindow(
-        EWindowType.ALERT,
-        new AlertOptions('asd', 'asd2')
-      );
-    };
+  // setDefaultToolbar() {
+  //   const onFilterClick: () => void = () => {
+  //     this.filterIsShowed = !this.filterIsShowed;
+  //     makeRowsSameHeight();
+  //   };
+  //   const onTest: () => void = () => {
+  //     this.windowService.openWindow(
+  //       EWindowType.ALERT,
+  //       new AlertOptions('asd', 'asd2')
+  //     );
+  //   };
 
-    this.toolbarItems = [
-      new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
-      new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
-      new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
-      new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
-    ];
-  }
+  //   this.toolbarItems = [
+  //     new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
+  //     new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
+  //     new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
+  //     new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
+  //   ];
+  // }
 
   setContextMenu() {
     this.contextMenuItems = [

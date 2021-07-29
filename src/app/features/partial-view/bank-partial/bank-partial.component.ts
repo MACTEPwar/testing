@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { TablePartialBase } from '../../table-base/table-partial-base.component';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
@@ -11,7 +16,8 @@ import { BankService } from './bank.service';
     {
       provide: BankHttpService,
       deps: [Injector],
-      useFactory: (i: Injector): BankHttpService => new BankHttpService('Bank', i),
+      useFactory: (i: Injector): BankHttpService =>
+        new BankHttpService('Bank', i),
     },
     {
       provide: BankService,
@@ -19,14 +25,17 @@ import { BankService } from './bank.service';
       useFactory: (bhs: BankHttpService, i: Injector): BankService =>
         new BankService(bhs, i),
     },
-  ]
+  ],
 })
 export class BankPartialComponent extends TablePartialBase implements OnInit {
   // export class BankPartialComponent implements OnInit {
-  constructor(protected bankService: BankService) {
+  constructor(
+    protected bankService: BankService,
+    protected injector: Injector
+  ) {
     // constructor(protected injector: Injector) {
     // console.log(injector);
-    super(bankService);
+    super(bankService, injector);
   }
 
   ngOnInit(): void {}

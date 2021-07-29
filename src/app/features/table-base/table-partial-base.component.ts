@@ -1,4 +1,12 @@
 import {
+  Injector,
+  ɵsetCurrentInjector as setCurrentInjector,
+} from '@angular/core';
+import { ToolbarButtonItem } from '../ui-components/toolbar/models/concrete/toolbar-button-item-options';
+import { EWindowType } from '../window/e-window-type';
+import { WindowService } from '../window/window.service';
+import { AlertOptions } from '../window/windows/alert-window/alert-options';
+import {
   EFilterType,
   ESortType,
   Filter,
@@ -7,7 +15,6 @@ import {
   ISortItem,
   Paging,
 } from './../../types/filter';
-import { FilterMetadata } from 'primeng/api';
 import { TableService } from './table.service';
 
 export abstract class TablePartialBase {
@@ -21,8 +28,13 @@ export abstract class TablePartialBase {
   filters = {};
   constants;
   clientSettings;
+  toolbarItems;
+  filterIsShowed;
 
-  constructor(private tableService: TableService) {
+  protected windowService: WindowService;
+
+  constructor(protected tableService: TableService, protected injector: Injector) {
+    this.setServicesFromDI(injector);
     this.headers = this.tableService.headers;
     this.data = this.tableService.data;
     this.count = this.tableService.count;
@@ -39,6 +51,26 @@ export abstract class TablePartialBase {
     //     .map((m) => ({ property: m.property, offsetWidth: m.offsetWidth }));
     //   console.log(a);
     // }, 1000);
+    this.setDefaultToolbar();
+  }
+
+  setDefaultToolbar() {
+    const onFilterClick: () => void = () => {
+      this.filterIsShowed = !this.filterIsShowed;
+    };
+    const onTest: () => void = () => {
+      this.windowService.openWindow(
+        EWindowType.ALERT,
+        new AlertOptions('asd', 'asd2')
+      );
+    };
+
+    this.toolbarItems = [
+      new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
+      new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
+      new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
+      new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
+    ];
   }
 
   getData(event) {
@@ -91,7 +123,11 @@ export abstract class TablePartialBase {
     const filterAnd = new FilterAnd();
     if (event?.filters !== null && event?.filters !== undefined) {
       Object.entries(event.filters).forEach((filter: any) => {
-        if (filter[1].value !== null && filter[1].value !== undefined && filter[1].value !== '') {
+        if (
+          filter[1].value !== null &&
+          filter[1].value !== undefined &&
+          filter[1].value !== ''
+        ) {
           filterAnd.filters.push(
             new FilterItem(
               filter[0],
@@ -119,5 +155,17 @@ export abstract class TablePartialBase {
     );
     console.log(filter);
     return filter;
+  }
+
+  /**
+   * Сетит сервисы с инжектора
+   * @param injector Инжектор компонента
+   */
+  private setServicesFromDI(injector: Injector): void {
+    const former = setCurrentInjector(injector);
+
+    this.windowService = injector.get(WindowService, null);
+
+    setCurrentInjector(former);
   }
 }
