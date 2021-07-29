@@ -9,7 +9,7 @@ import { AToolbarButtonItem } from '../../models/interfaces/a-toolbar-button-ite
 export class ToolbarButtonComponent implements OnInit {
     private _classes: any;
     public get classes(): any {
-        return this.item.classes.join(' ');
+        return this.item?.classes?.join(' ');
     }
     @Input() item: AToolbarButtonItem;
     @Input() title: string;
