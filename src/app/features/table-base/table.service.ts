@@ -34,7 +34,7 @@ export abstract class TableService {
   protected afterGetDataHandler: Function = () => {};
 
   public get modelName(): string {
-    return this.tableHttpService.modelName
+    return this.tableHttpService.modelName;
   }
 
   constructor(
@@ -68,12 +68,18 @@ export abstract class TableService {
   }
 
   getHeaders(): void {
-    this.tableHttpService.getClientSettings().subscribe((clientSettings) => {
+    forkJoin([
+      this.tableHttpService.getClientSettings(),
+      this.tableHttpService.getHeaders(),
+    ]).subscribe(([clientSettings, headers]) => {
       // clientSettings = JSON.parse(clientSettings.data);
-      let headers: any = this.modelLoaderService.getModel(
+      let headers2: any = this.modelLoaderService.getModel(
         this.modelName,
         'default'
       ).fields;
+
+      console.log('HHHH', headers);
+      console.log('HHHH', headers2);
 
       let changedHeaders = this.applayClientSettingsToHeaders(
         headers,
@@ -151,12 +157,13 @@ export abstract class TableService {
   private applayIncomingSettings(headers: any[], clientSettings: any): any[] {
     this.clientSettings.next(clientSettings);
     let newModel = [];
-    console.log('CS', clientSettings);
     clientSettings.data.forEach((column) => {
-      let col: any = headers.find((f) => f.property === column.property);
-      col.isShow = column.isShow;
-      col.offsetWidth = column.offsetWidth;
-      newModel.push(col);
+      try {
+        let col: any = headers.find((f) => f.property === column.property);
+        col.isShow = column.isShow;
+        col.offsetWidth = column.offsetWidth;
+        newModel.push(col);
+      } catch {}
     });
     return newModel;
   }

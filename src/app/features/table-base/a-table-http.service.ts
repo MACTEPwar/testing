@@ -61,6 +61,10 @@ export abstract class TableHttpService {
     return this.addFilter2QuerySelection(selection, filter).count().execute();
   }
 
+  getHeaders(): Observable<any>{
+    return this.query().getHeaders(this.modelName);
+  }
+
   getClientSettings<T>(): Observable<any> {
     return this.query()
       .function(

@@ -9,7 +9,9 @@ export class FilterFieldPipe implements PipeTransform {
   constructor(private configurationService: ConfigurationService) {}
 
   transform(col: any): Field {
+    console.log('col1', col);
     const property = this.configurationService.getValue('links')[col.typeName];
+    console.log('col2', property);
     return col.fields.find((e) => e.property === property);
   }
 }
