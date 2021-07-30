@@ -9,7 +9,13 @@ import {
   GqlQueryService,
   ISelectOperation,
 } from './../../core/gql-query-builder/services/gql-query.service';
-import { EFilterType, ESortType, Filter, FilterItem, IFilterItem } from './../../types/filter';
+import {
+  EFilterType,
+  ESortType,
+  Filter,
+  FilterItem,
+  IFilterItem,
+} from './../../types/filter';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -17,6 +23,10 @@ export abstract class TableHttpService {
   protected gqlQueryBuilderService: GqlQueryBuilderService;
   protected httpClient: HttpClient;
   protected configurationService: ConfigurationService;
+
+  protected get lowerModelName(): string {
+    return this.modelName[0].toLowerCase() + this.modelName.slice(1);
+  } 
 
   constructor(protected modelName: string, injector: Injector) {
     const former = setCurrentInjector(injector);
@@ -78,20 +88,25 @@ export abstract class TableHttpService {
         'clientSetting',
       ])
       .execute();
+  }
 
-    // return this.getClientSettings().pipe(
-    //   mergeMap((clientSettings) => {
-    //     if (clientSettings?.length > 0) {
-    //       return this.query()
-    //         .mutation('update', { model: model }, 'ClientSettings')
-    //         .execute();
-    //     } else {
-    //       return this.query()
-    //         .mutation('add', { model: model }, 'ClientSettings')
-    //         .execute();
-    //     }
-    //   })
-    // );
+  public create(
+    items: any[],
+    selectedFields: string = 'id',
+    server: string = 'deafult'
+  ): Observable<any> {
+    return this.query()
+      .mutation(
+        'add',
+        {
+          model: items,
+        },
+        `${this.modelName}`,
+        null,
+        selectedFields,
+        [this.lowerModelName]
+      )
+      .execute(server);
   }
 
   protected query(): GqlQueryService {
@@ -107,7 +122,7 @@ export abstract class TableHttpService {
     filter: Filter = null
   ): ISelectOperation {
     if (filter !== null) {
-      console.log('test', filter)
+      console.log('test', filter);
       if (filter.splitter?.filters?.length > 0) {
         filter.splitter.filters.forEach((f: IFilterItem) => {
           selection.where(

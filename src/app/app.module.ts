@@ -13,6 +13,7 @@ import { ViewsModule } from './views/views.module';
 import { ModalModule } from './features/modal/modal.module';
 import { SidebarModule } from './features/sidebar/sidebar.module';
 import { WindowModule } from './features/window/window.module';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { WindowModule } from './features/window/window.module';
     AppRoutingModule,
     ModalModule,
     SidebarModule,
-    WindowModule
+    WindowModule,
+    ToastModule
   ],
   providers: [
     ConfigurationService,

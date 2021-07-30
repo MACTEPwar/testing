@@ -1,15 +1,14 @@
-import { Filter } from './../../types/filter';
-import { Model } from './../../core/models-loader/types/model';
-import { ModelLoaderService } from './../../core/models-loader/services/model-loader.service';
 import {
   Injector,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { tap } from 'rxjs/internal/operators/tap';
+import { ModelLoaderService } from './../../core/models-loader/services/model-loader.service';
+import { Filter } from './../../types/filter';
 import { TableHttpService } from './table-http.service';
-import { FilterItem } from 'src/app/types/filter';
 
 export abstract class TableService {
   modelLoaderService: ModelLoaderService;
@@ -92,6 +91,18 @@ export abstract class TableService {
         data.id = clientSettings.id;
         this.clientSettings.next(data);
       });
+  }
+
+  /**
+   * Созадет запрос на создание элемента
+   * @returns Observable<any>
+   */
+
+  public createItems(item: any | any[]): Observable<any> {
+    item = Array.isArray(item) ? item : [item];
+    // return of();
+    // return (this.service as any).create(item);
+    return this.tableHttpService.create(item);
   }
 
   /**

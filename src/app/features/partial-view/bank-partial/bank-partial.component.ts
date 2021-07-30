@@ -1,12 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  OnInit,
-} from '@angular/core';
-import { TablePartialBase } from '../../table-base/table-partial-base.component';
+import { Component, Injector, OnInit } from '@angular/core';
+import { CatalogTablePartialBase } from '../../table-base/catalog/catalog-table-partial-base.directive';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
+import { BankCreateComponent } from './bank-create/bank-create.component';
 
 @Component({
   selector: 'app-bank-partial',
@@ -27,15 +23,17 @@ import { BankService } from './bank.service';
     },
   ],
 })
-export class BankPartialComponent extends TablePartialBase implements OnInit {
-  // export class BankPartialComponent implements OnInit {
+export class BankPartialComponent
+  extends CatalogTablePartialBase
+  implements OnInit
+{
   constructor(
     protected bankService: BankService,
     protected injector: Injector
   ) {
-    // constructor(protected injector: Injector) {
-    // console.log(injector);
     super(bankService, injector);
+
+    this.createComponent = BankCreateComponent;
   }
 
   ngOnInit(): void {}

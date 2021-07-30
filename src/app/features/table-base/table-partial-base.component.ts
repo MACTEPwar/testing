@@ -1,4 +1,5 @@
 import {
+  Directive,
   Injector,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
@@ -16,8 +17,11 @@ import {
   Paging,
 } from './../../types/filter';
 import { TableService } from './table.service';
+import { Type } from '@angular/core';
+import { ModalService } from '../modal/modal.service';
 
-export abstract class TablePartialBase {
+@Directive()
+export abstract class TablePartialBaseDirective {
   headers;
   data;
   count;
@@ -31,9 +35,17 @@ export abstract class TablePartialBase {
   toolbarItems;
   filterIsShowed;
 
-  protected windowService: WindowService;
+  createComponent: Type<any> = null;
+  updateComponent: Type<any> = null;
+  deleteComponent: Type<any> = null;
 
-  constructor(protected tableService: TableService, protected injector: Injector) {
+  protected windowService: WindowService;
+  protected modalService: ModalService;
+
+  constructor(
+    protected tableService: TableService,
+    protected injector: Injector
+  ) {
     this.setServicesFromDI(injector);
     this.headers = this.tableService.headers;
     this.data = this.tableService.data;
@@ -42,15 +54,8 @@ export abstract class TablePartialBase {
     this.isLoading = this.tableService.isLoading;
     this.clientSettings = this.tableService.clientSettings;
 
-    // this.tableService.getData();
     this.tableService.getHeaders();
 
-    // setInterval(() => {
-    //   let a = this.headers
-    //     .getValue()
-    //     .map((m) => ({ property: m.property, offsetWidth: m.offsetWidth }));
-    //   console.log(a);
-    // }, 1000);
     this.setDefaultToolbar();
   }
 
@@ -58,17 +63,20 @@ export abstract class TablePartialBase {
     const onFilterClick: () => void = () => {
       this.filterIsShowed = !this.filterIsShowed;
     };
-    const onTest: () => void = () => {
-      this.windowService.openWindow(
-        EWindowType.ALERT,
-        new AlertOptions('asd', 'asd2')
-      );
-    };
 
     this.toolbarItems = [
-      new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
-      new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
-      new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
+      new ToolbarButtonItem('create', 'Toolbar.create', null, () => {
+        this.modalService.open(this.createComponent, {
+          service: this.tableService,
+        });
+      }),
+      new ToolbarButtonItem('edit', 'Toolbar.edit', null, this.showEditView),
+      new ToolbarButtonItem(
+        'delete',
+        'Toolbar.delete',
+        null,
+        this.showDeleteView
+      ),
       new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
     ];
   }
@@ -165,7 +173,20 @@ export abstract class TablePartialBase {
     const former = setCurrentInjector(injector);
 
     this.windowService = injector.get(WindowService, null);
+    this.modalService = injector.get(ModalService, null);
 
     setCurrentInjector(former);
   }
+
+  private showCreateView(): void {
+    console.log(this);
+    console.log(this.modalService);
+    this.modalService.open(this.createComponent, {
+      service: this.tableService,
+    });
+  }
+
+  private showEditView(): void {}
+
+  private showDeleteView(): void {}
 }

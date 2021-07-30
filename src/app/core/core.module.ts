@@ -11,6 +11,7 @@ import {
 } from './localization/localization.module';
 import { ModelsLoaderModule } from './models-loader/models-loader.module';
 import { TabModule } from './tab/tab.module';
+import { NotificationModule } from './notification/notification.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { TabModule } from './tab/tab.module';
     LocalizationModule,
     ConfigurationModule,
     BreadcrumbModule,
+    NotificationModule
   ],
   providers: [
     TranslateService,
