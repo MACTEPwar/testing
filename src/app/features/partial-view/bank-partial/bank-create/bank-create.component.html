@@ -1,0 +1,97 @@
+<p-dialog
+  [header]="'Forms.addToCatalog' | translate"
+  [visible]="true"
+  [focusOnShow]="false"
+  [style]="{ width: '600px' }"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+  (visibleChange)="modalContext.reject(false)"
+  [dismissableMask]="false"
+  #dialog
+>
+  <div [formGroup]="profileForm">
+    <div class="p-grid">
+      <div class="p-col">
+        <al-input
+          formControlName="codeM"
+          [label]="'codeM' | titleByControlName: headers"
+        ></al-input>
+      </div>
+      <div class="p-col">
+        <al-input
+          formControlName="codeM"
+          [label]="'codeM' | titleByControlName: headers"
+        ></al-input>
+      </div>
+    </div>
+    <div
+      class="p-grid"
+      *ngFor="let control of profileForm.get('name')?.controls"
+    >
+      <div class="p-col" [formGroup]="control">
+        <al-input
+          formControlName="name"
+          [label]="
+                        ('name' | titleByControlName: headers) +
+                        ' (' +
+                        control.get('language').value +
+                        ')'
+                    "
+        ></al-input>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <al-calendar
+          [title]="'dateRegistration' | titleByControlName: headers"
+          formControlName="dateRegistration"
+          labelPosition="left"
+          [yearRange]="'1990:' + thisYear.toString()"
+        ></al-calendar>
+      </div>
+      <div class="p-col">
+        <al-calendar
+        [title]="'dateLicense' | titleByControlName: headers"
+        formControlName="dateLicense"
+        labelPosition="left"
+        [yearRange]="'1990:' + thisYear.toString()"
+      ></al-calendar>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <al-input
+          formControlName="address"
+          [label]="'address' | titleByControlName: headers"
+        ></al-input>
+      </div>
+      <div class="p-col">
+        <al-input
+          formControlName="internationalName"
+          [label]="'internationalName' | titleByControlName: headers"
+        ></al-input>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <al-input
+          formControlName="numberLicense"
+          [label]="'numberLicense' | titleByControlName: headers"
+        ></al-input>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        [label]="'Modal.saved' | translate"
+        (click)="create()"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>

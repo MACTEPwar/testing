@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
-import { TablePartialBase } from '../../table-base/table-partial-base.component';
+import { Component, Injector, OnInit } from '@angular/core';
+import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
+import { BankCreateComponent } from './bank-create/bank-create.component';
 
 @Component({
   selector: 'app-bank-partial',
@@ -11,7 +12,8 @@ import { BankService } from './bank.service';
     {
       provide: BankHttpService,
       deps: [Injector],
-      useFactory: (i: Injector): BankHttpService => new BankHttpService('Bank', i),
+      useFactory: (i: Injector): BankHttpService =>
+        new BankHttpService('Bank', i),
     },
     {
       provide: BankService,
@@ -19,14 +21,19 @@ import { BankService } from './bank.service';
       useFactory: (bhs: BankHttpService, i: Injector): BankService =>
         new BankService(bhs, i),
     },
-  ]
+  ],
 })
-export class BankPartialComponent extends TablePartialBase implements OnInit {
-  // export class BankPartialComponent implements OnInit {
-  constructor(protected bankService: BankService) {
-    // constructor(protected injector: Injector) {
-    // console.log(injector);
-    super(bankService);
+export class BankPartialComponent
+  extends CatalogTablePartialBase
+  implements OnInit
+{
+  constructor(
+    protected bankService: BankService,
+    protected injector: Injector
+  ) {
+    super(bankService, injector);
+
+    this.createComponent = BankCreateComponent;
   }
 
   ngOnInit(): void {}

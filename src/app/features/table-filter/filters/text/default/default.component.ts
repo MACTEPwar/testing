@@ -1,6 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { TableFilterService } from '../../../table-filter.service';
+import { AlInputComponent } from '../../../../ui-components/al-input/al-input.component';
 
 @Component({
   selector: 'app-text-default-filter',
@@ -12,12 +20,18 @@ export class DefaultComponent implements OnInit {
 
   @Input() col: any;
 
-  constructor() {
+  @ViewChild('input') input: AlInputComponent;
+
+  constructor(private tableFilterService: TableFilterService) {
     this.inputFilterStream$
       .pipe(debounceTime(500))
       .subscribe(({ func, value }) => {
         func(value);
       });
+
+    this.tableFilterService.clearFilter$.subscribe(() => {
+      this.input.value = null;
+    });
   }
 
   ngOnInit(): void {}

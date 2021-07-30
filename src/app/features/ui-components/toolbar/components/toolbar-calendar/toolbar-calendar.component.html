@@ -1,0 +1,17 @@
+<al-calendar
+    (onSelectDateClick)="filterDateRange()"
+    (onClearClick)="filterDateRange()"
+    [(ngModel)]="dateRange"
+    class="al-calendar"
+    [selectionMode]="item.selectionMode"
+    dataType="date"
+    [showButtonBar]="true"
+    [dateFormat]="item.dateFormat"
+    [view]="item.view"
+    [showIcon]="true"
+    [monthNavigator]="true"
+    [yearNavigator]="true"
+    [hideOnDateTimeSelect]="false"
+    [yearRange]="'1920:' + getCurrentYear()"
+>
+</al-calendar>

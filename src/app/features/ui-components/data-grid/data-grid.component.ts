@@ -1,21 +1,20 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { SvgIconRegistryService } from 'angular-svg-icon';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import { MenuItem } from 'primeng/api';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FilterMetadata, MenuItem } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { TableFilterService } from '../../table-filter/table-filter.service';
+import { ToolbarButtonItem } from '../toolbar/models/concrete/toolbar-button-item-options';
+import { IToolbarItem } from '../toolbar/models/interfaces/i-toolbar-item';
+import { makeRowsSameHeight } from './helper';
+import { DataGridService } from './data-grid.service';
+import { WindowService } from '../../window/window.service';
+import { EWindowType } from '../../window/e-window-type';
+import { AlertOptions } from '../../window/windows/alert-window/alert-options';
 
 @Component({
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
   styleUrls: ['./data-grid.component.scss'],
+  providers: [DataGridService],
 })
 export class DataGridComponent implements OnInit {
   private _headers;
@@ -41,14 +40,14 @@ export class DataGridComponent implements OnInit {
 
   @Input() public set data(value: any) {
     this._data = value;
-    this.makeRowsSameHeight();
+    makeRowsSameHeight();
   }
 
   private _selectedColumns: any[];
 
   public set selectedColumns(value: any[]) {
     this._selectedColumns = this.headers.filter((col) => value.includes(col));
-    this.makeRowsSameHeight();
+    makeRowsSameHeight();
   }
 
   public get selectedColumns(): any[] {
@@ -56,7 +55,7 @@ export class DataGridComponent implements OnInit {
   }
 
   selectedItem;
-  items: MenuItem[];
+  contextMenuItems: MenuItem[];
 
   @Input() lazy: boolean = true;
   @Input() paginator: boolean = true;
@@ -76,7 +75,16 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
-  @Input() filterIsShowed = true;
+  
+  private _filterIsShowed: boolean = false;
+  @Input() public set filterIsShowed(value: boolean) {
+    this._filterIsShowed = value;
+    makeRowsSameHeight();
+  }
+  public get filterIsShowed(): boolean {
+    return this._filterIsShowed;
+  }
+
   @Input() constants;
   @Input() columnResizeMode = 'expand';
   // @Input() clientSettings;
@@ -88,14 +96,47 @@ export class DataGridComponent implements OnInit {
   @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColToggle: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  @Output() onToolbarChange: EventEmitter<IToolbarItem[]> = new EventEmitter<
+    IToolbarItem[]
+  >();
+
+  @Input() toolbarItems: IToolbarItem[];
+
+  constructor(
+    private tableFilterService: TableFilterService,
+    private dataGridService: DataGridService,
+    private windowService: WindowService
+  ) {
+    // this.setDefaultToolbar();
+  }
 
   ngOnInit(): void {
     this.refreshTable();
     this.setContextMenu();
   }
+
+  // setDefaultToolbar() {
+  //   const onFilterClick: () => void = () => {
+  //     this.filterIsShowed = !this.filterIsShowed;
+  //     makeRowsSameHeight();
+  //   };
+  //   const onTest: () => void = () => {
+  //     this.windowService.openWindow(
+  //       EWindowType.ALERT,
+  //       new AlertOptions('asd', 'asd2')
+  //     );
+  //   };
+
+  //   this.toolbarItems = [
+  //     new ToolbarButtonItem('create', 'Toolbar.create', null, onTest),
+  //     new ToolbarButtonItem('edit', 'Toolbar.edit', null, onTest),
+  //     new ToolbarButtonItem('delete', 'Toolbar.delete', null, onTest),
+  //     new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
+  //   ];
+  // }
+
   setContextMenu() {
-    this.items = [
+    this.contextMenuItems = [
       {
         label: 'item1',
         command: () => {
@@ -104,6 +145,21 @@ export class DataGridComponent implements OnInit {
       },
       { label: 'item2' },
     ];
+  }
+
+  /**
+   * Очищает все фильтра
+   * @param dt Объект праймовской таблицы
+   */
+  clearFilters(dt: Table): void {
+    this.tableFilterService.clearFilter$.emit();
+    Object.keys(dt.filters).forEach((dtKey) => {
+      (dt.filters[dtKey] as FilterMetadata).value = null;
+    });
+    // dt.filteredValue = null;
+    // dt.tableService.onResetChange();
+    // dt.firstChange.emit(0);
+    dt.onLazyLoad.emit(dt.createLazyLoadMetadata());
   }
 
   onColResizeHandler(event): void {
@@ -118,7 +174,7 @@ export class DataGridComponent implements OnInit {
       selectedFinder.offsetWidth = event.offsetWidth;
     }
     this.onColResize.emit(event);
-    this.makeRowsSameHeight();
+    makeRowsSameHeight();
   }
 
   setOrderForHeaders(visibleAndOrder: any[]): void {
@@ -138,88 +194,10 @@ export class DataGridComponent implements OnInit {
     this.onColReorder.emit(event);
   }
 
-  exportPdf() {
-    const doc: any = new jsPDF();
-    doc.autoTable(
-      this.headers.map((m) => m.property),
-      this.data
-        .map((m) => Object.entries(m))
-        .map((m) => {
-          return m.reduce((acc, curr) => {
-            acc.push(curr[1]);
-            return acc;
-          }, []);
-        })
-    );
-    doc.save('products.pdf');
-  }
-
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(this.data);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
-      });
-      this.saveAsExcelFile(excelBuffer, 'products');
-    });
-  }
-
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE =
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE,
-    });
-    let url = window.URL.createObjectURL(data);
-    let a = document.createElement('a');
-    document.body.appendChild(a);
-    a.setAttribute('style', 'display: none');
-    a.href = url;
-    a.download = fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
-  }
-
   refreshTable(): void {
     this.onLazyLoad.emit({
       first: 0,
       rows: this.rows,
-    });
-  }
-
-  makeRowsSameHeight() {
-    setTimeout(() => {
-      if (
-        document.getElementsByClassName('p-datatable-scrollable-wrapper').length
-      ) {
-        let wrapper = document.getElementsByClassName(
-          'p-datatable-scrollable-wrapper'
-        );
-        for (var i = 0; i < wrapper.length; i++) {
-          let w = wrapper.item(i) as HTMLElement;
-          let frozen_rows: any = w.querySelectorAll(
-            '.p-datatable-frozen-view tr'
-          );
-          let unfrozen_rows: any = w.querySelectorAll(
-            '.p-datatable-unfrozen-view tr'
-          );
-          for (let i = 0; i < frozen_rows.length; i++) {
-            if (frozen_rows[i].clientHeight > unfrozen_rows[i].clientHeight) {
-              unfrozen_rows[i].style.height =
-                frozen_rows[i].clientHeight + 'px';
-            } else if (
-              frozen_rows[i].clientHeight < unfrozen_rows[i].clientHeight
-            ) {
-              frozen_rows[i].style.height =
-                unfrozen_rows[i].clientHeight + 'px';
-            }
-          }
-        }
-      }
     });
   }
 }

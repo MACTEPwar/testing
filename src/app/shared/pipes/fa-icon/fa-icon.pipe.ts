@@ -17,7 +17,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class FaIconPipe implements PipeTransform {
 
-    transform(iconName: string, prefix: string): IconDefinition {
+    transform(iconName: string, prefix: string = 'fal'): IconDefinition {
         library.add(fas, far, fal);
         if (prefix === null || prefix === undefined) {
             const tmpSplit = iconName.split(' ');

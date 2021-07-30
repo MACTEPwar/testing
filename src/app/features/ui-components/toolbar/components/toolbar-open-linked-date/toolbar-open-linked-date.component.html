@@ -1,0 +1,12 @@
+<al-linked-data
+    labelPosition="left"
+    [maxWidth]="true"
+    id="openLinkedData"
+    [label]="item.lebal | translate"
+    [component]="item.component.component"
+    (onSelect)="item.call($event)"
+    [entityName]="item.component.name"
+    [linkedOptions]="item.linkedOptions"
+    key="id"
+    #someInput
+></al-linked-data>

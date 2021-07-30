@@ -5,6 +5,8 @@
   [totalRecords]="count | async"
   [loading]="isLoading | async"
   [constants]="constants | async"
+  [filterIsShowed]="filterIsShowed"
+  [toolbarItems]="toolbarItems"
   (onLazyLoad)="getData($event)"
   (onColResize)="onColResizeHandler($event)"
   (onColReorder)="onColReorderHandler($event)"

@@ -1,0 +1,33 @@
+<p-dialog
+    [header]="options.title | translate"
+    [visible]="true"
+    [focusOnShow]="false"
+    [responsive]="true"
+    showEffect="fade"
+    [modal]="true"
+    [style]="{ width: options.width + 'px' }"
+    (visibleChange)="modalContext.reject(false)"
+    [dismissableMask]="false"
+    #dialog
+    class="confirmWindow cw_{{options.mesageType}}"
+>
+    <div class="p-grid">
+        <div class="p-col">
+            <span>{{ options.message }}</span>
+        </div>
+    </div>
+    <p-footer>
+        <!-- <div class="ui-dialog-buttonpane ui-helper-clearfix"> -->
+            <div class="confirm_window_bt_line">
+                <ng-container *ngFor="let button of options.buttons">
+                        <button
+                            type="button"
+                            pButton
+                            [icon]="button.icon"
+                            [label]="button.name | translate"
+                            (click)="modalContext.resolve(button.type)"
+                        ></button>
+                </ng-container>
+            </div>
+    </p-footer>
+</p-dialog>

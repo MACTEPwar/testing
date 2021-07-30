@@ -1,9 +1,11 @@
+import { ToolbarModule } from './../toolbar/toolbar.module';
 import { AlObjectFormatterModule } from './../../al-object-formatter/al-object-formatter.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataGridComponent } from './data-grid.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { SplitButtonModule } from 'primeng/splitbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -30,7 +32,9 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     OverlayPanelModule,
     AngularSvgIconModule,
     TableFilterModule,
-    ContextMenuModule
+    ContextMenuModule,
+    ToolbarModule,
+    SplitButtonModule,
   ],
   exports: [DataGridComponent],
 })
