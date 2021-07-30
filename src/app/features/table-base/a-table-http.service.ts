@@ -5,18 +5,18 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfigurationService } from './../../core/configuration/configuration.service';
-import { GqlQueryBuilderService } from './../../core/gql-query-builder/services/gql-query-builder.service';
+import { ConfigurationService } from '../../core/configuration/configuration.service';
+import { GqlQueryBuilderService } from '../../core/gql-query-builder/services/gql-query-builder.service';
 import {
   GqlQueryService,
   ISelectOperation,
-} from './../../core/gql-query-builder/services/gql-query.service';
+} from '../../core/gql-query-builder/services/gql-query.service';
 import {
   ESortType,
   Filter,
   FilterItem,
   IFilterItem,
-} from './../../types/filter';
+} from '../../types/filter';
 
 /**
  * Сервис для связи с сервером
@@ -37,7 +37,7 @@ export abstract class TableHttpService {
    * @param {string} modelName Имя модели
    * @param {Injector} injector Инжектор
    */
-  constructor(protected modelName: string, injector: Injector) {
+  constructor(public modelName: string, injector: Injector) {
     this.setServicesFromDI(injector);
   }
 

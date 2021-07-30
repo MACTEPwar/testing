@@ -8,6 +8,6 @@ export class BankService extends TableService {
     protected bankHttpService: BankHttpService,
     protected injector: Injector
   ) {
-    super('Bank', bankHttpService, injector);
+    super(bankHttpService, injector);
   }
 }

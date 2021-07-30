@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { tap } from 'rxjs/internal/operators/tap';
 import { ModelLoaderService } from './../../core/models-loader/services/model-loader.service';
 import { Filter } from './../../types/filter';
-import { TableHttpService } from './table-http.service';
+import { TableHttpService } from './a-table-http.service';
 
 export abstract class TableService {
   modelLoaderService: ModelLoaderService;
@@ -34,7 +34,6 @@ export abstract class TableService {
   protected afterGetDataHandler: Function = () => {};
 
   constructor(
-    protected modelName,
     protected tableHttpService: TableHttpService,
     protected injector: Injector
   ) {
@@ -68,7 +67,7 @@ export abstract class TableService {
     this.tableHttpService.getClientSettings().subscribe((clientSettings) => {
       // clientSettings = JSON.parse(clientSettings.data);
       let headers: any = this.modelLoaderService.getModel(
-        this.modelName,
+        this.tableHttpService.modelName,
         'default'
       ).fields;
 

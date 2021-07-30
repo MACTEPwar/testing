@@ -1,12 +1,9 @@
 import {
   Directive,
   Injector,
+  Type,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
-import { ToolbarButtonItem } from '../ui-components/toolbar/models/concrete/toolbar-button-item-options';
-import { EWindowType } from '../window/e-window-type';
-import { WindowService } from '../window/window.service';
-import { AlertOptions } from '../window/windows/alert-window/alert-options';
 import {
   EFilterType,
   ESortType,
@@ -15,10 +12,12 @@ import {
   FilterItem,
   ISortItem,
   Paging,
-} from './../../types/filter';
-import { TableService } from './table.service';
-import { Type } from '@angular/core';
+} from '../../types/filter';
 import { ModalService } from '../modal/modal.service';
+import { ToolbarButtonItem } from '../ui-components/toolbar/models/concrete/toolbar-button-item-options';
+import { WindowService } from '../window/window.service';
+import { TableService } from './table.service';
+import { Input } from '@angular/core';
 
 @Directive()
 export abstract class TablePartialBaseDirective {
@@ -32,7 +31,7 @@ export abstract class TablePartialBaseDirective {
   filters = {};
   constants;
   clientSettings;
-  toolbarItems;
+  @Input() toolbarItems;
   filterIsShowed;
 
   createComponent: Type<any> = null;
@@ -59,7 +58,7 @@ export abstract class TablePartialBaseDirective {
     this.setDefaultToolbar();
   }
 
-  setDefaultToolbar() {
+  protected setDefaultToolbar() {
     const onFilterClick: () => void = () => {
       this.filterIsShowed = !this.filterIsShowed;
     };
@@ -127,6 +126,18 @@ export abstract class TablePartialBaseDirective {
     });
   }
 
+  protected showCreateView(): void {
+    console.log(this);
+    console.log(this.modalService);
+    this.modalService.open(this.createComponent, {
+      service: this.tableService,
+    });
+  }
+
+  protected showEditView(): void {}
+
+  protected showDeleteView(): void {}
+
   private primeFilter2LogicFilter(event: any): Filter {
     const filterAnd = new FilterAnd();
     if (event?.filters !== null && event?.filters !== undefined) {
@@ -177,16 +188,4 @@ export abstract class TablePartialBaseDirective {
 
     setCurrentInjector(former);
   }
-
-  private showCreateView(): void {
-    console.log(this);
-    console.log(this.modalService);
-    this.modalService.open(this.createComponent, {
-      service: this.tableService,
-    });
-  }
-
-  private showEditView(): void {}
-
-  private showDeleteView(): void {}
 }

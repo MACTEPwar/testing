@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
-import { TableHttpService } from '../../table-base/table-http.service';
+import { CatalogHttpService } from '../../table-base/catalog/a-catalog-http.service';
 
-export class BankHttpService extends TableHttpService {
-  constructor(protected modelName: string, protected injector: Injector) {
+export class BankHttpService extends CatalogHttpService {
+  constructor(public modelName: string, protected injector: Injector) {
     super(modelName, injector);
   }
 }

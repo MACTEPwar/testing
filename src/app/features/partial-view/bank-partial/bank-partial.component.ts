@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { CatalogTablePartialBase } from '../../table-base/catalog/catalog-table-partial-base.directive';
+import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
 import { BankCreateComponent } from './bank-create/bank-create.component';
