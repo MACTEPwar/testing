@@ -1,54 +1,67 @@
-import { ConfigurationService } from './../../core/configuration/configuration.service';
 import { HttpClient } from '@angular/common/http';
-import { GqlQueryBuilderService } from './../../core/gql-query-builder/services/gql-query-builder.service';
 import {
   Injector,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ConfigurationService } from './../../core/configuration/configuration.service';
+import { GqlQueryBuilderService } from './../../core/gql-query-builder/services/gql-query-builder.service';
 import {
   GqlQueryService,
   ISelectOperation,
 } from './../../core/gql-query-builder/services/gql-query.service';
 import {
-  EFilterType,
   ESortType,
   Filter,
   FilterItem,
   IFilterItem,
 } from './../../types/filter';
-import { Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
 
+/**
+ * Сервис для связи с сервером
+ */
 export abstract class TableHttpService {
   protected gqlQueryBuilderService: GqlQueryBuilderService;
   protected httpClient: HttpClient;
   protected configurationService: ConfigurationService;
 
+  /** Имя модели с маленькой буквы */
   protected get lowerModelName(): string {
     return this.modelName[0].toLowerCase() + this.modelName.slice(1);
-  } 
-
-  constructor(protected modelName: string, injector: Injector) {
-    const former = setCurrentInjector(injector);
-
-    this.gqlQueryBuilderService = injector.get(GqlQueryBuilderService, null);
-    this.httpClient = injector.get(HttpClient, null);
-    this.configurationService = injector.get(ConfigurationService, null);
-
-    setCurrentInjector(former);
   }
 
-  getData(filter: Filter = null): Observable<any> {
+  /**
+   * Создает новый сервис для связи с сервером
+   * @constructor
+   * @param {string} modelName Имя модели
+   * @param {Injector} injector Инжектор
+   */
+  constructor(protected modelName: string, injector: Injector) {
+    this.setServicesFromDI(injector);
+  }
+
+  /**
+   * Отправляет запрос на получение данных с сервера
+   * @param {Filter} [filter = null] фильтр
+   * @returns {Observable<T>} Массив данных
+   */
+  getData<T = any>(filter: Filter = null): Observable<T> {
     const selection = this.query().select('*').from(this.modelName);
     return this.addFilter2QuerySelection(selection, filter).build().execute();
   }
 
+  /**
+   * Отправляет запрос на получение количества данных с сервера
+   * @param {Filter} [filter = null] Фильтр
+   * @returns {Observable<any>} Количество данных
+   */
   getCount(filter: Filter = null): Observable<any> {
     const selection = this.query().select('*').from(this.modelName);
     return this.addFilter2QuerySelection(selection, filter).count().execute();
   }
 
-  getClientSettings(): Observable<any> {
+  getClientSettings<T>(): Observable<any> {
     return this.query()
       .function(
         'item',
@@ -63,8 +76,6 @@ export abstract class TableHttpService {
       .pipe(
         map((m: any) => {
           if (m) {
-            console.log(m);
-            // m.data = JSON.parse(m.data);
             return {
               data: JSON.parse(m.data),
               id: m.id,
@@ -90,11 +101,11 @@ export abstract class TableHttpService {
       .execute();
   }
 
-  public create(
+  public create<T = any>(
     items: any[],
     selectedFields: string = 'id',
     server: string = 'deafult'
-  ): Observable<any> {
+  ): Observable<T> {
     return this.query()
       .mutation(
         'add',
@@ -117,12 +128,31 @@ export abstract class TableHttpService {
     );
   }
 
+  /**
+   * Забирает с DI нужные сервисы
+   * @param {Injector} injector инжектор
+   */
+  private setServicesFromDI(injector: Injector) {
+    const former = setCurrentInjector(injector);
+
+    this.gqlQueryBuilderService = injector.get(GqlQueryBuilderService, null);
+    this.httpClient = injector.get(HttpClient, null);
+    this.configurationService = injector.get(ConfigurationService, null);
+
+    setCurrentInjector(former);
+  }
+
+  /**
+   * Создает объект для дальнейшего перевода в gql сигнатуру
+   * @param {ISelectOperation} selection генерация всей выборки {select('*').from(modelName)}
+   * @param {Filter} [filter = null] текущий фильтр
+   * @returns {ISelectOperation} сгенерированный объект для выборки
+   */
   private addFilter2QuerySelection(
     selection: ISelectOperation,
     filter: Filter = null
   ): ISelectOperation {
     if (filter !== null) {
-      console.log('test', filter);
       if (filter.splitter?.filters?.length > 0) {
         filter.splitter.filters.forEach((f: IFilterItem) => {
           selection.where(
