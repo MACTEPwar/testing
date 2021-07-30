@@ -10,7 +10,7 @@ import { UnsubscriberService } from '../../../../core/unsubscriber/unsubscriber.
 })
 export class BankCreateComponent extends CreateBaseDirective implements OnInit {
   constructor(injector: Injector) {
-    super('Bank', injector);
+    super(injector);
   }
 
   ngOnInit(): void {

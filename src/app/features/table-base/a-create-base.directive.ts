@@ -5,11 +5,10 @@ import { CUBaseDirective } from './a-cu-base.directive';
 @Directive()
 export abstract class CreateBaseDirective extends CUBaseDirective {
     constructor(
-        protected entityName: string,
         protected injector: Injector,
         protected server: string = 'default'
     ) {
-        super(entityName, injector, server);
+        super(injector, server);
     }
 
     public create(): void {

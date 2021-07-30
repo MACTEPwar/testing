@@ -30,14 +30,13 @@ export abstract class CUBaseDirective implements OnInit, OnDestroy {
   public thisYear;
 
   constructor(
-    protected entityName: string,
     protected injector: Injector,
     protected server: string = 'default'
   ) {
     this.setServicesFormInjector(injector);
 
-    this.profileForm = this.formGenerator.generateForm(this.entityName, server);
     this.service = this.modalContext?.data?.service;
+    this.profileForm = this.formGenerator.generateForm(this.service.modelName, server);
     this.thisYear = new Date().getFullYear();
   }
 

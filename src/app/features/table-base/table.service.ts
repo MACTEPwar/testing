@@ -33,6 +33,10 @@ export abstract class TableService {
   protected beforeGetDataHandler: Function = () => {};
   protected afterGetDataHandler: Function = () => {};
 
+  public get modelName(): string {
+    return this.tableHttpService.modelName
+  }
+
   constructor(
     protected tableHttpService: TableHttpService,
     protected injector: Injector
@@ -67,7 +71,7 @@ export abstract class TableService {
     this.tableHttpService.getClientSettings().subscribe((clientSettings) => {
       // clientSettings = JSON.parse(clientSettings.data);
       let headers: any = this.modelLoaderService.getModel(
-        this.tableHttpService.modelName,
+        this.modelName,
         'default'
       ).fields;
 
