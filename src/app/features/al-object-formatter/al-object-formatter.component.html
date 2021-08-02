@@ -1,36 +1,48 @@
 <!-- {{value | json}} -->
-<div [ngSwitch]="col?.typeName">
+<!-- <pre>
+    {{col.property | json}}
+    {{specialFields | json}}
+    {{(col | getSpecialField : specialFields) | json}}
+</pre> -->
+<div *ngIf="!(tempalte); else specialField">
+  <ng-container [ngSwitch]="col?.typeName">
     <ng-template ngSwitchCase="ENUM">
-        {{value | getConstant : constants : col.property}}
+      {{ value | getConstant: constants:col.property }}
     </ng-template>
     <ng-template ngSwitchCase="ARRAY">
-        <al-locale-formatter [value]="value"></al-locale-formatter>
+      <al-locale-formatter [value]="value"></al-locale-formatter>
     </ng-template>
     <ng-template ngSwitchCase="BooleanType">
-        <al-boolean-formatter [value]="value"></al-boolean-formatter>
+      <al-boolean-formatter [value]="value"></al-boolean-formatter>
     </ng-template>
     <ng-template ngSwitchCase="StringType">
-        <al-string-formatter [value]="value"></al-string-formatter>
+      <al-string-formatter [value]="value"></al-string-formatter>
     </ng-template>
     <ng-template ngSwitchCase="IntType">
-        <al-number-formatter [value]="value"></al-number-formatter>
+      <al-number-formatter [value]="value"></al-number-formatter>
     </ng-template>
     <ng-template ngSwitchCase="DecimalType">
-        <al-number-formatter [value]="value"></al-number-formatter>
+      <al-number-formatter [value]="value"></al-number-formatter>
     </ng-template>
     <ng-template ngSwitchCase="DateTimeType">
-        <al-date-formatter [value]="value"></al-date-formatter>
+      <al-date-formatter [value]="value"></al-date-formatter>
     </ng-template>
     <ng-template ngSwitchDefault>
-        <div *ngIf="col.kind === 'OBJECT'">
-            <!-- {{value | json}} -->
-            <al-object-formatter
-                [col]="col | filterField"
-                [value]="value[(col | filterField)?.property.toString()]"
-                *ngIf="!flag"
-                [flag]="true"
-            >
-            </al-object-formatter>
-        </div>
+      <div *ngIf="col.kind === 'OBJECT'">
+        <!-- {{value | json}} -->
+        <al-object-formatter
+          [col]="col | filterField"
+          [value]="value[(col | filterField)?.property.toString()]"
+          *ngIf="!flag"
+          [flag]="true"
+        >
+        </al-object-formatter>
+      </div>
     </ng-template>
+  </ng-container>
 </div>
+
+<ng-template #specialField>
+    <!-- <ng-container *ngTemplateOutlet="(col | getSpecialField : specialFields)?.template; context {$implicit: col,val: value}"></ng-container> -->
+    <ng-container *ngTemplateOutlet="tempalte; context {$implicit: value, column: col}"></ng-container>
+</ng-template>

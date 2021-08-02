@@ -1,6 +1,8 @@
 import {
+  ContentChildren,
   Directive,
   Injector,
+  QueryList,
   Type,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
@@ -18,6 +20,8 @@ import { ToolbarButtonItem } from '../ui-components/toolbar/models/concrete/tool
 import { WindowService } from '../window/window.service';
 import { TableService } from './table.service';
 import { Input } from '@angular/core';
+import { SpecialField } from '../../types/special-field';
+import { AlTemplateDirective } from '../../shared/directives/al-tempalte/al-template.directive';
 
 @Directive()
 export abstract class TablePartialBaseDirective {
@@ -34,12 +38,17 @@ export abstract class TablePartialBaseDirective {
   @Input() toolbarItems;
   filterIsShowed;
 
+  specialFields: SpecialField[] = [];
+
   createComponent: Type<any> = null;
   updateComponent: Type<any> = null;
   deleteComponent: Type<any> = null;
 
   protected windowService: WindowService;
   protected modalService: ModalService;
+
+  @ContentChildren(AlTemplateDirective)
+  templates: QueryList<AlTemplateDirective>;
 
   constructor(
     protected tableService: TableService,
@@ -56,6 +65,15 @@ export abstract class TablePartialBaseDirective {
     this.tableService.getHeaders();
 
     this.setDefaultToolbar();
+  }
+
+  ngAfterContentInit(): void {
+    this.templates.forEach((item) => {
+      this.specialFields.push({
+        property: item.getType(),
+        template: item.template,
+      });
+    });
   }
 
   protected setDefaultToolbar() {

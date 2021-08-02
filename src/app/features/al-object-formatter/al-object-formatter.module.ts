@@ -11,7 +11,10 @@ import { GetConstantPipe } from './get-constant.pipe';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [ObjectFormatterComponent, GetConstantPipe],
+  declarations: [
+    ObjectFormatterComponent,
+    GetConstantPipe
+  ],
   imports: [
     CommonModule,
     SharedModule,

@@ -120,7 +120,12 @@
           [col]="col"
           [value]="rowData[col.property]"
           [constants]="constants"
-        ></al-object-formatter>
+          [tempalte]="(col | getSpecialField: specialFields)?.template"
+        >
+        <!-- <ng-template alTemplate="isActive" let-column let-value="val">
+          {{value}}
+        </ng-template> -->
+      </al-object-formatter>
       </td>
     </tr>
   </ng-template>

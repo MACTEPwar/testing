@@ -1,4 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ContentChildren,
+  QueryList,
+  AfterContentInit,
+} from '@angular/core';
 import { FilterMetadata, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableFilterService } from '../../table-filter/table-filter.service';
@@ -9,6 +20,8 @@ import { DataGridService } from './data-grid.service';
 import { WindowService } from '../../window/window.service';
 import { EWindowType } from '../../window/e-window-type';
 import { AlertOptions } from '../../window/windows/alert-window/alert-options';
+import { SpecialField } from '../../../types/special-field';
+import { AlTemplateDirective } from '../../../shared/directives/al-tempalte/al-template.directive';
 
 @Component({
   selector: 'app-data-grid',
@@ -78,7 +91,8 @@ export class DataGridComponent implements OnInit {
   currentPageReportTemplate: string = `с {first} по {last} из {totalRecords} записей`;
   @Input() selection: any;
   @Input() filters: any;
-  
+  @Input() specialFields: SpecialField[] = [];
+
   private _filterIsShowed: boolean = false;
   @Input() public set filterIsShowed(value: boolean) {
     this._filterIsShowed = value;
@@ -105,6 +119,9 @@ export class DataGridComponent implements OnInit {
 
   @Input() toolbarItems: IToolbarItem[];
 
+  // @ContentChildren(AlTemplateDirective)
+  // templates: QueryList<AlTemplateDirective>;
+
   constructor(
     private tableFilterService: TableFilterService,
     private dataGridService: DataGridService,
@@ -118,6 +135,15 @@ export class DataGridComponent implements OnInit {
     this.refreshTable();
     this.setContextMenu();
   }
+
+  // ngAfterContentInit(): void {
+  //   this.templates.forEach((item) => {
+  //     this.specialFields.push({
+  //       property: item.getType(),
+  //       template: item.template,
+  //     });
+  //   });
+  // }
 
   // setDefaultToolbar() {
   //   const onFilterClick: () => void = () => {
@@ -167,7 +193,7 @@ export class DataGridComponent implements OnInit {
   }
 
   onLazyLoadHandler(event): void {
-    this.onLazyLoad.emit(event)
+    this.onLazyLoad.emit(event);
   }
 
   onColResizeHandler(event): void {

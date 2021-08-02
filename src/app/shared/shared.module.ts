@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlTemplateDirective } from './directives/al-tempalte/al-template.directive';
 import { FormDisabledDirective } from './directives/al-form-disabled/form-disabled.directive';
+import { GetSpecialFieldPipe } from './pipes/get-special-field/get-special-field.pipe';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { FormDisabledDirective } from './directives/al-form-disabled/form-disabl
     EnumeratorPipe,
     AlTemplateDirective,
     FormDisabledDirective,
+    GetSpecialFieldPipe
   ],
   imports: [CommonModule],
   exports: [
@@ -24,6 +26,7 @@ import { FormDisabledDirective } from './directives/al-form-disabled/form-disabl
     EnumeratorPipe,
     AlTemplateDirective,
     FormDisabledDirective,
+    GetSpecialFieldPipe
   ],
 })
 export class SharedModule {}
