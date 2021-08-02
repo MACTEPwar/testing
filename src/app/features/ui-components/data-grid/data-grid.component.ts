@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FilterMetadata, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableFilterService } from '../../table-filter/table-filter.service';
@@ -24,12 +24,13 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input() public set headers(value: any) {
-    console.log('headers', value);
     value = value.map((m) => {
       return m;
     });
     this._headers = value;
     this.selectedColumns = value.filter((f) => f.isShow);
+    // this.changeDetectorRef.markForCheck();
+    // this.changeDetectorRef.detectChanges();
   }
 
   private _data = [];
@@ -40,6 +41,8 @@ export class DataGridComponent implements OnInit {
 
   @Input() public set data(value: any) {
     this._data = value;
+    // this.changeDetectorRef.markForCheck();
+    // this.changeDetectorRef.detectChanges();
     makeRowsSameHeight();
   }
 
@@ -105,7 +108,8 @@ export class DataGridComponent implements OnInit {
   constructor(
     private tableFilterService: TableFilterService,
     private dataGridService: DataGridService,
-    private windowService: WindowService
+    private windowService: WindowService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     // this.setDefaultToolbar();
   }
@@ -160,6 +164,10 @@ export class DataGridComponent implements OnInit {
     // dt.tableService.onResetChange();
     // dt.firstChange.emit(0);
     dt.onLazyLoad.emit(dt.createLazyLoadMetadata());
+  }
+
+  onLazyLoadHandler(event): void {
+    this.onLazyLoad.emit(event)
   }
 
   onColResizeHandler(event): void {

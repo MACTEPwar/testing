@@ -1,4 +1,4 @@
-<div [ngSwitch]="col.typeName">
+<div [ngSwitch]="col?.typeName">
   <ng-template ngSwitchCase="StringType">
     <app-text-default-filter [col]="col"></app-text-default-filter>
   </ng-template>
@@ -14,7 +14,7 @@
   </ng-template>
   <ng-template ngSwitchDefault>
     <div *ngIf="col.kind === 'OBJECT' && !flag">
-      <app-table-filter [flag]="true"></app-table-filter>
+      <!-- <app-table-filter [flag]="true"></app-table-filter> -->
     </div>
   </ng-template>
 </div>

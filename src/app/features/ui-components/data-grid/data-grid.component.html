@@ -41,7 +41,7 @@
   [(selection)]="selection"
   [(filters)]="filters"
   [(contextMenuSelection)]="selectedItem"
-  (onLazyLoad)="onLazyLoad.emit($event)"
+  (onLazyLoad)="onLazyLoadHandler($event)"
   (onRowSelect)="onRowSelect.emit($event)"
   (onRowUnselect)="onRowUnselect.emit($event)"
   (onColResize)="onColResizeHandler($event)"
@@ -126,12 +126,12 @@
   </ng-template>
   <ng-template pTemplate="loadingbody" let-columns>
     <tr *ngFor="let item of rows | enumerator">
-      <td *ngFor="let col of columns"><p-skeleton></p-skeleton></td>
+      <td [attr.colspan]="columns?.length"><p-skeleton></p-skeleton></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
-      <td [attr.colspan]="15">
+      <td [attr.colspan]="columns?.length">
         <div style="width: 100vw; position: fixed">
           <div style="display: flex">
             <span style="margin-left: auto; margin-right: auto">

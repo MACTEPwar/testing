@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ChangeDetectionStrategy } from '@angular/core';
 import { ProductHttpService } from './product-http.service';
 import { ProductService } from './product.service';
 import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';

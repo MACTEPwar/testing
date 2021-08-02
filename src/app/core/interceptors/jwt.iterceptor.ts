@@ -16,7 +16,7 @@ export class JwtInterceptor implements HttpInterceptor {
     request = request.clone({
         setHeaders: {
           'Accept-Language': this.translateService?.currentLang ?? 'uk',
-          'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6InRlc3QiLCJhZGRyZXNzIjoiOjoxIiwibmJmIjoxNjI3NjQ5MzQ0LCJleHAiOjE2Mjc3MzU3NDQsImlzcyI6IkFsdGl1c1NlcnZlciIsImF1ZCI6IkFsdGl1c0NsaWVudCJ9._4lPphW7rE7L5O1sZD4D_TicQ6sayyuSSmDKmEani-o"
+          'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6InRlc3QiLCJhZGRyZXNzIjoiOjpmZmZmOjEyNy4wLjAuMSIsIm5iZiI6MTYyNzg4NTQ1MSwiZXhwIjoxNjI3OTcxODUxLCJpc3MiOiJBbHRpdXNTZXJ2ZXIiLCJhdWQiOiJBbHRpdXNDbGllbnQifQ.Om8OVJCnDoGSY4_jyUqlRnxpLrsoYry799cdZM9LvMo"
         },
       });
     return next.handle(request);

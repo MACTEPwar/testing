@@ -9,6 +9,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { ModelLoaderService } from './../../core/models-loader/services/model-loader.service';
 import { Filter } from './../../types/filter';
 import { TableHttpService } from './a-table-http.service';
+import { FilterAnd, FilterItem, EFilterType, ISortItem, ESortType, Paging } from '../../types/filter';
 
 export abstract class TableService {
   modelLoaderService: ModelLoaderService;
@@ -49,11 +50,12 @@ export abstract class TableService {
 
   getData(filter: Filter = null): void {
     this.beforeGetDataHandler();
-    this.data.next([]);
     this.isLoading.next(true);
+    this.data.next([]);
+    const logicFilter = this.primeFilter2LogicFilter(filter);
     forkJoin([
-      this.tableHttpService.getData(filter),
-      this.tableHttpService.getCount(filter),
+      this.tableHttpService.getData(logicFilter),
+      this.tableHttpService.getCount(logicFilter),
     ])
       .pipe(
         tap((_) => {
@@ -112,6 +114,44 @@ export abstract class TableService {
     // return of();
     // return (this.service as any).create(item);
     return this.tableHttpService.create(item);
+  }
+
+  private primeFilter2LogicFilter(event: any): Filter {
+    const filterAnd = new FilterAnd();
+    if (event?.filters !== null && event?.filters !== undefined) {
+      Object.entries(event.filters).forEach((filter: any) => {
+        if (
+          filter[1].value !== null &&
+          filter[1].value !== undefined &&
+          filter[1].value !== ''
+        ) {
+          filterAnd.filters.push(
+            new FilterItem(
+              filter[0],
+              filter[1].value,
+              filter[1].matchMode,
+              filter[1].matchMode === 'eq' ? EFilterType.BOOLEAN : null
+            )
+          );
+        }
+      });
+    }
+    let sort: ISortItem[] = null;
+    if (event.sortField && event.sortOrder) {
+      sort = [
+        {
+          field: event.sortField,
+          sortType: event.sortOrder === 1 ? ESortType.ASC : ESortType.DESC,
+        },
+      ];
+    }
+    let filter = new Filter(
+      filterAnd,
+      new Paging(event.first, event.rows),
+      sort
+    );
+    console.log(filter);
+    return filter;
   }
 
   /**

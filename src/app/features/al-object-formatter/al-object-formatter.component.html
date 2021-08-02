@@ -23,6 +23,7 @@
     </ng-template>
     <ng-template ngSwitchDefault>
         <div *ngIf="col.kind === 'OBJECT'">
+            <!-- {{value | json}} -->
             <al-object-formatter
                 [col]="col | filterField"
                 [value]="value[(col | filterField)?.property.toString()]"

@@ -81,7 +81,7 @@ export abstract class TablePartialBaseDirective {
   }
 
   getData(event) {
-    this.tableService.getData(this.primeFilter2LogicFilter(event));
+    this.tableService.getData(event);
   }
 
   onColToggleHandler(event): void {
@@ -137,44 +137,6 @@ export abstract class TablePartialBaseDirective {
   protected showEditView(): void {}
 
   protected showDeleteView(): void {}
-
-  private primeFilter2LogicFilter(event: any): Filter {
-    const filterAnd = new FilterAnd();
-    if (event?.filters !== null && event?.filters !== undefined) {
-      Object.entries(event.filters).forEach((filter: any) => {
-        if (
-          filter[1].value !== null &&
-          filter[1].value !== undefined &&
-          filter[1].value !== ''
-        ) {
-          filterAnd.filters.push(
-            new FilterItem(
-              filter[0],
-              filter[1].value,
-              filter[1].matchMode,
-              filter[1].matchMode === 'eq' ? EFilterType.BOOLEAN : null
-            )
-          );
-        }
-      });
-    }
-    let sort: ISortItem[] = null;
-    if (event.sortField && event.sortOrder) {
-      sort = [
-        {
-          field: event.sortField,
-          sortType: event.sortOrder === 1 ? ESortType.ASC : ESortType.DESC,
-        },
-      ];
-    }
-    let filter = new Filter(
-      filterAnd,
-      new Paging(event.first, event.rows),
-      sort
-    );
-    console.log(filter);
-    return filter;
-  }
 
   /**
    * Сетит сервисы с инжектора
