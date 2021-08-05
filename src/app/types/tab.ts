@@ -4,7 +4,7 @@ export class Tab {
        /** Картика (FontAwesome) */
        image?: string;
        /** Ссылка, по которой будет переходить при нажатии на таб */
-       url: string;
+       id: string;
        /** Можно ли закрыть таб? */
        canClose?: boolean;
        /** Активный? */

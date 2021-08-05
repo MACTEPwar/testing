@@ -12,7 +12,7 @@ export class TabService {
       active: true,
       canClose: false,
       name: 'Dashboard',
-      url: '/',
+      id: '/',
     })
   );
 
@@ -21,14 +21,14 @@ export class TabService {
    * @param tab Таб
    */
   public add(tab: Tab, isAddAndOpen = true): void {
-    let existTab = this.tabs.getValue().find((f) => f.url === tab.url);
+    let existTab = this.tabs.getValue().find((f) => f.id === tab.id);
     if (existTab) {
       this.changeTabActivity(existTab, true);
     } else {
       this.tabs.next(this.tabs.getValue().concat([tab]));
     }
     if (isAddAndOpen) {
-        this.router.navigate([tab.url]);
+        this.router.navigate([tab.id]);
     }
   }
 
@@ -43,11 +43,11 @@ export class TabService {
    */
   public close(url: string): void;
   public close(options: Tab | string): void {
-    const ID: string = typeof options === 'object' ? options.url : options;
+    const ID: string = typeof options === 'object' ? options.id : options;
     const TABS = this.tabs.getValue();
-    const newTabs = [...TABS.filter((f) => f.url !== ID)];
+    const newTabs = [...TABS.filter((f) => f.id !== ID)];
     this.tabs.next(newTabs);
-    this.router.navigate([newTabs[newTabs.length - 1].url]);
+    this.router.navigate([newTabs[newTabs.length - 1].id]);
   }
 
   /**

@@ -1,0 +1,35 @@
+$paddding-a: 2px;
+$height-tab-title: 25 + ($paddding-a * 2);
+$height-footer: 30px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+:host ::ng-deep p-tabView {
+  height: calc(100% - #{$height-footer});
+  .p-ctabView {
+    height: 100%;
+    .p-tabview-nav {
+      height: $height-tab-title;
+      li {
+        height: 100%;
+        a {
+          height: 100%;
+          padding: $paddding-a;
+        }
+      }
+    }
+    .p-tabview-panels {
+      height: calc(100% - #{$height-tab-title});
+      overflow-y: hidden;
+      display: flex;
+    }
+  }
+}
+
+#footer {
+  height: $height-footer;
+}
