@@ -1,3 +1,4 @@
+import { BankPartialModule } from './../../features/partial-view/bank-partial/bank-partial.module';
 import { BankPartialComponent } from './../../features/partial-view/bank-partial/bank-partial.component';
 import { Injectable, Type } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,8 +7,8 @@ import { Tab } from '../../types/tab';
 
 @Injectable()
 export class TabService {
-  ASSOCC_COMPONENTS: Map<string, Type<any>> = new Map<string, Type<any>>([
-    ['Bank', BankPartialComponent],
+  ASSOCC_COMPONENTS: Map<string, any> = new Map<string, Type<any>>([
+    ['/catalogs/bank', BankPartialComponent],
   ]);
 
   constructor(private router: Router) {}
@@ -33,7 +34,7 @@ export class TabService {
     const curTabs = this.tabs.getValue();
     const ifTabExist = curTabs.findIndex((f) => f.id === tab.id) ?? null;
     if (ifTabExist !== -1) {
-      this.activateTab(ifTabExist)
+      this.activateTab(ifTabExist);
       // this.activeTabIndex.next(curTabs.findIndex((f) => f.id === tab.id));
     } else {
       this.create(tab);
@@ -53,22 +54,24 @@ export class TabService {
   }
 
   public activateTab(index: number): void {
-    this.tabs.next(this.tabs.getValue().map((m,ind) => {
-      m.active = ind === index ? true : false;
-      return m;
-    }))
+    this.tabs.next(
+      this.tabs.getValue().map((m, ind) => {
+        m.active = ind === index ? true : false;
+        return m;
+      })
+    );
   }
 
   public drop(index: number): void {
     let curTabs = this.tabs.getValue();
-    curTabs = curTabs.filter((f,i) => i !== index);
+    curTabs = curTabs.filter((f, i) => i !== index);
     // this.tabs.next(curTabs.filter((f,i) => i !== index));
-    curTabs.forEach(tab => {
+    curTabs.forEach((tab) => {
       tab.active = false;
     });
     if (curTabs[index]) {
       curTabs[index].active = true;
-    } else{
+    } else {
       curTabs[index - 1].active = true;
     }
     this.tabs.next(curTabs);

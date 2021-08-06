@@ -4,31 +4,42 @@ import {
   ComponentFactoryResolver, OnInit, ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import { TabService } from './../../../core/tab/tab.service';
-import { ModalService } from './../../../features/modal/modal.service';
-import { SidebarService } from './../../../features/sidebar/sidebar.service';
+import { BreadcrumbService } from '../../core/breadcrumb/breadcrumb.service';
+import { TabService } from '../../core/tab/tab.service';
+import { ModalService } from '../../features/modal/modal.service';
+import { SidebarService } from '../../features/sidebar/sidebar.service';
 
 @Component({
-  selector: 'app-dashboard-test',
-  templateUrl: './dashboard-test.component.html',
-  styleUrls: ['./dashboard-test.component.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardTestComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   tabs;
 
   @ViewChild('toggleableWindowContainer', { read: ViewContainerRef })
   toggleableWindowContainer: ViewContainerRef;
 
+  showedCatalogs = false;
+
+  title = 'testTitle'
+  public breadcrumbItems: any[];
+  public breadcrumbHome: any;
+
   constructor(
     public componentFactoryResolver: ComponentFactoryResolver,
     private tabService: TabService,
     private sidebarService: SidebarService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    protected breadcrumbService: BreadcrumbService
   ) {
     this.tabs = this.tabService.tabs;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.breadcrumbItems = this.breadcrumbService.getBreadcrumb();
+    this.breadcrumbHome = this.breadcrumbService.getHome();
+  }
 
   ngAfterViewInit(): void {
     this.sidebarService.registerViewContainer(this.toggleableWindowContainer);

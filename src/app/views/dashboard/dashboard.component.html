@@ -1,0 +1,65 @@
+<p-tabView
+  styleClass="p-ctabView"
+  (onChange)="activateTab($event.index)"
+  #toggleableWindowContainer
+>
+  <p-tabPanel
+    [header]="tab.name"
+    *ngFor="let tab of tabs | async; let i = index"
+    [selected]="tab.active"
+    #tp
+  >
+    <ng-template pTemplate="header">
+      <div [ngClass]="{ active: tab.active }">
+        <span>{{ tab.name }}</span>
+        <button *ngIf="tab.canClose" (click)="closeTab(i)">X</button>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="i == 0">
+      <ul>
+        <li (click)="showedCatalogs = true">Каталоги</li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="i > 0">
+      <!-- <span>asd</span> -->
+      <div class="row" style="height: 100%">
+        <div class="col">
+          <div class="row breadcrumbs-container">
+            <div class="col">
+              <p-breadcrumb
+                [model]="breadcrumbItems"
+                [home]="breadcrumbHome"
+              ></p-breadcrumb>
+            </div>
+          </div>
+          <div class="row table-title">
+            <div class="col">
+              <span>{{ title }}</span>
+            </div>
+            <div class="col right-col"></div>
+          </div>
+          <div class="row table-container">
+            <div
+              class="col"
+              appCreateComponent
+              [component]="tab.component"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </p-tabPanel>
+</p-tabView>
+<section id="footer">
+  <app-lang-check></app-lang-check>
+</section>
+
+<div *ngIf="showedCatalogs" id="catalogs" class="bg">
+  <div class="content">
+    <span class="close" (click)="showedCatalogs = false">X</span>
+    <ul>
+      <li (click)="open('/catalogs/bank'); showedCatalogs = false">Банки</li>
+      <li (click)="open('Product'); showedCatalogs = false">Товары</li>
+    </ul>
+  </div>
+</div>

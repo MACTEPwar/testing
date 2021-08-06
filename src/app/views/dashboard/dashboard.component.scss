@@ -33,6 +33,31 @@ $height-footer: 30px;
   }
 }
 
+#catalogs.bg {
+  position: absolute;
+  background-color: rgba(116, 116, 116, 0.494);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  .content {
+    background: white;
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    position: relative;
+    .close {
+      position: absolute;
+      right: 2px;
+    }
+    .close:hover {
+      background-color: red;
+      color: white;
+      cursor: pointer;
+    }
+  }
+}
+
 #footer {
   height: $height-footer;
 }
