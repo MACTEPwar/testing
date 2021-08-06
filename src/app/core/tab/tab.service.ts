@@ -1,74 +1,90 @@
-import { Injectable } from '@angular/core';
+import { BankPartialComponent } from './../../features/partial-view/bank-partial/bank-partial.component';
+import { Injectable, Type } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Tab } from '../../types/tab';
 
 @Injectable()
 export class TabService {
+  ASSOCC_COMPONENTS: Map<string, Type<any>> = new Map<string, Type<any>>([
+    ['Bank', BankPartialComponent],
+  ]);
+
   constructor(private router: Router) {}
 
   public tabs: BehaviorSubject<Array<Tab>> = new BehaviorSubject<Array<Tab>>(
     new Array<Tab>({
+      id: 'Dashboard',
+      name: 'Dashboard',
       active: true,
       canClose: false,
-      name: 'Dashboard',
-      id: '/',
     })
   );
+
+  // public activeTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(
+  //   0
+  // );
 
   /**
    * Открыть таб
    * @param tab Таб
    */
-  public add(tab: Tab, isAddAndOpen = true): void {
-    let existTab = this.tabs.getValue().find((f) => f.id === tab.id);
-    if (existTab) {
-      this.changeTabActivity(existTab, true);
+  public open(tab: Tab): void {
+    const curTabs = this.tabs.getValue();
+    const ifTabExist = curTabs.findIndex((f) => f.id === tab.id) ?? null;
+    if (ifTabExist !== -1) {
+      this.activateTab(ifTabExist)
+      // this.activeTabIndex.next(curTabs.findIndex((f) => f.id === tab.id));
     } else {
-      this.tabs.next(this.tabs.getValue().concat([tab]));
+      this.create(tab);
+      // this.activeTabIndex.next(
+      //   this.tabs.getValue().findIndex((f) => f.id === tab.name)
+      // );
     }
-    if (isAddAndOpen) {
-        this.router.navigate([tab.id]);
+    // tab.component = this.ASSOCC_COMPONENTS.get(tab.id);
+    // tab.name = tab.id;
+    // this.tabs.next([
+    //   ...this.tabs.getValue().map((m) => {
+    //     m.active = false;
+    //     return m;
+    //   }),
+    //   tab,
+    // ]);
+  }
+
+  public activateTab(index: number): void {
+    this.tabs.next(this.tabs.getValue().map((m,ind) => {
+      m.active = ind === index ? true : false;
+      return m;
+    }))
+  }
+
+  public drop(index: number): void {
+    let curTabs = this.tabs.getValue();
+    curTabs = curTabs.filter((f,i) => i !== index);
+    // this.tabs.next(curTabs.filter((f,i) => i !== index));
+    curTabs.forEach(tab => {
+      tab.active = false;
+    });
+    if (curTabs[index]) {
+      curTabs[index].active = true;
+    } else{
+      curTabs[index - 1].active = true;
     }
+    this.tabs.next(curTabs);
   }
 
-  /**
-   * Закрыть таб
-   * @param tab Таб
-   */
-  public close(tab: Tab): void;
-  /**
-   * Закрыть таб
-   * @param url Url
-   */
-  public close(url: string): void;
-  public close(options: Tab | string): void {
-    const ID: string = typeof options === 'object' ? options.id : options;
-    const TABS = this.tabs.getValue();
-    const newTabs = [...TABS.filter((f) => f.id !== ID)];
-    this.tabs.next(newTabs);
-    this.router.navigate([newTabs[newTabs.length - 1].id]);
-  }
-
-  /**
-   * Изменяет активность таба
-   * @param tab таб
-   * @param state активность (true по стандарту)
-   */
-  public changeTabActivity(tab: Tab, state = true): void {
-    this.disabledAllTabs();
-    tab.active = state;
-  }
-
-  /**
-   * Снимает активность со всех табов
-   */
-  public disabledAllTabs(): void {
+  private create(tab: Tab): void {
+    tab.component = this.ASSOCC_COMPONENTS.get(tab.id);
+    tab.active = tab.active ?? true;
+    tab.canClose = tab.canClose ?? true;
+    tab.name = tab.id;
     this.tabs.next([
       ...this.tabs.getValue().map((m) => {
         m.active = false;
         return m;
       }),
+      tab,
     ]);
   }
 }

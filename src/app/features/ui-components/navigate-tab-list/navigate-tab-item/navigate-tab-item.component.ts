@@ -17,7 +17,7 @@ export class NavigateTabItemComponent implements OnInit {
   }
 
   closeTab(): void {
-    this.tabService.close(this.tab);
+    // this.tabService.close(this.tab);
     console.log('test', this.tab)
   }
 

@@ -21,6 +21,9 @@ $height-footer: 30px;
           padding: $paddding-a;
         }
       }
+      .active {
+        background: red !important;
+      }
     }
     .p-tabview-panels {
       height: calc(100% - #{$height-tab-title});

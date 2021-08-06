@@ -20,7 +20,7 @@ export class TabRouteLinkComponent implements OnInit {
   }
 
   openTab(): void {
-    this.tabService.add(this.tab);
+    // this.tabService.add(this.tab);
   }
 
 }

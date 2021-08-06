@@ -1,22 +1,31 @@
-<p-tabView styleClass="p-ctabView" #tabView>
-  <!-- <p-tabPanel
-    [header]="tab.header"
-    *ngFor="let tab of tabs; let i = index"
-    [selected]="i == 0"
-  >
-    <ng-content *ngTempalteOutlet="tab.tempalte"></ng-content>
-  </p-tabPanel> -->
-  <p-tabPanel header="Dashboard" [selected]="true">
-    <ul>
-      <li (click)="open('Bank')">Банки</li>
-      <li (click)="open('Product')">Товары</li>
-    </ul>
-  </p-tabPanel>
+<p-tabView
+  styleClass="p-ctabView"
+  (onChange)="activateTab($event.index)"
+  #toggleableWindowContainer
+>
   <p-tabPanel
-    [header]="tab.header"
-    *ngFor="let tab of tabs; let i = index"
+    [header]="tab.name"
+    *ngFor="let tab of tabs | async; let i = index"
+    [selected]="tab.active"
+    #tp
   >
-    <ng-tempalte appCreateComponent [component]="tab.component"></ng-tempalte>
+    <ng-template pTemplate="header">
+      <div [ngClass]="{active: tab.active}">
+        <span>{{tab.name}}</span>
+        <button *ngIf="tab.canClose" (click)="closeTab(i)">X</button>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="i == 0">
+      <ul>
+        <li (click)="open('Bank')">Банки</li>
+        <li (click)="open('Product')">Товары</li>
+      </ul>
+    </ng-container>
+    <ng-tempalte
+      appCreateComponent
+      [component]="tab.component"
+      *ngIf="i > 0"
+    ></ng-tempalte>
   </p-tabPanel>
 </p-tabView>
 <section id="footer">

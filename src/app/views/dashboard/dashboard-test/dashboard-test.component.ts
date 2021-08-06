@@ -1,15 +1,12 @@
-import { BankPartialComponent } from './../../../features/partial-view/bank-partial/bank-partial.component';
 import {
   AfterViewInit,
   Component,
-  ComponentFactoryResolver,
-  Injector,
-  OnInit,
-  TemplateRef,
-  Type,
-  ViewChild,
-  ViewContainerRef,
+  ComponentFactoryResolver, OnInit, ViewChild,
+  ViewContainerRef
 } from '@angular/core';
+import { TabService } from './../../../core/tab/tab.service';
+import { ModalService } from './../../../features/modal/modal.service';
+import { SidebarService } from './../../../features/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-dashboard-test',
@@ -17,42 +14,38 @@ import {
   styleUrls: ['./dashboard-test.component.scss'],
 })
 export class DashboardTestComponent implements OnInit, AfterViewInit {
-  tabs: Tab[] = [];
+  tabs;
 
-  @ViewChild('tabView', { static: true }) tabView: ViewContainerRef;
-  @ViewChild('tabPanel', { static: true }) tabPanel: ViewContainerRef;
+  @ViewChild('toggleableWindowContainer', { read: ViewContainerRef })
+  toggleableWindowContainer: ViewContainerRef;
 
   constructor(
     public componentFactoryResolver: ComponentFactoryResolver,
-    private injector: Injector
-  ) {}
+    private tabService: TabService,
+    private sidebarService: SidebarService,
+    private modalService: ModalService
+  ) {
+    this.tabs = this.tabService.tabs;
+  }
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.addTab();
+    this.sidebarService.registerViewContainer(this.toggleableWindowContainer);
+    this.modalService.registerViewContainer(this.toggleableWindowContainer);
   }
 
-  addTab(): void {
-    // const injector = ReflectiveInjector.resolveAndCreate([ModalContext], container.instance.container.injector);
-    // console.log(this.tabPanel)
-    // const componentFactory =
-    //   this.componentFactoryResolver.resolveComponentFactory(
-    //     BankPartialComponent
-    //   );
-    // const componentRef = (this.tabPanel as any).viewContainer.createComponent(componentFactory);
-
-    // this.tabs.push({
-    //   headres: 'asd',
-    //   tempalte
-    // })
-    this.tabs.push({ header: 'asd', component: BankPartialComponent });
+  open(name: string): void {
+    this.tabService.open({
+      id: name,
+    });
   }
 
-  open(name: string): void {}
-}
+  activateTab(index: number): void {
+    this.tabService.activateTab(index);
+  }
 
-export class Tab {
-  header: string;
-  component: Type<any>;
+  closeTab(index: number): void {
+    this.tabService.drop(index);
+  }
 }
