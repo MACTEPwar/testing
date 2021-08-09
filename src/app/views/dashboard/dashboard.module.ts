@@ -1,7 +1,6 @@
 import { ProductPartialModule } from './../../features/partial-view/product-partial/product-partial.module';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BankPartialModule } from './../../features/partial-view/bank-partial/bank-partial.module';
-import { CatalogsModule } from './catalogs/catalogs.module';
 import { LangCheckModule } from './../../features/ui-components/lang-check/lang-check.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,10 +10,9 @@ import { NavigateTabListModule } from '../../features/ui-components/navigate-tab
 import { DashboardComponent } from './dashboard.component';
 import { TabViewModule } from 'primeng/tabview';
 import { CreateComponentDirective } from './create-component.directive';
-import { GetTabTitlePipe } from './get-tab-title.pipe';
 
 @NgModule({
-  declarations: [DashboardComponent, CreateComponentDirective, GetTabTitlePipe],
+  declarations: [DashboardComponent, CreateComponentDirective],
   imports: [
     CommonModule,
     DashboardRoutingModule,
