@@ -1,3 +1,4 @@
+import { ProductPartialModule } from './../../features/partial-view/product-partial/product-partial.module';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BankPartialModule } from './../../features/partial-view/bank-partial/bank-partial.module';
 import { CatalogsModule } from './catalogs/catalogs.module';
@@ -21,8 +22,9 @@ import { GetTabTitlePipe } from './get-tab-title.pipe';
     NavigateTabListModule,
     LangCheckModule,
     TabViewModule,
+    BreadcrumbModule,
     BankPartialModule,
-    BreadcrumbModule
+    ProductPartialModule
   ],
 })
 export class DashboardModule {}

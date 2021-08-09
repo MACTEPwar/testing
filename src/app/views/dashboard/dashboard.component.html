@@ -7,6 +7,7 @@
     [header]="tab.name"
     *ngFor="let tab of tabs | async; let i = index"
     [selected]="tab.active"
+    [ngClass]="{ active: tab.active }"
     #tp
   >
     <ng-template pTemplate="header">

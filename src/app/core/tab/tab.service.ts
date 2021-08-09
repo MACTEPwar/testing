@@ -1,3 +1,4 @@
+import { ProductPartialComponent } from './../../features/partial-view/product-partial/product-partial.component';
 import { MainMenuService } from './../main-menu/services/concrete/main-menu.service';
 import { BankPartialModule } from './../../features/partial-view/bank-partial/bank-partial.module';
 import { BankPartialComponent } from './../../features/partial-view/bank-partial/bank-partial.component';
@@ -12,6 +13,7 @@ export class TabService {
 
   ASSOCC_COMPONENTS: Map<string, any> = new Map<string, Type<any>>([
     ['/catalogs/banks', BankPartialComponent],
+    ['/catalogs/product', ProductPartialComponent],
   ]);
 
   constructor(private mainMenuService: MainMenuService) {}

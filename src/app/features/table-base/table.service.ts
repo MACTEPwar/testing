@@ -80,9 +80,6 @@ export abstract class TableService {
         'default'
       ).fields;
 
-      console.log('HHHH', headers);
-      console.log('HHHH', headers2);
-
       let changedHeaders = this.applayClientSettingsToHeaders(
         headers,
         clientSettings
@@ -150,7 +147,6 @@ export abstract class TableService {
       new Paging(event.first, event.rows),
       sort
     );
-    console.log(filter);
     return filter;
   }
 

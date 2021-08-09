@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.tabService.currentTab.subscribe((cuurentTab) => {
       if (cuurentTab) {
+        this.breadcrumbItems = [];
         this.loadBreadCrumbs(cuurentTab, 'url', 'id');
         this.title = cuurentTab.name;
       }
@@ -58,10 +59,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.sidebarService.registerViewContainer(this.toggleableWindowContainer);
     this.modalService.registerViewContainer(this.toggleableWindowContainer);
-  }
-
-  getBreadCrumbs(): any[] {
-    return [];
   }
 
   open(name: string): void {
@@ -104,12 +101,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       keyInCurrent,
       element[keyInFinded]
     );
-
     this.breadcrumbItems.unshift({
-      label: currentElement.name,
+      label: currentElement?.name,
     });
-
-    if (currentElement.parentId !== null) {
+    if (currentElement?.parentId !== null && currentElement?.parentId !== undefined) {
       this.loadBreadCrumbs(currentElement);
     }
   }

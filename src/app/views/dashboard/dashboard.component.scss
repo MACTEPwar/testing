@@ -26,9 +26,16 @@ $height-footer: 30px;
       }
     }
     .p-tabview-panels {
+      padding: 0;
       height: calc(100% - #{$height-tab-title});
       overflow-y: hidden;
       display: flex;
+      p-tabpanel.active {
+        width: 100%;
+        .p-tabview-panel {
+          height: 100%;
+        }
+      }
     }
   }
 }
@@ -56,6 +63,41 @@ $height-footer: 30px;
       cursor: pointer;
     }
   }
+}
+
+.breadcrumbs-container {
+  height: 55px;
+  max-height: 55px;
+}
+
+.table-title {
+  height: 55px;
+  max-height: 55px;
+  & {
+    .col {
+      & {
+        span {
+          display: flex;
+          margin-top: auto;
+          margin-bottom: auto;
+          margin-left: 2rem;
+          margin-left: 0.5rem;
+          font-size: 18pt;
+          color: #4a4a4a;
+        }
+      }
+    }
+  }
+}
+
+.table-container {
+  height: calc(100% - 55px - 55px);
+  justify-content: start;
+}
+
+.right-col {
+  margin-left: auto;
+  flex: initial;
 }
 
 #footer {
