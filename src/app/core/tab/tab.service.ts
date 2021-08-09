@@ -8,7 +8,7 @@ import { Tab } from '../../types/tab';
 @Injectable()
 export class TabService {
   ASSOCC_COMPONENTS: Map<string, any> = new Map<string, Type<any>>([
-    ['/catalogs/bank', BankPartialComponent],
+    ['/catalogs/banks', BankPartialComponent],
   ]);
 
   constructor(private router: Router) {}

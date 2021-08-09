@@ -1,3 +1,4 @@
+import { MainMenuModule } from './main-menu/main-menu.module';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -22,7 +23,8 @@ import { NotificationModule } from './notification/notification.module';
     LocalizationModule,
     ConfigurationModule,
     BreadcrumbModule,
-    NotificationModule
+    NotificationModule,
+    MainMenuModule
   ],
   providers: [
     TranslateService,
