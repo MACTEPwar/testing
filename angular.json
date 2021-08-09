@@ -47,6 +47,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
+            "allowedCommonJsDependencies": ["core-js-pure", "rxjs", "jspdf-autotable", "raf", "xlsx"],
             "styles": [
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
@@ -92,20 +93,13 @@
                 }
               ]
             },
-            "dev": {
-
-            }
+            "dev": {}
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "testing:build",
-            "sourceMap": {
-              "scripts": true,
-              "styles": false,
-              "vendor": false
-            }
+            "browserTarget": "testing:build"
           },
           "configurations": {
             "production": {
