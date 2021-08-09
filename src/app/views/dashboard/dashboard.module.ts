@@ -10,9 +10,10 @@ import { NavigateTabListModule } from '../../features/ui-components/navigate-tab
 import { DashboardComponent } from './dashboard.component';
 import { TabViewModule } from 'primeng/tabview';
 import { CreateComponentDirective } from './create-component.directive';
+import { GetTabTitlePipe } from './get-tab-title.pipe';
 
 @NgModule({
-  declarations: [DashboardComponent, CreateComponentDirective],
+  declarations: [DashboardComponent, CreateComponentDirective, GetTabTitlePipe],
   imports: [
     CommonModule,
     DashboardRoutingModule,

@@ -25,8 +25,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   showedCatalogs = false;
 
-  title = 'testTitle';
-  public breadcrumbItems: any[];
+  title = '';
+  public breadcrumbItems: any[] = [];
   public breadcrumbHome: any;
 
   mainMenu;
@@ -45,13 +45,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.breadcrumbItems = this.breadcrumbService.getBreadcrumb();
     this.breadcrumbHome = this.breadcrumbService.getHome();
+
+    this.tabService.currentTab.subscribe((cuurentTab) => {
+      if (cuurentTab) {
+        this.loadBreadCrumbs(cuurentTab, 'url', 'id');
+        this.title = cuurentTab.name;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
     this.sidebarService.registerViewContainer(this.toggleableWindowContainer);
     this.modalService.registerViewContainer(this.toggleableWindowContainer);
+  }
+
+  getBreadCrumbs(): any[] {
+    return [];
   }
 
   open(name: string): void {
@@ -70,14 +80,37 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   openSubMenu(id: string): void {
     const item = this.mainMenuService.getItem('id', id);
-    console.log('item', item)
     if (item.url) {
       this.open(item.url);
       this.showedCatalogs = false;
-      console.log(item.url);
     } else {
       this.subMenuItems = item.children;
       this.showedCatalogs = true;
+    }
+  }
+
+  /**
+   * Собирает крошки
+   * @param element Текущий элемент
+   * @param keyInCurrent Ключ в элементе для поиска
+   * @param keyInFinded Ключ в найденном элементе
+   */
+  loadBreadCrumbs(
+    element,
+    keyInCurrent = 'id',
+    keyInFinded = 'parentId'
+  ): void {
+    let currentElement = this.mainMenuService.getItem(
+      keyInCurrent,
+      element[keyInFinded]
+    );
+
+    this.breadcrumbItems.unshift({
+      label: currentElement.name,
+    });
+
+    if (currentElement.parentId !== null) {
+      this.loadBreadCrumbs(currentElement);
     }
   }
 }

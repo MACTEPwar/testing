@@ -16,11 +16,7 @@
       </div>
     </ng-template>
     <ng-container *ngIf="i == 0">
-      <!-- <pre>
-        {{(mainMenu | async) | json}}
-      </pre> -->
       <ul>
-        <!-- <li (click)="showedCatalogs = true" *ngFor="let menuItem of (mainMenu | async)">{{menuItem.name}}</li> -->
         <li
           (click)="openSubMenu(menuItem.id)"
           *ngFor="let menuItem of mainMenu | async"
@@ -30,7 +26,6 @@
       </ul>
     </ng-container>
     <ng-container *ngIf="i > 0">
-      <!-- <span>asd</span> -->
       <div class="row" style="height: 100%">
         <div class="col">
           <div class="row breadcrumbs-container">
@@ -67,13 +62,8 @@
   <div class="content">
     <span class="close" (click)="showedCatalogs = false">X</span>
     <ul>
-      <!-- <li (click)="open('/catalogs/bank'); showedCatalogs = false">Банки</li>
-      <li (click)="open('Product'); showedCatalogs = false">Товары</li> -->
       <li *ngFor="let subMenuItem of subMenuItems" (click)="openSubMenu(subMenuItem.id)">
         {{ subMenuItem.name }}
-        <!-- <pre>
-          {{subMenuItem | json}}
-        </pre> -->
       </li>
     </ul>
   </div>
