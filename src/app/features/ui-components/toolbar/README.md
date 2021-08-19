@@ -30,31 +30,19 @@ import { ToolbarModule } from 'ui-components/toolbar'
 
 # Type items and options
 
-|Class              |Options            |Defaul value   |Status         |Descriptions   |
-|:---               |:---               |:---           |:---:          |:---           |
-|`ToolbarButtonItem`|`id: string`       |`undefined`    |`requred`      |uniq identifier|
-|                   |`title`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`icon`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`call`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`disabled`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`typeIcon`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`isVisible`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`classes`: `string`  |`undefined`    |`non requred`  |name for button|
-|                   |`styles`: `string`  |`undefined`    |`non requred`  |name for button|
-
 <table>
     <thead>
         <tr>
-            <th>Class</th>
-            <th>Options</th>
-            <th>Defaul value</th>
-            <th>Status</th>
-            <th>Descriptions</th>
+            <th>Кдасс</th>
+            <th>Опция</th>
+            <th>Значение по умолчанию</th>
+            <th>Статус</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td rowspan="9"><code>ToolbarButtonItem</code></td>
+            <td rowspan="9">ToolbarButtonItem</td>
             <td><code>id</code>:<code><i>string</i></code></td>
             <td><code>undefined</code></td>
             <td><code>requred</code></td>
