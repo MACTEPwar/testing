@@ -1,15 +1,40 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IToolbarItem } from './models/interfaces/i-toolbar-item';
+import { IToolbarItem } from './i-toolbar-item';
+import { ToolbarBuilder } from './toolbar-builder';
+import { ButtonOptions } from './options/button-options';
+import { SplitterOptions } from './options/splitter-options';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable()
 export class ToolbarService {
+  items: BehaviorSubject<IToolbarItem[]> = new BehaviorSubject<IToolbarItem[]>(
+    []
+  );
+  toolbarBuilder: ToolbarBuilder;
 
-  items: BehaviorSubject<IToolbarItem[]> = new BehaviorSubject<IToolbarItem[]>([]);
+  constructor() {
+    this.toolbarBuilder = new ToolbarBuilder();
+    this.toolbarBuilder.toolbarItems.subscribe((items) =>
+      this.items.next(items)
+    );
+  }
 
-  constructor() { }
+  addButton(options: ButtonOptions): this {
+    this.toolbarBuilder.addButton(options);
+    return this;
+  }
 
-  setItems(items: IToolbarItem[]): void {
-    this.items.next(items);
+  addSplitter(options: SplitterOptions): this {
+    this.toolbarBuilder.addSplitter(options);
+    return this;
+  }
+
+  changeOption(id: string, key: string, value: any): void {
+    const curr = this.items.getValue();
+    const finderItem = curr.find((f) => f.options.id === id);
+    if (finderItem && finderItem.options[key]) {
+      finderItem.options[key] = value;
+    }
   }
 }

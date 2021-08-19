@@ -1,5 +1,6 @@
+import { ToolbarService } from './../../ui-components/toolbar/toolbar.service';
 import { Component, Injector, OnInit } from '@angular/core';
-import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
+import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
 import { BankCreateComponent } from './bank-create/bank-create.component';
@@ -21,10 +22,11 @@ import { BankCreateComponent } from './bank-create/bank-create.component';
       useFactory: (bhs: BankHttpService, i: Injector): BankService =>
         new BankService(bhs, i),
     },
+    ToolbarService
   ],
 })
 export class BankPartialComponent
-  extends CatalogTablePartialBase
+  extends ACatalogTablePartialBase
   implements OnInit
 {
   constructor(

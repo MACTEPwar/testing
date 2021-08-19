@@ -1,34 +1,3 @@
-<p-toolbar>
-  <div class="p-toolbar-group-left">
-    <div *ngFor="let toolbarItem of toolbarItems | async">
-      <div [ngSwitch]="toolbarItem.type">
-        <!-- Если button -->
-        <ng-template ngSwitchCase="button">
-          <div class="toolbarItem">
-            <al-toolbar-button [item]="toolbarItem"></al-toolbar-button>
-          </div>
-        </ng-template>
-        <!-- Если separator -->
-        <ng-template ngSwitchCase="separator">
-          <div class="toolbarItem">
-            <al-toolbar-separator [item]="toolbarItem"></al-toolbar-separator>
-          </div>
-        </ng-template>
-        <!-- Если calendar -->
-        <ng-template ngSwitchCase="calendar">
-          <div class="toolbarItem">
-            <al-toolbar-calendar [item]="toolbarItem"></al-toolbar-calendar>
-          </div>
-        </ng-template>
-        <!-- Если calendar -->
-        <ng-template ngSwitchCase="openLinkedData">
-          <div class="toolbarItem">
-            <al-toolbar-open-linked-date
-              [item]="toolbarItem"
-            ></al-toolbar-open-linked-date>
-          </div>
-        </ng-template>
-      </div>
-    </div>
-  </div>
-</p-toolbar>
+<div id="toolbarContainer">
+  <ng-container #toolbarContainer></ng-container>
+</div>

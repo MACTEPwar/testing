@@ -13,8 +13,6 @@ import {
 import { FilterMetadata, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableFilterService } from '../../table-filter/table-filter.service';
-import { ToolbarButtonItem } from '../toolbar/models/concrete/toolbar-button-item-options';
-import { IToolbarItem } from '../toolbar/models/interfaces/i-toolbar-item';
 import { makeRowsSameHeight } from './helper';
 import { DataGridService } from './data-grid.service';
 import { WindowService } from '../../window/window.service';
@@ -112,12 +110,6 @@ export class DataGridComponent implements OnInit {
   @Output() onColResize: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColReorder: EventEmitter<any> = new EventEmitter<any>();
   @Output() onColToggle: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output() onToolbarChange: EventEmitter<IToolbarItem[]> = new EventEmitter<
-    IToolbarItem[]
-  >();
-
-  @Input() toolbarItems: IToolbarItem[];
 
   // @ContentChildren(AlTemplateDirective)
   // templates: QueryList<AlTemplateDirective>;

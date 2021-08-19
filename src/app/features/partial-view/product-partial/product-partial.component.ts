@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, ChangeDetectionStrategy } from '@angular/core';
 import { ProductHttpService } from './product-http.service';
 import { ProductService } from './product.service';
-import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
+import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
 
 @Component({
   selector: 'app-product-partial',
@@ -23,7 +23,7 @@ import { CatalogTablePartialBase } from '../../table-base/catalog/a-catalog-tabl
   ],
 })
 export class ProductPartialComponent
-  extends CatalogTablePartialBase
+  extends ACatalogTablePartialBase
   implements OnInit
 {
   constructor(

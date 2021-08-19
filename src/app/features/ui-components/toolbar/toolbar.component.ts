@@ -1,26 +1,53 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ComponentFactoryResolver,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { ButtonComponent } from './components/button/button.component';
 import { ToolbarService } from './toolbar.service';
-import { BehaviorSubject } from 'rxjs';
-import { IToolbarItem } from './models/interfaces/i-toolbar-item';
+import { Type } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
-  providers: [ToolbarService]
+  styleUrls: ['./toolbar.component.css'],
+  // providers: [ToolbarService],
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, AfterViewInit {
+  @ViewChild('toolbarContainer', { read: ViewContainerRef })
+  toolbarContainer: ViewContainerRef;
 
-  @Input() items: IToolbarItem[];
+  constructor(
+    private toolbarService: ToolbarService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  toolbarItems: BehaviorSubject<IToolbarItem[]>
+  ngOnInit(): void {}
 
-  constructor(private toolbarService: ToolbarService) { 
-    this.toolbarItems = this.toolbarService.items;
+  ngAfterViewInit(): void {
+    this.toolbarService.items.subscribe((items) => {
+      this.toolbarContainer.clear();
+      items.forEach((item) => {
+        this.addComponents(item.component, item.options);
+      });
+    });
+    this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
-    this.toolbarService.setItems(this.items);
+  addComponents(component: Type<any>, options: any = {}): void {
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(component);
+    const componentRef =
+      this.toolbarContainer.createComponent(componentFactory);
+    componentRef.instance.options = options;
   }
 
+  clear(): void {
+    this.toolbarContainer.clear();
+  }
 }

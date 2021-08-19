@@ -1,3 +1,5 @@
+import { ButtonOptions } from './../ui-components/toolbar/options/button-options';
+import { ToolbarService } from './../ui-components/toolbar/toolbar.service';
 import {
   ContentChildren,
   Directive,
@@ -16,12 +18,12 @@ import {
   Paging,
 } from '../../types/filter';
 import { ModalService } from '../modal/modal.service';
-import { ToolbarButtonItem } from '../ui-components/toolbar/models/concrete/toolbar-button-item-options';
 import { WindowService } from '../window/window.service';
 import { TableService } from './table.service';
 import { Input } from '@angular/core';
 import { SpecialField } from '../../types/special-field';
 import { AlTemplateDirective } from '../../shared/directives/al-tempalte/al-template.directive';
+import { SplitterOptions } from '../ui-components/toolbar/options/splitter-options';
 
 @Directive()
 export abstract class TablePartialBaseDirective {
@@ -35,7 +37,6 @@ export abstract class TablePartialBaseDirective {
   filters = {};
   constants;
   clientSettings;
-  @Input() toolbarItems;
   filterIsShowed;
 
   specialFields: SpecialField[] = [];
@@ -46,6 +47,7 @@ export abstract class TablePartialBaseDirective {
 
   protected windowService: WindowService;
   protected modalService: ModalService;
+  protected toolbarService: ToolbarService;
 
   @ContentChildren(AlTemplateDirective)
   templates: QueryList<AlTemplateDirective>;
@@ -77,25 +79,22 @@ export abstract class TablePartialBaseDirective {
   }
 
   protected setDefaultToolbar() {
-    const onFilterClick: () => void = () => {
-      this.filterIsShowed = !this.filterIsShowed;
-    };
-
-    this.toolbarItems = [
-      new ToolbarButtonItem('create', 'Toolbar.create', null, () => {
-        this.modalService.open(this.createComponent, {
-          service: this.tableService,
-        });
-      }),
-      new ToolbarButtonItem('edit', 'Toolbar.edit', null, this.showEditView),
-      new ToolbarButtonItem(
-        'delete',
-        'Toolbar.delete',
-        null,
-        this.showDeleteView
-      ),
-      new ToolbarButtonItem('filter', 'Toolbar.filter', null, onFilterClick),
-    ];
+    this.toolbarService
+      .addButton(
+        new ButtonOptions('create')
+          .setName('Create')
+          .setHandler(() => {
+            this.showCreateView()
+          })
+      )
+      // .addSplitter(new SplitterOptions('splitter'))
+      .addButton(
+        new ButtonOptions('update')
+          .setName('Update')
+          .setHandler(() => {
+            alert('Im is update btn');
+          })
+      );
   }
 
   getData(event) {
@@ -165,6 +164,7 @@ export abstract class TablePartialBaseDirective {
 
     this.windowService = injector.get(WindowService, null);
     this.modalService = injector.get(ModalService, null);
+    this.toolbarService = injector.get(ToolbarService, null);
 
     setCurrentInjector(former);
   }
