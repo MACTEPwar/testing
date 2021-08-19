@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IToolbarItem } from './i-toolbar-item';
-import { ToolbarBuilder } from './toolbar-builder';
+import { ETolbarItemType, ToolbarBuilder } from './toolbar-builder';
 import { ButtonOptions } from './options/button-options';
 import { SplitterOptions } from './options/splitter-options';
 import { ThrowStmt } from '@angular/compiler';
@@ -21,12 +21,12 @@ export class ToolbarService {
   }
 
   addButton(options: ButtonOptions): this {
-    this.toolbarBuilder.addButton(options);
+    this.toolbarBuilder.createItem(ETolbarItemType.BUTTON, options);
     return this;
   }
 
   addSplitter(options: SplitterOptions): this {
-    this.toolbarBuilder.addSplitter(options);
+    this.toolbarBuilder.createItem(ETolbarItemType.SPLITTER, options);
     return this;
   }
 

@@ -1,28 +1,31 @@
+import { Type } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ButtonComponent } from './components/button/button.component';
 import { SplitterComponent } from './components/splitter/splitter.component';
 import { IToolbarItem } from './i-toolbar-item';
-import { ButtonOptions } from './options/button-options';
-import { SplitterOptions } from './options/splitter-options';
+import { BaseOptions } from './options/base-options';
 
 export class ToolbarBuilder {
   toolbarItems: BehaviorSubject<IToolbarItem[]> = new BehaviorSubject<
     IToolbarItem[]
   >([]);
 
-  addButton(options: ButtonOptions): void {
-    const obj: IToolbarItem = {
-      component: ButtonComponent,
-      options,
-    };
-    this.toolbarItems.next([...this.toolbarItems.getValue(), obj]);
-  }
+  assoc = new Map<ETolbarItemType, Type<any>>([
+    [ETolbarItemType.BUTTON, ButtonComponent],
+    [ETolbarItemType.SPLITTER, SplitterComponent],
+  ]);
 
-  addSplitter(options: SplitterOptions): void {
+  createItem(type: ETolbarItemType, options: BaseOptions): void {
     const obj: IToolbarItem = {
-      component: SplitterComponent,
+      component: this.assoc.get(type),
       options,
     };
+
     this.toolbarItems.next([...this.toolbarItems.getValue(), obj]);
   }
+}
+
+export enum ETolbarItemType {
+  BUTTON,
+  SPLITTER,
 }
