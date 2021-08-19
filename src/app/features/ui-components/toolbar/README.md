@@ -1,10 +1,10 @@
-# Importing 
+# Импорт 
 
 ```typescript
 import { ToolbarModule } from 'ui-components/toolbar'
 ```
 
-# Usage
+# Использование
 
 ```html
 <app-toolbar [items]="items"></app-toolbar>
@@ -28,7 +28,7 @@ import { ToolbarModule } from 'ui-components/toolbar'
     ];
 ```
 
-# Type items and options
+# Типы элементов и их опции
 
 <table>
     <thead>
