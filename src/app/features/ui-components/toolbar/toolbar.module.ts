@@ -10,6 +10,5 @@ import { ToolbarComponent } from './toolbar.component';
   imports: [CommonModule, FormsModule],
   declarations: [SplitterComponent, ButtonComponent, ToolbarComponent],
   exports: [ToolbarComponent],
-  providers: [ToolbarService],
 })
 export class ToolbarModule {}

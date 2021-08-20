@@ -4,11 +4,8 @@ import { TablePartialBaseDirective } from '../a-table-partial-base.directive';
 import { TableService } from '../table.service';
 @Directive()
 export abstract class ACatalogTablePartialBase extends TablePartialBaseDirective {
-  constructor(
-    protected tableService: TableService,
-    protected injector: Injector
-  ) {
-    super(tableService, injector);
+  constructor(protected injector: Injector) {
+    super(injector);
   }
 
   protected setDefaultToolbar() {

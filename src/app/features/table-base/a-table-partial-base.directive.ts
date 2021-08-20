@@ -1,8 +1,4 @@
-import { ButtonOptions } from './../ui-components/toolbar/options/button-options';
-import {
-  ToolbarService,
-  TOOLBAR_SERVICE_IT,
-} from './../ui-components/toolbar/toolbar.service';
+import { TableServiceCreator } from './table-service-creator';
 import {
   ContentChildren,
   Directive,
@@ -14,27 +10,21 @@ import {
   Type,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
-import {
-  EFilterType,
-  ESortType,
-  Filter,
-  FilterAnd,
-  FilterItem,
-  ISortItem,
-  Paging,
-} from '../../types/filter';
+import { AlTemplateDirective } from '../../shared/directives/al-tempalte/al-template.directive';
+import { SpecialField } from '../../types/special-field';
 import { ModalService } from '../modal/modal.service';
 import { WindowService } from '../window/window.service';
+import { BankService } from './../partial-view/bank-partial/bank.service';
+import { ButtonOptions } from './../ui-components/toolbar/options/button-options';
+import { ToolbarService, TOOLBAR_SERVICE_IT } from './../ui-components/toolbar/toolbar.service';
+import { TableHttpService } from './a-table-http.service';
 import { TableService } from './table.service';
-import { SpecialField } from '../../types/special-field';
-import { AlTemplateDirective } from '../../shared/directives/al-tempalte/al-template.directive';
-import { SplitterOptions } from '../ui-components/toolbar/options/splitter-options';
-import { InjectFlags } from '@angular/compiler/src/core';
-import { TableHttpService, TableHttpServiceCreator } from './a-table-http.service';
 
 export const MODEL_NAME = new InjectionToken('ModelName');
 
-export const HTTP_SERVICE = new InjectionToken('HttpService');
+export const TABLE_HTTP_SERVICE_TYPE = new InjectionToken('TableHttpService');
+
+export const TABLE_SERVICE_TYPE = new InjectionToken('TableService');
 
 @Directive()
 export abstract class TablePartialBaseDirective {
@@ -59,41 +49,13 @@ export abstract class TablePartialBaseDirective {
   protected windowService: WindowService;
   protected modalService: ModalService;
   protected toolbarService: ToolbarService;
+  protected tableService: TableService;
 
   @ContentChildren(AlTemplateDirective)
   templates: QueryList<AlTemplateDirective>;
 
-  constructor(
-    protected tableService: TableService,
-    protected injector: Injector
-  ) {
-    // ToolbarService
+  constructor(protected injector: Injector) {
     this.syncServicesInDI(injector);
-
-    // const i = Injector.create({
-    //   providers: [
-    //     { provide: TOOLBAR_SERVICE_IT, useFactory: () => new ToolbarService() },
-    //   ],
-    //   parent: this.injector,
-    // });
-
-    // let former = setCurrentInjector(injector);
-    // this.windowService = inject(WindowService);
-    // this.modalService = inject(ModalService);
-    // this.toolbarService = inject(ToolbarService);
-    // setCurrentInjector(former);
-
-    // former = setCurrentInjector(i);
-
-    // this.toolbarService = inject(TOOLBAR_SERVICE_IT);
-
-    // setCurrentInjector(former);
-
-    // console.log('this.toolbarService', this.toolbarService);
-    // console.log('this.windowService', this.windowService);
-    // console.log('this.modalService', this.modalService);
-
-    // console.log('this.modalService', this.modalService);
 
     this.headers = this.tableService.headers;
     this.data = this.tableService.data;
@@ -118,29 +80,36 @@ export abstract class TablePartialBaseDirective {
 
   syncServicesInDI(injector: Injector, providers: StaticProvider[] = []): void {
     const modelName: string = this.injector.get<string>(MODEL_NAME, null);
-    const httpService: any = this.injector.get<TableHttpService>(
-      HTTP_SERVICE,
+    const tableHttpService: any = this.injector.get<TableHttpService>(
+      TABLE_HTTP_SERVICE_TYPE,
       null
     );
+    const tableService: any =
+      this.injector.get<TableService>(TABLE_SERVICE_TYPE);
 
     const newInjector = Injector.create({
       providers: [
         ...providers,
-        new TableHttpServiceCreator<TableHttpService>(
-          httpService,
+        new TableServiceCreator<TableHttpService, TableService>(
+          tableHttpService,
+          tableService,
           modelName,
           Injector
         ).getNewTableHttpServiceInjector(),
+        {
+          provide: TOOLBAR_SERVICE_IT,
+          useFactory: () => new ToolbarService()
+        }
       ],
       parent: injector,
     });
-    // injector = newInjector;
 
     let former = setCurrentInjector(newInjector);
 
     this.windowService = inject(WindowService);
     this.modalService = inject(ModalService);
-    this.toolbarService = inject(ToolbarService);
+    this.toolbarService = inject(TOOLBAR_SERVICE_IT);
+    this.tableService = inject(tableService);
 
     setCurrentInjector(former);
   }

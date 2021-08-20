@@ -21,30 +21,33 @@ import { Type, Optional, Injector } from '@angular/core';
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css'],
-  // providers: [ToolbarService],
+  providers: [],
 })
 export class ToolbarComponent implements OnInit, AfterViewInit {
   @ViewChild('toolbarContainer', { read: ViewContainerRef })
   toolbarContainer: ViewContainerRef;
 
   constructor(
-    private toolbarService: ToolbarService,
+    @Optional() private toolbarService: ToolbarService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private cdr: ChangeDetectorRef,
     @SkipSelf() private parentInjector: Injector,
-    @Self() private injector: Injector
+    private injector: Injector
   ) {
-    console.log('ToolbarComponent toolbarService', this.toolbarService)
-    console.log('parent ToolbarComponent injector', this.parentInjector)
+    const s = TOOLBAR_SERVICE_IT;
+    console.log('ToolbarComponent toolbarService', this.toolbarService);
+    console.log('parent ToolbarComponent injector', this.parentInjector);
     setInterval(() => {
       const former = setCurrentInjector(this.injector);
 
-      this.toolbarService = inject(TOOLBAR_SERVICE_IT, InjectFlags.Optional)
-
-      // setCurrentInjector(former);
-
+      this.toolbarService = inject(TOOLBAR_SERVICE_IT, InjectFlags.Optional);
       console.log(this.toolbarService);
-    },1000)
+      this.toolbarService = inject(ToolbarService, InjectFlags.Optional);
+      console.log(this.toolbarService);
+
+      setCurrentInjector(former);
+
+    }, 1000);
   }
 
   ngOnInit(): void {}

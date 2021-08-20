@@ -1,25 +1,17 @@
 import {
-  Component,
+  ChangeDetectorRef, Component,
   EventEmitter,
   Input,
   OnInit,
-  Output,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
+  Output
 } from '@angular/core';
 import { FilterMetadata, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { TableFilterService } from '../../table-filter/table-filter.service';
-import { makeRowsSameHeight } from './helper';
-import { DataGridService } from './data-grid.service';
-import { WindowService } from '../../window/window.service';
-import { EWindowType } from '../../window/e-window-type';
-import { AlertOptions } from '../../window/windows/alert-window/alert-options';
 import { SpecialField } from '../../../types/special-field';
-import { AlTemplateDirective } from '../../../shared/directives/al-tempalte/al-template.directive';
+import { TableFilterService } from '../../table-filter/table-filter.service';
+import { WindowService } from '../../window/window.service';
+import { DataGridService } from './data-grid.service';
+import { makeRowsSameHeight } from './helper';
 
 @Component({
   selector: 'app-data-grid',

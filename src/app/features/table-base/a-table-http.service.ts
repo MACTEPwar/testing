@@ -13,6 +13,7 @@ import {
   ISelectOperation,
 } from '../../core/gql-query-builder/services/gql-query.service';
 import { ESortType, Filter, FilterItem, IFilterItem } from '../../types/filter';
+import { TableService } from './table.service';
 
 /**
  * Сервис для связи с сервером

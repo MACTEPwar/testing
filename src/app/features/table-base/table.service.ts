@@ -1,5 +1,6 @@
 import {
   Injector,
+  StaticProvider,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
 import { Observable } from 'rxjs';

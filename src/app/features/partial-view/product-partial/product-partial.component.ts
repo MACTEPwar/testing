@@ -1,5 +1,11 @@
+import { MODEL_NAME, TABLE_HTTP_SERVICE_TYPE, TABLE_SERVICE_TYPE } from './../../table-base/a-table-partial-base.directive';
 import { ToolbarService } from './../../ui-components/toolbar/toolbar.service';
-import { Component, OnInit, Injector, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Injector,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ProductHttpService } from './product-http.service';
 import { ProductService } from './product.service';
 import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
@@ -9,30 +15,17 @@ import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-tab
   templateUrl: '../../table-base/table-partial-base.component.html',
   styleUrls: ['./product-partial.component.scss'],
   providers: [
-    {
-      provide: ProductHttpService,
-      deps: [Injector],
-      useFactory: (i: Injector): ProductHttpService =>
-        new ProductHttpService('Product', i),
-    },
-    {
-      provide: ProductService,
-      deps: [ProductHttpService, Injector],
-      useFactory: (phs: ProductHttpService, i: Injector): ProductService =>
-        new ProductService(phs, i),
-    },
-    ToolbarService
+    { provide: MODEL_NAME, useValue: 'Product' },
+    { provide: TABLE_HTTP_SERVICE_TYPE, useValue: ProductHttpService },
+    { provide: TABLE_SERVICE_TYPE, useValue: ProductService },
   ],
 })
 export class ProductPartialComponent
   extends ACatalogTablePartialBase
   implements OnInit
 {
-  constructor(
-    protected bankService: ProductService,
-    protected injector: Injector
-  ) {
-    super(bankService, injector);
+  constructor(protected injector: Injector) {
+    super(injector);
 
     // this.createComponent = ProductCreateComponent;
   }
