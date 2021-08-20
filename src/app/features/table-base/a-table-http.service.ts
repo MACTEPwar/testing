@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import {
   Injector,
+  StaticProvider,
   ɵsetCurrentInjector as setCurrentInjector,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,12 +12,7 @@ import {
   GqlQueryService,
   ISelectOperation,
 } from '../../core/gql-query-builder/services/gql-query.service';
-import {
-  ESortType,
-  Filter,
-  FilterItem,
-  IFilterItem,
-} from '../../types/filter';
+import { ESortType, Filter, FilterItem, IFilterItem } from '../../types/filter';
 
 /**
  * Сервис для связи с сервером
@@ -61,7 +57,7 @@ export abstract class TableHttpService {
     return this.addFilter2QuerySelection(selection, filter).count().execute();
   }
 
-  getHeaders(): Observable<any>{
+  getHeaders(): Observable<any> {
     return this.query().getHeaders(this.modelName);
   }
 
@@ -181,5 +177,21 @@ export abstract class TableHttpService {
       }
     }
     return selection;
+  }
+}
+
+export class TableHttpServiceCreator<T extends TableHttpService> {
+  constructor(
+    private type: new (modelName: string, injector: Injector) => T,
+    private modelName: string,
+    private injector: typeof Injector
+  ) {}
+
+  getNewTableHttpServiceInjector(): StaticProvider {
+    return {
+      provide: this.type,
+      deps: [this.injector],
+      useFactory: (i: Injector): T => new this.type(this.modelName, i),
+    };
   }
 }

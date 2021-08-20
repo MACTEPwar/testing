@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IToolbarItem } from './i-toolbar-item';
 import { ETolbarItemType, ToolbarBuilder } from './toolbar-builder';
@@ -38,3 +38,5 @@ export class ToolbarService {
     }
   }
 }
+
+export const TOOLBAR_SERVICE_IT = new InjectionToken<ToolbarService>('ToolbarService');

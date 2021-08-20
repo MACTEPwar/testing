@@ -1,3 +1,4 @@
+import { ToolbarService } from './../../ui-components/toolbar/toolbar.service';
 import { Component, OnInit, Injector, ChangeDetectionStrategy } from '@angular/core';
 import { ProductHttpService } from './product-http.service';
 import { ProductService } from './product.service';
@@ -20,6 +21,7 @@ import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-tab
       useFactory: (phs: ProductHttpService, i: Injector): ProductService =>
         new ProductService(phs, i),
     },
+    ToolbarService
   ],
 })
 export class ProductPartialComponent
