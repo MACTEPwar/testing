@@ -1,5 +1,5 @@
-import { TableServiceCreator } from './table-service-creator';
 import {
+  ChangeDetectorRef,
   ContentChildren,
   Directive,
   inject,
@@ -8,16 +8,16 @@ import {
   QueryList,
   StaticProvider,
   Type,
-  ɵsetCurrentInjector as setCurrentInjector,
+  ɵsetCurrentInjector as setCurrentInjector
 } from '@angular/core';
 import { AlTemplateDirective } from '../../shared/directives/al-tempalte/al-template.directive';
 import { SpecialField } from '../../types/special-field';
 import { ModalService } from '../modal/modal.service';
 import { WindowService } from '../window/window.service';
-import { BankService } from './../partial-view/bank-partial/bank.service';
 import { ButtonOptions } from './../ui-components/toolbar/options/button-options';
-import { ToolbarService, TOOLBAR_SERVICE_IT } from './../ui-components/toolbar/toolbar.service';
+import { ToolbarService } from './../ui-components/toolbar/toolbar.service';
 import { TableHttpService } from './a-table-http.service';
+import { TableServiceCreator } from './table-service-creator';
 import { TableService } from './table.service';
 
 export const MODEL_NAME = new InjectionToken('ModelName');
@@ -50,6 +50,7 @@ export abstract class TablePartialBaseDirective {
   protected modalService: ModalService;
   protected toolbarService: ToolbarService;
   protected tableService: TableService;
+  protected changeDetectorRef: ChangeDetectorRef;
 
   @ContentChildren(AlTemplateDirective)
   templates: QueryList<AlTemplateDirective>;
@@ -96,10 +97,14 @@ export abstract class TablePartialBaseDirective {
           modelName,
           Injector
         ).getNewTableHttpServiceInjector(),
-        {
-          provide: TOOLBAR_SERVICE_IT,
-          useFactory: () => new ToolbarService()
-        }
+        // {
+        //   provide: TOOLBAR_SERVICE_IT,
+        //   useFactory: () => new ToolbarService()
+        // },
+        // {
+        //   provide: 'test',
+        //   useValue: 'test'
+        // }
       ],
       parent: injector,
     });
@@ -108,10 +113,15 @@ export abstract class TablePartialBaseDirective {
 
     this.windowService = inject(WindowService);
     this.modalService = inject(ModalService);
-    this.toolbarService = inject(TOOLBAR_SERVICE_IT);
+    this.changeDetectorRef = inject(ChangeDetectorRef);
+    this.toolbarService = inject(ToolbarService);
     this.tableService = inject(tableService);
 
     setCurrentInjector(former);
+  }
+
+  ngOnInit(): void {
+    // this.changeDetectorRef.detectChanges();
   }
 
   ngAfterContentInit(): void {

@@ -7,6 +7,7 @@ import {
   MODEL_NAME, TABLE_HTTP_SERVICE_TYPE, TABLE_SERVICE_TYPE
 } from '../../table-base/a-table-partial-base.directive';
 import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-table-partial-base.directive';
+import { ToolbarService } from '../../ui-components/toolbar/toolbar.service';
 import { BankCreateComponent } from './bank-create/bank-create.component';
 import { BankHttpService } from './bank-http.service';
 import { BankService } from './bank.service';
@@ -19,6 +20,7 @@ import { BankService } from './bank.service';
     { provide: MODEL_NAME, useValue: 'Bank' },
     { provide: TABLE_HTTP_SERVICE_TYPE, useValue: BankHttpService },
     { provide: TABLE_SERVICE_TYPE, useValue: BankService },
+    ToolbarService
   ],
 })
 export class BankPartialComponent
@@ -31,5 +33,7 @@ export class BankPartialComponent
     this.createComponent = BankCreateComponent;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
 }

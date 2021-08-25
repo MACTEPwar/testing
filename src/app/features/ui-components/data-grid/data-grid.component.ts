@@ -1,8 +1,11 @@
 import {
-  ChangeDetectorRef, Component,
+  ChangeDetectorRef,
+  Component,
   EventEmitter,
+  Inject,
   Input,
   OnInit,
+  Optional,
   Output
 } from '@angular/core';
 import { FilterMetadata, MenuItem } from 'primeng/api';
@@ -10,6 +13,7 @@ import { Table } from 'primeng/table';
 import { SpecialField } from '../../../types/special-field';
 import { TableFilterService } from '../../table-filter/table-filter.service';
 import { WindowService } from '../../window/window.service';
+import { MODEL_NAME } from './../../table-base/a-table-partial-base.directive';
 import { DataGridService } from './data-grid.service';
 import { makeRowsSameHeight } from './helper';
 
@@ -110,10 +114,9 @@ export class DataGridComponent implements OnInit {
     private tableFilterService: TableFilterService,
     private dataGridService: DataGridService,
     private windowService: WindowService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
-    // this.setDefaultToolbar();
-  }
+    private changeDetectorRef: ChangeDetectorRef,
+    @Optional() @Inject(MODEL_NAME) private name: string
+  ) {}
 
   ngOnInit(): void {
     this.refreshTable();

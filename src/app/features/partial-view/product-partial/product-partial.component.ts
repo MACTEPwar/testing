@@ -1,4 +1,8 @@
-import { MODEL_NAME, TABLE_HTTP_SERVICE_TYPE, TABLE_SERVICE_TYPE } from './../../table-base/a-table-partial-base.directive';
+import {
+  MODEL_NAME,
+  TABLE_HTTP_SERVICE_TYPE,
+  TABLE_SERVICE_TYPE,
+} from './../../table-base/a-table-partial-base.directive';
 import { ToolbarService } from './../../ui-components/toolbar/toolbar.service';
 import {
   Component,
@@ -18,6 +22,7 @@ import { ACatalogTablePartialBase } from '../../table-base/catalog/a-catalog-tab
     { provide: MODEL_NAME, useValue: 'Product' },
     { provide: TABLE_HTTP_SERVICE_TYPE, useValue: ProductHttpService },
     { provide: TABLE_SERVICE_TYPE, useValue: ProductService },
+    ToolbarService
   ],
 })
 export class ProductPartialComponent
@@ -30,5 +35,7 @@ export class ProductPartialComponent
     // this.createComponent = ProductCreateComponent;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
 }

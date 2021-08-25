@@ -38,5 +38,3 @@ export class ToolbarService {
     }
   }
 }
-
-export const TOOLBAR_SERVICE_IT = new InjectionToken<ToolbarService>('ToolbarService');

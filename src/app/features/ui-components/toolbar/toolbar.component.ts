@@ -2,20 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
-  inject,
-  Inject,
-  InjectFlags,
-  OnInit,
-  Self,
-  SkipSelf,
-  ViewChild,
-  ViewContainerRef,
-  ɵsetCurrentInjector as setCurrentInjector,
+  ComponentFactoryResolver, OnInit, Type, ViewChild,
+  ViewContainerRef
 } from '@angular/core';
-import { ButtonComponent } from './components/button/button.component';
-import { ToolbarService, TOOLBAR_SERVICE_IT } from './toolbar.service';
-import { Type, Optional, Injector } from '@angular/core';
+import { ToolbarService } from './toolbar.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -28,27 +18,10 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   toolbarContainer: ViewContainerRef;
 
   constructor(
-    @Optional() private toolbarService: ToolbarService,
+    private toolbarService: ToolbarService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private cdr: ChangeDetectorRef,
-    @SkipSelf() private parentInjector: Injector,
-    private injector: Injector
-  ) {
-    const s = TOOLBAR_SERVICE_IT;
-    console.log('ToolbarComponent toolbarService', this.toolbarService);
-    console.log('parent ToolbarComponent injector', this.parentInjector);
-    setInterval(() => {
-      const former = setCurrentInjector(this.injector);
-
-      this.toolbarService = inject(TOOLBAR_SERVICE_IT, InjectFlags.Optional);
-      console.log(this.toolbarService);
-      this.toolbarService = inject(ToolbarService, InjectFlags.Optional);
-      console.log(this.toolbarService);
-
-      setCurrentInjector(former);
-
-    }, 1000);
-  }
+  ) {}
 
   ngOnInit(): void {}
 

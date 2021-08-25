@@ -8,6 +8,10 @@ export abstract class ACatalogTablePartialBase extends TablePartialBaseDirective
     super(injector);
   }
 
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
+
   protected setDefaultToolbar() {
     this.toolbarService
       .addButton(
