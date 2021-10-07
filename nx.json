@@ -33,6 +33,13 @@
     "altius-e2e": {
       "tags": [],
       "implicitDependencies": ["altius"]
+    },
+    "econom": {
+      "tags": []
+    },
+    "econom-e2e": {
+      "tags": [],
+      "implicitDependencies": ["econom"]
     }
   }
 }
